@@ -6,9 +6,7 @@
 [Youtube [insert link here]](https://youtu.be/[insert_link_here])
 
 ## Description
-Finance Manager
-
-Our idea is a financial manager where the user will be able to make an account and input data about their finances such as how much they spend and what they spent it on. The user will then be able to see a history of their past spending and will also be able to set goals for the future. We will use d3 in order to show how much they are currently spending with each slice of a pie chart being a different category. In addition, the user will be able to see graphs of how much they have spent and saved in each category. The user will also be able to input their stocks, see a history of how the stock has grown, and search up stocks to add to their portfolio.
+J-HEX presents Clover, a financial manager where users will be able to input data about their finances, savings, and expenditures. The user will be able to see a history of their past spendings and set budgets for their expenditures. Using d3, users will be able to clearly and easily see breakdowns of their expenditures and projected savings. Another feature of Clover is that users will be able to track and manage their stocks. They will be able to easily see the profit they make from their stocks via d3 charts and search up new stocks to add to their portfolio. 
 
 ## Dependencies
 * `from flask import Flask, render_template, request, session, redirect, url_for, flash`
