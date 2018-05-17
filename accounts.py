@@ -12,5 +12,5 @@ def authenticate(user, passw):
           return -2
      
 
-def register(user, passw):
-     addUser(user,passw)
+def register(user, passw, name):
+     addUser(user,passw, name)

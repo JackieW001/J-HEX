@@ -4,16 +4,28 @@
 	<title> Login </title>
 </head>
 <body>	
-		<a href="register.html"> Register </a> <br><br>
-      	<form method="POST" action="/login"> 
-            
-			Username: <br>
-			    <input type="text" placeholder="username" name="user" required>
-			    <br><br>
-			Password: <br>
-				<input type="password" placeholder="password" name="pass" required>
-			<br><br>
-			      <button type="submit" class="submit"> Log In </button>		
-		</form>
+  <a href="/register"> Register </a> <br><br>
+  <form method="POST" action="/login"> 
+    
+    Username: <br>
+    <input type="text" placeholder="username" name="user" required>
+    <br><br>
+    Password: <br>
+    <input type="password" placeholder="password" name="pass" required>
+    <br><br>
+    <button type="submit" class="submit"> Log In </button>		
+  </form><br><br><br>
+          <h1>Register</h1><br><br><br><br><br><br>
+          <form method="POST" action="/register">
+      Name: <br>
+          <input type="text" placeholder="John Doe" name="name" required>
+          <br><br> 
+      Username: <br>
+          <input type="text" placeholder="username" name="user" required>
+          <br><br>
+      Password: <br>
+        <input type="password" placeholder="password" name="pass" required>
+      <br><br>
+            <button type="submit" class="submit">Sign Up</button>
 </body>
 </html>
