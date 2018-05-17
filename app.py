@@ -71,9 +71,12 @@ def logout():
     session.pop('user')
     flash('You have been logged out successfully')
     return redirect(url_for('root'))
+
 #============================================================================
+
+@app.route('/home', methods = ['POST','GET'])
 def home():
-    return "You have logged in!"
+    return render_template("home.html")
 
 
 if __name__=='__main__':
