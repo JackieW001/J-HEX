@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title> Budget Submission </title>
+  </head>
+  <body>	
+
+    <!-- <form method="POST" action="/login"> -->
+    Use this form to add entries to your master budget list.
+
+    <br><br>
+    
+    <form>
+      Name: <br>
+      <input type="text" placeholder="Name of entry" name="name" required>
+      <br><br>
+
+      Input Type: <br>
+      <input type="radio" name="type" value="Saving"> Saving <br>
+      <input type="radio" name="type" value="Expenditure"> Expenditure <br>
+      <br><br>
+      
+      Description of Input: <br>
+      Enter short description of your input <br>
+      <input type="text" placeholder="Description" name="desc">
+      <br><br>
+
+      Duration of Input: <br>
+      How long will this keep on affecting your budget?<br>
+      <input type="radio" name="duration" value="daily"> Daily <br>
+      <input type="radio" name="duration" value="weekly"> Weekly <br>
+      <input type="radio" name="duration" value="monthy"> Monthly <br>
+      <input type="radio" name="duration" value="yearly"> Yearly <br>
+      <br><br>
+      
+      <button type="submit" class="submit"> Submit! </button>		
+    </form>
+  </body>
