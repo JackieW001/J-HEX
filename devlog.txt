@@ -29,6 +29,14 @@ LESSONS LEARNED
 ==============================================================
 
 
-wooJ -- 2018-05-17 14:17:14
+May 15
+==================================================
+jackieW -- 2018-05-17 14:17:14
 finished budget form
+
+ericL -- 2018-05-17 15:56:09
+Added the login and system and bug fixing
+
+henryZ -- 2018-05-17 15:57:01
+Bug fixing the login
 

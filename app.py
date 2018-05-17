@@ -19,11 +19,11 @@ def root():
     #redirect to home if there is a session
     #otherwise display login/register page
     if session.has_key('user'):
-        return "Hi"
+        return redirect( url_for('home') )
     else:
         return render_template("login.html")
 
-
+#LOGIN/REGISTER==========================================================
 @app.route('/login', methods = ['POST','GET'])
 def login():
     user = request.form['user']
@@ -64,6 +64,17 @@ def register():
         addUser(user,password,name)
         session['user'] = user
         return redirect( url_for('home'))
+
+
+@app.route('/logout', methods = ['POST','GET'])
+def logout():
+    session.pop('user')
+    flash('You have been logged out successfully')
+    return redirect(url_for('root'))
+#============================================================================
+def home():
+    return "You have logged in!"
+
 
 if __name__=='__main__':
 	app.run(debug=True)

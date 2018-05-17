@@ -78,7 +78,7 @@ def checkUsername(userN):
     return result
 
 def getPass(username):
-    f="data/usersandstories.db"
+    f="data/data.db"
     db = sqlite3.connect(f) #open if f exists, otherwise create
     c = db.cursor()         #facilitates db ops
     command = "SELECT username, password FROM users"
@@ -123,12 +123,12 @@ def getUserName(ID):
 if __name__ == '__main__':     
     #TESTING
 
-    #tableCreation()
+    tableCreation()
 
 
     #add users
-    addUser('eric12', '123', 'eric')
-    print getUserID('eric1')
+    #addUser('eric12', '123', 'eric')
+    #print getUserID('eric1')
 
 
 
