@@ -51,12 +51,13 @@ def register():
     print user
     password = request.form['pass']
     print password
+    name = request.form['name']
 
     if checkUsername(user):
         flash('Username unavailable. Please try another username.')
         return redirect(url_for('root'))
     else:
-        addUser(user,password)
+        addUser(user,password,name)
         session['user'] = user
         return redirect( url_for('home'))
 
