@@ -45,5 +45,20 @@ def login():
         return redirect( url_for('root') )
     return redirect( url_for('root') )
 
+@app.route('/register', methods = ['POST', 'GET'])
+def register():
+    user = request.form['user']
+    print user
+    password = request.form['pass']
+    print password
+
+    if checkUsername(user):
+        flash('Username unavailable. Please try another username.')
+        return redirect(url_for('root'))
+    else:
+        addUser(user,password)
+        session['user'] = user
+        return redirect( url_for('home'))
+
 if __name__=='__main__':
 	app.run(debug=True)
