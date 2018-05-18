@@ -43,6 +43,8 @@ Bug fixing the login
 wooJ -- 2018-05-18 02:18:22
 server up and running
 
+May 16
+==================================================
 -e ericL -- 2018-05-18 14:22:58
 Adding config into login
 
