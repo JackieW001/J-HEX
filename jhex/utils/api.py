@@ -3,13 +3,14 @@ import random
 import datetime
 from requests.auth import HTTPBasicAuth
 
-
-def get_info():
+#takes in ticker
+#returns stock market data from api
+def get_info(ticker):
     keyfile = open("keys.txt", "r")
     av_key = keyfile.readline().replace("\n", "").replace("\r", "")
 
 
-    link = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=MSFT&apikey=" + av_key
+    link = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=" + ticker + "&apikey=" + av_key
 
     u = urllib2.urlopen(link)
     
@@ -19,25 +20,18 @@ def get_info():
     return results
 #return json.dumps(results, indent=4)
 
-def get_date():
-    year = datetime.datetime.now().year
-    month = datetime.datetime.now().month
-    day = datetime.datetime.now().day
-    current = str(year) + "-" + str(month) + "-" + str(day)
-    return current
+#takes in a ticker and a date
+#returns stock market data from a specific date
+def get_date(ticker, date):
+    info = get_info(ticker)
+    return info["Time Series (Daily)"][date]
 
-def get_today():
-    info = get_info()
-    return info["Time Series (Daily)"]["2018-05-17"]#[get_date()]
+#takes in a ticker
+#returns live stock market data for today
+def get_today(ticker):
+    today = '{:%Y-%m-%d}'.format(datetime.date.today())
+    return get_date(ticker, today)
 
-#print(get_info());
-#print(get_date());
-print(get_today());
-'''
-search_results = search_results["results"]["trackmatches"]["track"]
-
-print artist.upper()
-
-results = requests.get(link)
-print results
-'''
+print(get_info('MSFT'));
+#print(get_date('MSFT', '2018-05-17'));
+#print(get_today('MSFT'));
