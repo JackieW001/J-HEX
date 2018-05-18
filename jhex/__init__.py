@@ -13,6 +13,9 @@ BAD_USER = -1
 BAD_PASS = -2
 GOOD = 1
 user = ""
+#Post Login
+ID = -1
+
 
 @app.route('/')
 def root():
@@ -38,6 +41,8 @@ def login():
     #otherwise redirect back to root with flashed message 
     if result == GOOD:
         session['user'] = user
+        ID = getUserID(user)
+        print "ID: " + ID
         #for x in session:
             #print session[x]
         return redirect( url_for('home') )
@@ -52,22 +57,25 @@ def login():
 @app.route('/register', methods = ['POST', 'GET'])
 def register():
     user = request.form['user']
-    print user
+    print "User: " + user
     password = request.form['pass']
-    print password
+    print "Pass: " + password
     name = request.form['name']
 
     if checkUsername(user):
         flash('Username unavailable. Please try another username.')
         return redirect(url_for('root'))
     else:
-        addUser(user,password,name)
+        addUser(user,password,name, 0)
         session['user'] = user
+        ID = getUserID(user)
+        print "ID: " + ID
         return redirect( url_for('home'))
 
 
 @app.route('/logout', methods = ['POST','GET'])
 def logout():
+    setConfig(ID)
     session.pop('user')
     flash('You have been logged out successfully')
     return redirect(url_for('root'))
@@ -76,6 +84,9 @@ def logout():
 
 @app.route('/home', methods = ['POST','GET'])
 def home():
+    configBool = getConfig(ID)
+    print "Config Boolean:" 
+    print configBool
     return render_template("home.html")
 
 

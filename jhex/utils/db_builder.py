@@ -10,7 +10,7 @@ def tableCreation():
     db = sqlite3.connect(f) #open if f exists, otherwise create
     c = db.cursor()         #facilitates db ops
     #Create the users table
-    users_table = 'CREATE TABLE users (username TEXT PRIMARY KEY, password BLOB, userID INTEGER, name TEXT);'
+    users_table = 'CREATE TABLE users (username TEXT PRIMARY KEY, password BLOB, userID INTEGER, name TEXT, config INTEGER);'
     c.execute(users_table)
     #Create the stories table
     money_table = 'CREATE TABLE money (userID INTEGER, currentMoney REAL, monthIncome REAL, otherIncome REAL, savings REAL);'
@@ -42,7 +42,7 @@ def check_password(hashed_password, user_password):
     return password == hashlib.sha256(key.encode()+user_password.encode()).hexdigest()
 
 #add a user
-def addUser(new_username, new_password, new_name):
+def addUser(new_username, new_password, new_name, new_config):
     f="data/data.db"
     db = sqlite3.connect(f) #open if f exists, otherwise create
     c = db.cursor()         #facilitates db ops
@@ -56,11 +56,18 @@ def addUser(new_username, new_password, new_name):
     #new_userID += 1
     hash_pass = hash_password(new_password)
     #print ('The string to store in the db is: ' + hash_pass)
-    c.execute('INSERT INTO users VALUES (?,?,?,?)',[new_username, hash_pass, new_userID, new_name])
+    c.execute('INSERT INTO users VALUES (?,?,?,?,?)',[new_username, hash_pass, new_userID, new_name, new_config])
     db.commit()
     db.close()
 
-
+def setConfig(ID):
+    f="data/data.db"
+    db = sqlite3.connect(f)
+    c = db.cursor()
+    command = 'UPDATE users SET config = 1 WHERE userID = '+str(ID)+';'
+    c.execute(command)
+    db.commit()
+    db.close()
 #==========================================================================
 
 #ACCESSORS
@@ -116,6 +123,18 @@ def getUserName(ID):
         retVal = user[0]
     db.close()
     return retVal
+
+def getConfig(ID):
+    f="data/data.db"
+    db = sqlite3.connect(f) #open if f exists, otherwise create
+    c = db.cursor()         #facilitates db ops
+    info = c.execute('SELECT config FROM users WHERE userID =' + str(ID) + ';')
+    retVal = None
+    for user in info:
+        retVal = user[4]
+    db.close()
+    return retVal
+
 
 #========
 #TESTING
