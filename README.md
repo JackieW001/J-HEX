@@ -3,7 +3,7 @@
 #### Eric Li, Xing Tao Shi, Jacqueline Woo, Henry Zheng<br>SoftDev1 pd8<br>Project 02 -- The Final Frontier
 
 ## Website
-206.189.228.223[206.189.228.223]
+[206.189.228.223](206.189.228.223)
 
 ## Demonstration Video
 [Youtube [insert link here]](https://youtu.be/[insert_link_here])
