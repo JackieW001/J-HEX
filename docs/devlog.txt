@@ -43,3 +43,9 @@ Bug fixing the login
 wooJ -- 2018-05-18 02:18:22
 server up and running
 
+-e ericL -- 2018-05-18 14:22:58
+Adding config into login
+
+-e jackieW -- 2018-05-18 14:23:18
+Setting up skeleton for HTML
+
