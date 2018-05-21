@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, session, url_for, flash, redirect
-from utils.accounts import *
-from utils.db_builder import *
+from utils.accounts import authenticate, register
+from utils.db_builder import checkUsername, getPass, getUserID, getUserName, getConfig, setConfig, addUser
 
 
 import os
@@ -13,8 +13,7 @@ BAD_USER = -1
 BAD_PASS = -2
 GOOD = 1
 user = ""
-#Post Login
-ID = -1
+
 
 
 @app.route('/')
@@ -41,8 +40,8 @@ def login():
     #otherwise redirect back to root with flashed message 
     if result == GOOD:
         session['user'] = user
-        ID = getUserID(user)
-        print "ID: " + ID
+        #ID = getUserID(user)
+        #print "ID: " + ID
         #for x in session:
             #print session[x]
         return redirect( url_for('home') )
@@ -52,6 +51,7 @@ def login():
     if result == BAD_PASS:
         flash('Incorrect password. Please try again.')
         return redirect( url_for('root') )
+    #print "not supposed to get here" + str(ID)
     return redirect( url_for('root') )
 
 @app.route('/register', methods = ['POST', 'GET'])
@@ -68,13 +68,14 @@ def register():
     else:
         addUser(user,password,name, 0)
         session['user'] = user
-        ID = getUserID(user)
-        print "ID: " + ID
+        #ID = getUserID(user)
+        #print "ID: " + ID
         return redirect( url_for('home'))
 
 
 @app.route('/logout', methods = ['POST','GET'])
 def logout():
+    ID = getUserID(session['user'])
     setConfig(ID)
     session.pop('user')
     flash('You have been logged out successfully')
@@ -84,6 +85,11 @@ def logout():
 
 @app.route('/home', methods = ['POST','GET'])
 def home():
+    ID = getUserID(session['user'])
+    print "User:"
+    print session['user']
+    print "UserID:"
+    print ID
     configBool = getConfig(ID)
     print "Config Boolean:" 
     print configBool

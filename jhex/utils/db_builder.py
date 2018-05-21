@@ -102,13 +102,11 @@ def getUserID(username):
     f="data/data.db"
     db = sqlite3.connect(f) #open if f exists, otherwise create
     c = db.cursor()         #facilitates db ops
-    command = "SELECT username, userID FROM users"
+    command = 'SELECT userID FROM users WHERE username ="' + username + '";'
     info = c.execute(command)
 
-    retVal = None
-    for user in info:
-        if str(user[0]) == username:
-            retVal = str(user[1])
+    retVal = info.fetchall()[0][0]
+
     db.close()
     return retVal
 
@@ -116,7 +114,9 @@ def getUserName(ID):
     f="data/data.db"
     db = sqlite3.connect(f) #open if f exists, otherwise create
     c = db.cursor()         #facilitates db ops
-    info = c.execute('SELECT username FROM users WHERE userID =' + str(ID) + ';')
+    command = 'SELECT userID FROM users WHERE userID ="' + str(ID) + '";'
+    info = c.execute(command)
+
     retVal = None
     for user in info:
         #print user
@@ -131,7 +131,10 @@ def getConfig(ID):
     info = c.execute('SELECT config FROM users WHERE userID =' + str(ID) + ';')
     retVal = None
     for user in info:
-        retVal = user[4]
+        print "user:"
+        print user
+        retVal = user[0]
+
     db.close()
     return retVal
 
@@ -144,10 +147,8 @@ if __name__ == '__main__':
 
     tableCreation()
 
+    #print getUserID("x")
 
     #add users
     #addUser('eric12', '123', 'eric')
     #print getUserID('eric1')
-
-
-
