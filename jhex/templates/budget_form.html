@@ -5,32 +5,50 @@
   </head>
   <body>	
 
+    <h1> Budget Entry Form </h1>
     <!-- <form method="POST" action="/login"> -->
     Use this form to add entries to your master budget list.
 
     <br><br>
     
-    <form>
+    <form method="POST" action="/budget" id="budsub">
+
+      <!--------------------------- Entry Name ------------------------>
       Name: <br>
-      <input type="text" placeholder="Name of entry" name="name" required>
+      <input type="text" placeholder="Entry name" name="name" required>
+      <!--------------------------------------------------------------->
+      
       <br><br>
 
+      <!---------------------------- Input Type ----------------------->
       Input Type: <br>
-      <input type="radio" name="type" value="Saving"> Saving <br>
-      <input type="radio" name="type" value="Expenditure"> Expenditure <br>
-      <br><br>
+      <select name="type">
+	<option value="save"> Saving
+	<option value="expend"> Expenditure
+      </select>
+      <!--------------------------------------------------------------->
       
+      <br><br>
+
+      <!-------------------------- Description ------------------------>
       Description of Input: <br>
       Enter short description of your input <br>
-      <input type="text" placeholder="Description" name="desc">
+      <textarea name="desc" form="budsub" rows="6" cols="30" placeholder="Add short description"></textarea>
+      <!--------------------------------------------------------------->
+      
       <br><br>
 
+      <!----------------------- Duration ------------------------------>
       Duration of Input: <br>
       How long will this keep on affecting your budget?<br>
-      <input type="radio" name="duration" value="daily"> Daily <br>
-      <input type="radio" name="duration" value="weekly"> Weekly <br>
-      <input type="radio" name="duration" value="monthy"> Monthly <br>
-      <input type="radio" name="duration" value="yearly"> Yearly <br>
+      <select name="duration">
+	<option value="daily"> Daily
+	<option value="weekly"> Weekly
+	<option value="monthly"> Monthly
+	<option value="yearly"> Yearly
+      </select>
+      <!--------------------------------------------------------------->
+      
       <br><br>
       
       <button type="submit" class="submit"> Submit! </button>		
