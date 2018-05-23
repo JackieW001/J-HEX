@@ -59,3 +59,6 @@ May 21
 -e liE -- 2018-05-21 15:34:26
 Fixed the database functions and included a config var
 
+jackieW -- 2018-05-22 21:52:47
+updated budget form css: type and duration selection
+
