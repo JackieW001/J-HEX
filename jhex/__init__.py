@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, session, url_for, flash, redi
 from utils.accounts import authenticate, register
 from utils.db_builder import checkUsername, getPass, getUserID, getUserName, getConfig, setConfig, addUser
 
-
+import sqlite3
 import os
 app = Flask(__name__)
 
@@ -95,6 +95,27 @@ def home():
     print configBool
     return render_template("home.html")
 
+@app.route('/budget', methods = ['POST','GET'])
+def budget():
+    ID = getUserID(session['user'])
+    name = request.form['name']
+    inputtype = request.form['type']
+    amt = request.form['amt']
+    budget = request.form['budget']
+    desc = request.form['desc']
+    date = request.form['date']
+    f = "data/data.db"
+    db = sqlite3.connect(f)
+    c = db.cursor()
+    expCount = c.execute('SELECT COUNT(*) FROM variableCosts;')
+    new_expID = 0
+    for x in expCount:
+        new_expID = x[0]
+    c.execute('INSERT INTO variableCosts VALUES (?,?,?,?,?,?,?,?)',[ID, new_expID, name, inputtype, amt, budget, desc, date])
+    db.commit()
+    db.close()
+    
+    
 
 if __name__=='__main__':
 	app.run(debug=True)
