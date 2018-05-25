@@ -93,7 +93,7 @@ def home():
     configBool = getConfig(ID)
     print "Config Boolean:" 
     print configBool
-    return render_template("home.html")
+    return render_template("home.html",config=configBool)
 
 @app.route('/budget', methods = ['POST','GET'])
 def budget():

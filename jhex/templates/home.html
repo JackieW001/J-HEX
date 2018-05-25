@@ -3,11 +3,42 @@
 <head>
 	<title>Home Page</title>
 </head>
-<body>
+<body>	
+	<div id = "configBox">
+	<p id = "configStatus">{{config}}</p>
+	<input type="button" id="goConfig" value="Click to Configure your Profile"/>
+	<br><br>
+	</div>
+
+	<div id = "configForm">
+		<form action="/config">
+			Current Bank Balance $  
+			<!-- Make it only int -->
+			<input type="text" name="currentMoney">
+			<br>
+			Savings $
+			<input type="text" name="savings">
+			<br>
+			Monthly Income $
+			<input type="text" name="monthIncome">
+			<br>
+			Other Income $
+			<input type="text" name="otherIncome">
+			<br>
+			<!-- Add to the design doc -->
+			Percent of Income to Save
+			<input type="text" name="savingPercent"> %
+			<br>
+			  <input type="submit" value="Done">
+		</form>
+	</div>
 	You have logged in!
 	<form action="/logout">
-    <input type="submit" value="Logout" />
+    	<input type="submit" value="Logout" />
 	</form>
 
 </body>
+
+<script src="../static/config.js"></script>
+</script>
 </html>
