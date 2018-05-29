@@ -1,7 +1,11 @@
 from flask import Flask, render_template, request, session, url_for, flash, redirect
 from utils.accounts import authenticate, register
 from utils.db_builder import checkUsername, getPass, getUserID, getUserName, getConfig, setConfig, addUser
+from utils.api import get_apikey, get_info, get_date, get_today, get_last_days
 
+#from markupsafe import Markup
+
+import pprint
 import sqlite3
 import os
 app = Flask(__name__)
@@ -115,7 +119,40 @@ def budget():
     db.commit()
     db.close()
     
-    
+#STOCKS==========================================================
+@app.route('/stocks', methods = ['POST','GET'])
+def stocks():    
+    return render_template("stocks.html")
 
+@app.route('/stocksubmit', methods = ['POST','GET'])
+def stocksubmit():    
+    stockName = request.form['stockName']
+    #DATA SPLITTING
+    todayData = get_last_days(stockName, "TIME_SERIES_DAILY", 1)
+    weekData = get_last_days(stockName, "TIME_SERIES_DAILY", 7)
+    #monthData = get_last_days(stockName, "TIME_SERIES_WEEKLY", 8)
+
+    pp = pprint.PrettyPrinter(indent=4)
+
+    todayData = pp.pformat(todayData)
+    weekData = pp.pformat(weekData)
+
+    #monthData = pp.pformat(monthData)
+
+    #return render_template("displayStocks.html", today = todayData, week = weekData, month = monthData)
+    return render_template("displayStocks.html", today = todayData, week = weekData, month = "filler")
+    #return render_template("displayStocks.html", today = Markup(todayData), week = Markup(weekData), month = "filler")
+
+
+#print(get_info('MSFT', "TIME_SERIES_DAILY"))                                                                                                                                    
+#print(get_date('MSFT', '2018-05-14'))                                                                                                                                           
+#print(get_today('MSFT'))
+#pp.pprint(get_last_days("MSFT", "TIME_SERIES_DAILY", 7))                                                                                                                       
+#pp.pprint(get_last_days("MSFT", "TIME_SERIES_WEEKLY", 8))                                                                                                                       
+#pp.pprint(get_last_days("MSFT", "TIME_SERIES_MONTHLY", 12))                                                                                                                     
+#print add_zero("05")  
+
+
+#RUNNING==========================================================
 if __name__=='__main__':
 	app.run(debug=True)
