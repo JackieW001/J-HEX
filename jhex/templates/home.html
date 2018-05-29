@@ -5,13 +5,13 @@
 </head>
 <body>	
 	<div id = "configBox">
-	<p id = "configStatus">{{config}}</p>
-	<input type="button" id="goConfig" value="Click to Configure your Profile"/>
-	<br><br>
+		<p id = "configStatus" hidden>{{config}}</p>
+		<input type="button" id="goConfig" value="Click to Configure your Profile"/>
+		<br><br>
 	</div>
 
 	<div id = "configForm">
-		<form action="/config">
+		<form action="/config" id = "configEntries">
 			Current Bank Balance $  
 			<!-- Make it only int -->
 			<input type="text" name="currentMoney">
@@ -33,15 +33,16 @@
 		</form>
 	</div>
 	You have logged in!
+	<form action="/stocks">
+	  <input type="submit" value="Stocks"/>
+	</form>
 	<form action="/logout">
     	<input type="submit" value="Logout" />
 	</form>
 
 </body>
 
-<form action="/stocks">
-  <input type="submit" value="Stocks"/>
-</form>
+
 
 <script src="../static/config.js"></script>
 </script>
