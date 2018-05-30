@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, session, url_for, flash, redirect
 from utils.accounts import authenticate, register
-from utils.db_builder import checkUsername, getPass, getUserID, getUserName, getConfig, setConfig, addUser, setConfigProfile, getMoneyTable
+from utils.db_builder import checkUsername, getPass, getUserID, getUserName, getConfig, setConfig, addUser
+from utils.db_builder import addMoneyTable, getMoneyTable, updateMoneyTable, addAllocateTable
 from utils.api import get_apikey, get_info, get_date, get_today, get_last_days
 
 #from markupsafe import Markup
@@ -111,7 +112,14 @@ def config():
     savings = str(request.form['savings'])
     savingPercent = str(request.form['savingPercent'])
 
-    setConfigProfile(ID, currentMoney,monthIncome,otherIncome,savings,savingPercent)
+    addMoneyTable(ID, currentMoney,monthIncome,otherIncome,savings,savingPercent)
+
+    entertain = str(request.form['entertainment'])
+    eatOut = str(request.form['eatOut'])
+    shop = str(request.form['shop'])
+    misc =  str(request.form['misc'])
+
+    addAllocateTable(ID, entertain, eatOut, shop, misc)
 
 
     return render_template("home.html",config=configBool)

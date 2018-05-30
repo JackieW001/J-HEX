@@ -9,17 +9,20 @@ def tableCreation():
     f="data/data.db"
     db = sqlite3.connect(f) #open if f exists, otherwise create
     c = db.cursor()         #facilitates db ops
-    #Create the users table
+
     users_table = 'CREATE TABLE users (username TEXT PRIMARY KEY, password BLOB, userID INTEGER, name TEXT, config INTEGER);'
     c.execute(users_table)
-    #Create the stories table
+
     money_table = 'CREATE TABLE money (userID INTEGER, currentMoney REAL, monthIncome REAL, otherIncome REAL, savings REAL, savingPercent REAL);'
     c.execute(money_table)
-    #Create the updates table
+
+    allocated_table = 'CREATE TABLE allocate (userID INTEGER, entertainment REAL, eatOut REAL, shop REAL, misc REAL);'
+    c.execute(allocated_table)
+ 
     fixedcost_table = 'CREATE TABLE fixedcost (userID INTEGER, expID INTEGER, fixedName TEXT, fixedAmt REAL, fixedDesc TEXT);'
     c.execute(fixedcost_table)
 
-    variablecost_table = 'CREATE TABLE variablecost (userID INTEGER, expID INTEGER, expName TEXT, expType INT, expAmt REAL, expBud REAL, expDesc TEXT, dateof TEXT);'
+    variablecost_table = 'CREATE TABLE variablecost (userID INTEGER, expID INTEGER, expName TEXT, expType INT, expAmt REAL, expDesc TEXT, dateof TEXT);'
     c.execute(variablecost_table)
 
     stocks_table = 'CREATE TABLE stocks (userID INTEGER, expID INTEGER, shares INTEGER, purdate TEXT, purprice DATE);'
@@ -60,7 +63,7 @@ def addUser(new_username, new_password, new_name, new_config):
     db.commit()
     db.close()
 
-def setConfigProfile(ID, currentMoney, monthIncome, otherIncome, savings, savingPercent):
+def addMoneyTable (ID, currentMoney, monthIncome, otherIncome, savings, savingPercent):
     f="data/data.db"
     db = sqlite3.connect(f)
     c = db.cursor()
@@ -87,6 +90,15 @@ def updateMoneyTable(ID, currentMoney, monthIncome, otherIncome, savings, saving
     c.execute('UPDATE money SET currentMoney = {}, monthIncome = {}, otherIncome = {}, savings = {}, savingPercent = {} WHERE userID = {}'.format(currentMoney, monthIncome, otherIncome, savings, savingPercent, ID))
     db.commit()
     db.close()
+
+def addAllocateTable (ID, entertainment, eatOut, shop, misc):
+    f="data/data.db"
+    db = sqlite3.connect(f)
+    c = db.cursor()
+    command = 'INSERT INTO allocate VALUES (?,?,?,?,?);'
+    c.execute(command,[ID,entertainment, eatOut, shop, misc])
+    db.commit()
+    db.close()     
 #==========================================================================
 
 #ACCESSORS
@@ -171,6 +183,20 @@ def getMoneyTable(ID):
     ret['savingPercent'] = c.execute('SELECT savingPercent FROM money WHERE userID ={};'.format(ID)).fetchone()[0]
 
     return ret
+
+def getAllocateTable(ID):
+    ret = {}
+    f="data/data.db"
+    db = sqlite3.connect(f) #open if f exists, otherwise create
+    c = db.cursor()         #facilitates db ops
+    ret['entertainment'] = c.execute('SELECT entertainment FROM allocate WHERE userID ={};'.format(ID)).fetchone()[0]
+    ret['eatOut'] = c.execute('SELECT eatOut FROM allocate WHERE userID ={};'.format(ID)).fetchone()[0]
+    ret['shop'] = c.execute('SELECT shop FROM allocate WHERE userID ={};'.format(ID)).fetchone()[0]
+    ret['misc'] = c.execute('SELECT misc FROM allocate WHERE userID ={};'.format(ID)).fetchone()[0]
+
+    return ret
+
+
 #========
 #TESTING
 
@@ -178,6 +204,7 @@ if __name__ == '__main__':
     #TESTING
 
     tableCreation()
+    #print getAllocateTable(0)
     #print getUserID("x")
 
     #updateMoneyTable(3,4,4,4,4,4)
