@@ -62,3 +62,9 @@ Fixed the database functions and included a config var
 jackieW -- 2018-05-22 21:52:47
 updated budget form css: type and duration selection
 
+May 29
+==================================================
+
+-e ericL -- 2018-05-29 20:15:49
+Fixed some JS stuff in home
+

@@ -13,7 +13,7 @@ def tableCreation():
     users_table = 'CREATE TABLE users (username TEXT PRIMARY KEY, password BLOB, userID INTEGER, name TEXT, config INTEGER);'
     c.execute(users_table)
     #Create the stories table
-    money_table = 'CREATE TABLE money (userID INTEGER, currentMoney REAL, monthIncome REAL, otherIncome REAL, savings REAL);'
+    money_table = 'CREATE TABLE money (userID INTEGER, currentMoney REAL, monthIncome REAL, otherIncome REAL, savings REAL, savingPercent REAL);'
     c.execute(money_table)
     #Create the updates table
     fixedcost_table = 'CREATE TABLE fixedcost (userID INTEGER, expID INTEGER, fixedName TEXT, fixedAmt REAL, fixedDesc TEXT);'
@@ -60,12 +60,31 @@ def addUser(new_username, new_password, new_name, new_config):
     db.commit()
     db.close()
 
+def setConfigProfile(ID, currentMoney, monthIncome, otherIncome, savings, savingPercent):
+    f="data/data.db"
+    db = sqlite3.connect(f)
+    c = db.cursor()
+    command = 'INSERT INTO money VALUES (?,?,?,?,?,?);'
+    c.execute(command,[ID,currentMoney,monthIncome,otherIncome,savings,savingPercent])
+    db.commit()
+    db.close()   
+
+
 def setConfig(ID):
     f="data/data.db"
     db = sqlite3.connect(f)
     c = db.cursor()
     command = 'UPDATE users SET config = 1 WHERE userID = '+str(ID)+';'
     c.execute(command)
+    db.commit()
+    db.close()
+
+def updateMoneyTable(ID, currentMoney, monthIncome, otherIncome, savings, savingPercent):
+    
+    f="data/data.db"
+    db = sqlite3.connect(f)
+    c = db.cursor()
+    c.execute('UPDATE money SET currentMoney = {}, monthIncome = {}, otherIncome = {}, savings = {}, savingPercent = {} WHERE userID = {}'.format(currentMoney, monthIncome, otherIncome, savings, savingPercent, ID))
     db.commit()
     db.close()
 #==========================================================================
@@ -138,16 +157,31 @@ def getConfig(ID):
     db.close()
     return retVal
 
+#userID INTEGER, currentMoney REAL, monthIncome REAL, 
+#otherIncome REAL, savings REAL, savingPercent REAL
+def getMoneyTable(ID):
+    ret = {}
+    f="data/data.db"
+    db = sqlite3.connect(f) #open if f exists, otherwise create
+    c = db.cursor()         #facilitates db ops
+    ret['currentMoney'] = c.execute('SELECT currentMoney FROM money WHERE userID ={};'.format(ID)).fetchone()[0]
+    ret['monthIncome'] = c.execute('SELECT monthIncome FROM money WHERE userID ={};'.format(ID)).fetchone()[0]
+    ret['otherIncome'] = c.execute('SELECT otherIncome FROM money WHERE userID ={};'.format(ID)).fetchone()[0]
+    ret['savings'] = c.execute('SELECT savings FROM money WHERE userID ={};'.format(ID)).fetchone()[0]
+    ret['savingPercent'] = c.execute('SELECT savingPercent FROM money WHERE userID ={};'.format(ID)).fetchone()[0]
 
+    return ret
 #========
 #TESTING
 
 if __name__ == '__main__':     
     #TESTING
 
-    tableCreation()
-
+    #tableCreation()
     #print getUserID("x")
+
+    #updateMoneyTable(3,4,4,4,4,4)
+    #print getMoneyTable(3)
 
     #add users
     #addUser('eric12', '123', 'eric')

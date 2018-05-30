@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, session, url_for, flash, redirect
 from utils.accounts import authenticate, register
-from utils.db_builder import checkUsername, getPass, getUserID, getUserName, getConfig, setConfig, addUser
+from utils.db_builder import checkUsername, getPass, getUserID, getUserName, getConfig, setConfig, addUser, setConfigProfile, getMoneyTable
 from utils.api import get_apikey, get_info, get_date, get_today, get_last_days
 
 #from markupsafe import Markup
@@ -79,8 +79,8 @@ def register():
 
 @app.route('/logout', methods = ['POST','GET'])
 def logout():
-    ID = getUserID(session['user'])
-    setConfig(ID)
+    #ID = getUserID(session['user'])
+    #setConfig(ID)
     session.pop('user')
     flash('You have been logged out successfully')
     return redirect(url_for('root'))
@@ -97,6 +97,23 @@ def home():
     configBool = getConfig(ID)
     print "Config Boolean:" 
     print configBool
+    return render_template("home.html",config=configBool)
+
+@app.route('/config', methods = ['POST','GET'])
+def config():
+    ID = getUserID(session['user'])
+    setConfig(ID)
+    configBool = getConfig(ID)
+
+    currentMoney = str(request.form['currentMoney'])
+    monthIncome = str(request.form['monthIncome'])
+    otherIncome = str(request.form['otherIncome'])
+    savings = str(request.form['savings'])
+    savingPercent = str(request.form['savingPercent'])
+
+    setConfigProfile(ID, currentMoney,monthIncome,otherIncome,savings,savingPercent)
+
+
     return render_template("home.html",config=configBool)
 
 @app.route('/budget', methods = ['POST','GET'])
