@@ -8,11 +8,11 @@
 
   <h1>Displaying Stocks</h1>
   <h2>Today:</h2>
-  {{ today|safe }}
+  {{today}}
   <h2>Last Week:</h2>
-  {{ week|safe }}
+  {{week}}
   <h2>Last Month:</h2>
-  {{ month|safe }}
+  {{month}}
 
 <!--
   {% for data in diary %}
@@ -22,6 +22,7 @@
 
 </body>
 
-<!--<script src="../static/js/scatter.js"></script>!-->
+<script src="../static/js/scatter.js">
+  var stockdata = {{ stock_data|tojson }}
 </script>
 </html>

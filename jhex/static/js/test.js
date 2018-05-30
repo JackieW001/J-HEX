@@ -1,7 +1,9 @@
-// --------------------------- PARSE DATA ---------------------------
+// --------------------------- HANDLE DATA ---------------------------
+console.log( csvdata );
 
-console.log(stockdata);
-
+var currentSet = "GDP";
+var currentAttr = "GDP";
+    
 // --------------------------- SET INITIAL VARIABLES ---------------------------
 var w = 950;
 var h = 605;
@@ -39,25 +41,16 @@ var color = d3.scale.category20();
 
 // helper method to get the minimum value for a particular dataset
 var getMinVal = function( dataset ) {
-	var currentMin = 10000000000000;
-	csvdata.forEach( function(o) {
-		if ( o[dataset] < currentMin ){
-			currentMin = o[dataset];
-		}
-	});
-	return currentMin;
+    var currentMin = 10000000000000;
+    
+    return currentMin;
 }
 
 
 // helper method to get the maximum value for a particular dataset
 var getMaxVal = function( dataset ) {
-	var currentMax = 0;
-	csvdata.forEach( function(o) {
-		if ( o[dataset] > currentMax ){
-			currentMax = o[dataset];
-		}
-	});
-	return currentMax;
+    var currentMax = 0;
+    return currentMax;
 }
 
 
@@ -87,7 +80,6 @@ var setXScale = function() {
 	var max = getMaxVal( currentSet );
 	xScale.domain( [ min - min/10, max + max/10 ] ) // the values we can enter, offset to prevent awkward ends
 }
-
 
 // define the y axis
 var yAxis = d3.svg.axis()
@@ -276,7 +268,6 @@ var drawLoBF = function (currentdata) {
 	    return "r = " + Number((coeff.r).toFixed(7));
 	});
     /*
-
     d3.select()
     
     var svgs = document.getElementsByTagName("svg")[0];
@@ -546,4 +537,4 @@ var drawGuideLines = function(event){
 //Adding event listeners for hovering
 svg.selectAll("circle")
     .on("mouseover", hoverDisplay)
-    .on("mouseout", clearDisplay);
+.on("mouseout", clearDisplay);
