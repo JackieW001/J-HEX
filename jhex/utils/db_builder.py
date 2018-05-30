@@ -19,7 +19,7 @@ def tableCreation():
     fixedcost_table = 'CREATE TABLE fixedcost (userID INTEGER, expID INTEGER, fixedName TEXT, fixedAmt REAL, fixedDesc TEXT);'
     c.execute(fixedcost_table)
 
-    variablecost_table = 'CREATE TABLE variablecost (userID INTEGER, expID INTEGER, expName TEXT, expAmt REAL, expBud REAL, expDesc TEXT, dateof TEXT);'
+    variablecost_table = 'CREATE TABLE variablecost (userID INTEGER, expID INTEGER, expName TEXT, expType INT, expAmt REAL, expBud REAL, expDesc TEXT, dateof TEXT);'
     c.execute(variablecost_table)
 
     stocks_table = 'CREATE TABLE stocks (userID INTEGER, expID INTEGER, shares INTEGER, purdate TEXT, purprice DATE);'
@@ -177,7 +177,7 @@ def getMoneyTable(ID):
 if __name__ == '__main__':     
     #TESTING
 
-    #tableCreation()
+    tableCreation()
     #print getUserID("x")
 
     #updateMoneyTable(3,4,4,4,4,4)

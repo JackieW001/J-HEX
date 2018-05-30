@@ -92,6 +92,41 @@
 	  </form>
 	</div>
 
+  <div id = "fixedcost">
+    Fixed Cost
+    <<form action="budget" method="POST" accept-charset="utf-8">
+      Expenditure Name 
+      <input type="text" name="fixedname">
+      <br>
+      Amount $
+      <input type="text" name="fixedAmt">
+      <br>
+      Description
+      <input type="text" name="fixedDesc">
+      <br>
+      <input type="submit" value="Done">
+    </form>
+  </div>
+  <br><br>
+
+  <div id = "variablecost">
+    Variable Cost
+    <form action="budget" method="POST" accept-charset="utf-8">
+      Expenditure Name 
+      <input type="text" name="expName">
+      <br>
+      Amount $
+      <input type="text" name="expAmt">
+      <br>
+      Description
+      <input type="text" name="expDesc">
+      <br>
+      <input type="submit" value="Done">
+
+    </form>
+
+  </div>
+
 
 	
 	  <!-- SVG CHARTS GO HERE -->
