@@ -100,7 +100,7 @@ def addAllocateTable (ID, entertainment, eatOut, shop, misc):
     db.commit()
     db.close()   
 
-def updateAllocateTable(ID, entertainment, eatOut, shop, misc)  
+def updateAllocateTable(ID, entertainment, eatOut, shop, misc):  
     f="data/data.db"
     db = sqlite3.connect(f)
     c = db.cursor()

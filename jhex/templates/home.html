@@ -73,35 +73,35 @@
 	  <form action="/config" id = "configEntries" method="POST">
 	    Current Bank Balance $  
 	    <!-- Make it only int -->
-	    <input type="text" name="currentMoney">
+	    <input required type="number" value="0"  name="currentMoney">
 	    <br>
 	    Savings $
-	    <input type="text" name="savings">
+	    <input required type="number" value="0" name="savings">
 	    <br>
 	    Monthly Income $
-	    <input type="text" name="monthIncome">
+	    <input required type="number" value="0" name="monthIncome">
 	    <br>
 	    Other Income $
-	    <input type="text" name="otherIncome">
+	    <input required type="number" value="0" name="otherIncome">
 	    <br>
 	    <!-- Add to the design doc -->
 	    Percent of Income to Save
-	    <input type="text" name="savingPercent"> %
+	    <input required type="number" value="0" name="savingPercent"> %
 	    <br>
       <br>
       Discretionary Spending Budget
       <br>
       Monthly Budget for Entertainment
-      <input type="text" name="entertainment"> 
+      <input required type="number" value="0" name="entertainment"> 
       <br>
       Monthly Budget for Dining Out
-      <input type="text" name="eatOut"> 
+      <input required type="number" value="0" name="eatOut"> 
       <br>
       Monthly Budget for Shopping
-      <input type="text" name="shop"> 
+      <input required type="number" value="0" name="shop"> 
       <br>
       Monthly Budget for Miscellaneous
-      <input type="text" name="misc"> 
+      <input required type="number" value="0" name="misc"> 
       <br>
 	    <input type="submit" value="Done">
 	  </form>
@@ -111,13 +111,13 @@
     Fixed Cost
     <form action="budget" method="POST" accept-charset="utf-8">
       Expenditure Name 
-      <input type="text" name="fixedname">
+      <input required type="number" value="0" name="fixedname">
       <br>
       Amount $
-      <input type="text" name="fixedAmt">
+      <input required type="number" value="0" name="fixedAmt">
       <br>
       Description
-      <input type="text" name="fixedDesc">
+      <input  type="text" name="fixedDesc">
       <br>
       <input type="submit" value="Done">
     </form>
@@ -128,10 +128,10 @@
     Variable Cost
     <form action="budget" method="POST" accept-charset="utf-8">
       Expenditure Name 
-      <input type="text" name="expName">
+      <input required type="number" value="0" name="expName">
       <br>
       Amount $
-      <input type="text" name="expAmt">
+      <input required type="number" value="0" name="expAmt">
       <br>
       Description
       <input type="text" name="expDesc">
