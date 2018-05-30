@@ -68,3 +68,6 @@ May 29
 -e ericL -- 2018-05-29 20:15:49
 Fixed some JS stuff in home
 
+-e ericL -- 2018-05-30 13:49:31
+Changed the table structure so that it has discrentionary budget and added respective accessor/mutators
+

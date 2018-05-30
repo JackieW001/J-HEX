@@ -61,16 +61,7 @@ def addUser(new_username, new_password, new_name, new_config):
     #print ('The string to store in the db is: ' + hash_pass)
     c.execute('INSERT INTO users VALUES (?,?,?,?,?)',[new_username, hash_pass, new_userID, new_name, new_config])
     db.commit()
-    db.close()
-
-def addMoneyTable (ID, currentMoney, monthIncome, otherIncome, savings, savingPercent):
-    f="data/data.db"
-    db = sqlite3.connect(f)
-    c = db.cursor()
-    command = 'INSERT INTO money VALUES (?,?,?,?,?,?);'
-    c.execute(command,[ID,currentMoney,monthIncome,otherIncome,savings,savingPercent])
-    db.commit()
-    db.close()   
+    db.close() 
 
 
 def setConfig(ID):
@@ -81,6 +72,15 @@ def setConfig(ID):
     c.execute(command)
     db.commit()
     db.close()
+
+def addMoneyTable (ID, currentMoney, monthIncome, otherIncome, savings, savingPercent):
+    f="data/data.db"
+    db = sqlite3.connect(f)
+    c = db.cursor()
+    command = 'INSERT INTO money VALUES (?,?,?,?,?,?);'
+    c.execute(command,[ID,currentMoney,monthIncome,otherIncome,savings,savingPercent])
+    db.commit()
+    db.close()  
 
 def updateMoneyTable(ID, currentMoney, monthIncome, otherIncome, savings, savingPercent):
     
@@ -98,7 +98,15 @@ def addAllocateTable (ID, entertainment, eatOut, shop, misc):
     command = 'INSERT INTO allocate VALUES (?,?,?,?,?);'
     c.execute(command,[ID,entertainment, eatOut, shop, misc])
     db.commit()
-    db.close()     
+    db.close()   
+
+def updateAllocateTable(ID, entertainment, eatOut, shop, misc)  
+    f="data/data.db"
+    db = sqlite3.connect(f)
+    c = db.cursor()
+    c.execute('UPDATE allocate SET entertainment = {}, eatOut = {}, shop = {}, misc = {} WHERE userID = {}'.format(ID, entertainment, eatOut, shop, misc))
+    db.commit()
+    db.close()
 #==========================================================================
 
 #ACCESSORS
