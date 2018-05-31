@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, session, url_for, flash, redirect
 from utils.accounts import authenticate, register
-from utils.db_builder import checkUsername, getPass, getUserID, getUserName, getConfig, setConfig, addUser
+from utils.db_builder import tableCreation, checkUsername, getPass, getUserID, getUserName, getConfig, setConfig, addUser
 from utils.db_builder import addMoneyTable, getMoneyTable, updateMoneyTable, addAllocateTable, getAllocateTable, updateAllocateTable
 from utils.db_builder import addVarCost, getVarCost, addFixCost,getAllFixCost,getAllVarCost
 from utils.api import get_apikey, get_info, get_date, get_today, get_last_days
@@ -26,6 +26,9 @@ user = ""
 def root():
     #redirect to home if there is a session
     #otherwise display login/register page
+    tableCreation()
+
+
     if session.has_key('user'):
         return redirect( url_for('home') )
     else:
