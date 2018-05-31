@@ -113,6 +113,8 @@ def addVarCost(ID, expName, expType, expAmt, expDesc):
     expID = c.execute('SELECT max(expID) FROM variablecost WHERE userID = {}'.format(ID)).fetchone()[0]
     if expID == None:
         expID = 0
+    else:
+        expID = int(expID) + 1
 
     print "\n\n\n"
     c.execute('INSERT INTO variablecost VALUES (?,?,?,?,?,?,?);',[ID, expID, expName, expType, expAmt, expDesc, date])
@@ -126,6 +128,8 @@ def addFixCost(ID, fixedName, fixedAmt, fixedtype, fixedDesc):
     fixedID = c.execute('SELECT max(fixedID) FROM fixedcost WHERE userID = {}'.format(ID)).fetchone()[0]
     if fixedID == None:
         fixedID = 0
+    else:
+        fixedID = int(fixedID) + 1
 
     print "\n\n\n"
     c.execute('INSERT INTO fixedcost VALUES (?,?,?,?,?,?);',[ID, fixedID, fixedName, fixedAmt, fixedtype, fixedDesc])
@@ -240,12 +244,12 @@ def getAllVarCost(ID):
     ret = []
     db = sqlite3.connect(DIR) #open if f exists, otherwise create
     c = db.cursor()    
-    maxID = c.execute('SELECT max(expID) FROM variablecost WHERE userID = {}'.format(ID)).fetchone()[0]
+    maxID = c.execute('SELECT max(expID) FROM variablecost WHERE userID = {};'.format(ID)).fetchone()[0]
     if maxID == None:
         print "No var cost exist"
-        return
+        return None
     else:
-        for i in range(maxID):
+        for i in range(maxID+1):
             ret.append(getVarCost(ID,i))
     db.close()
     return ret
@@ -268,10 +272,10 @@ def getAllFixCost(ID):
     ret = []
     db = sqlite3.connect(DIR) #open if f exists, otherwise create
     c = db.cursor()    
-    maxID = c.execute('SELECT max(fixedID) FROM fixedcost WHERE userID = {}'.format(ID)).fetchone()[0]
+    maxID = c.execute('SELECT max(fixedID) FROM fixedcost WHERE userID = {};'.format(ID)).fetchone()[0]
     if maxID == None:
         print "No fix cost exist"
-        return
+        return None
     else:
         for i in range(maxID+1):
             ret.append(getFixCost(ID,i))
@@ -283,10 +287,9 @@ def getAllFixCost(ID):
 if __name__ == '__main__':     
     #TESTING
 
-    #tableCreation()
+    tableCreation()
 
-    print getAllFixCost(0)
-
+    #print getAllVarCost(0)
     #print getVarCost(0,0)
     #print getAllocateTable(0)
     #print getUserID("x")

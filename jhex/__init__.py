@@ -99,7 +99,18 @@ def home():
     configBool = getConfig(ID)
     print "Config Boolean:" 
     print configBool
-    return render_template("home.html",config=configBool)
+
+
+    print "TESTING \n\n\n"
+    vartable = getAllVarCost(ID)
+    print vartable
+    fixtable = getAllFixCost(ID)
+
+    if vartable == None or fixtable == None:
+        return render_template("home.html",config=configBool)
+    else:
+        print "working"
+        return render_template("home.html",config=configBool, vartable = vartable, fixtable = fixtable)
 
 @app.route('/config', methods = ['POST','GET'])
 def config():
