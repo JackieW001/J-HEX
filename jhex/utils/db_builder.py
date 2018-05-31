@@ -10,30 +10,31 @@ DIR = os.path.dirname(__file__) or '.'
 DIR += '/../data/data.db'
 
 def tableCreation():
-    db = sqlite3.connect(DIR) #open if f exists, otherwise create
-    c = db.cursor()         #facilitates db ops
+    if not os.path.isfile('data/data.db'):
+        db = sqlite3.connect(DIR) #open if f exists, otherwise create
+        c = db.cursor()         #facilitates db ops
 
-    users_table = 'CREATE TABLE IF NOT EXISTS users (username TEXT PRIMARY KEY, password BLOB, userID INTEGER, name TEXT, config INTEGER);'
-    c.execute(users_table)
+        users_table = 'CREATE TABLE  users (username TEXT PRIMARY KEY, password BLOB, userID INTEGER, name TEXT, config INTEGER);'
+        c.execute(users_table)
 
-    money_table = 'CREATE TABLE IF NOT EXISTS money (userID INTEGER, currentMoney REAL, monthIncome REAL, otherIncome REAL, savings REAL, savingPercent REAL);'
-    c.execute(money_table)
+        money_table = 'CREATE TABLE  money (userID INTEGER, currentMoney REAL, monthIncome REAL, otherIncome REAL, savings REAL, savingPercent REAL);'
+        c.execute(money_table)
 
-    allocated_table = 'CREATE TABLE IF NOT EXISTS allocate (userID INTEGER, entertainment REAL, eatOut REAL, shop REAL, misc REAL, grocery REAL, event REAL);'
-    c.execute(allocated_table)
- 
-    fixedcost_table = 'CREATE TABLE IF NOT EXISTS fixedcost (userID INTEGER, fixedID INTEGER, fixedName TEXT, fixedAmt REAL, fixedType TEXT, fixedDesc TEXT);'
-    c.execute(fixedcost_table)
+        allocated_table = 'CREATE TABLE allocate (userID INTEGER, entertainment REAL, eatOut REAL, shop REAL, misc REAL, grocery REAL, event REAL);'
+        c.execute(allocated_table)
+     
+        fixedcost_table = 'CREATE TABLE fixedcost (userID INTEGER, fixedID INTEGER, fixedName TEXT, fixedAmt REAL, fixedType TEXT, fixedDesc TEXT);'
+        c.execute(fixedcost_table)
 
-    variablecost_table = 'CREATE TABLE IF NOT EXISTS variablecost (userID INTEGER, expID INTEGER, expName TEXT, expType TEXT, expAmt REAL, expDesc TEXT, dateof TEXT);'
-    c.execute(variablecost_table)
+        variablecost_table = 'CREATE TABLE variablecost (userID INTEGER, expID INTEGER, expName TEXT, expType TEXT, expAmt REAL, expDesc TEXT, dateof TEXT);'
+        c.execute(variablecost_table)
 
-    stocks_table = 'CREATE TABLE stocks IF NOT EXISTS (userID INTEGER, expID INTEGER, shares INTEGER, purdate TEXT, purprice DATE);'
-    c.execute(stocks_table)
+        stocks_table = 'CREATE TABLE stocks (userID INTEGER, expID INTEGER, shares INTEGER, purdate TEXT, purprice DATE);'
+        c.execute(stocks_table)
 
 
-    db.commit()
-    db.close()
+        db.commit()
+        db.close()
 
 #==========================================================================
 
