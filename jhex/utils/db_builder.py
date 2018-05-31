@@ -10,7 +10,7 @@ DIR = os.path.dirname(__file__) or '.'
 DIR += '/../data/data.db'
 
 def tableCreation():
-    if not os.path.isfile('data/data.db'):
+    if not os.path.isfile(DIR):
         db = sqlite3.connect(DIR) #open if f exists, otherwise create
         c = db.cursor()         #facilitates db ops
 
