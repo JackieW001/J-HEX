@@ -1,11 +1,11 @@
-import json, requests, urllib2
-import random
-import datetime
-import pprint
+import json, requests, urllib2, random, datetime, pprint, os
 from requests.auth import HTTPBasicAuth
 
+DIR = os.path.dirname(__file__) or '.'
+DIR += '/../keys.txt'
+
 def get_apikey():
-    keyfile = open("keys.txt", "r")
+    keyfile = open(DIR, "r")
     av_key = keyfile.readline().replace("\n", "").replace("\r", "")
     return av_key
 
