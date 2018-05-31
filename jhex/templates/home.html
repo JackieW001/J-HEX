@@ -174,6 +174,51 @@
     </div>
   </div>
 
+
+  <div id = "vartable">
+    Variable Table
+    <table cellpadding="15">
+      <tr>
+        <th> Name </th>
+        <th> Type </th>
+        <th> Amount </th>
+        <th> Description </th>
+        <th> Date </th>
+      </tr>
+    {% for each in vartable%}
+      <tr>
+        <th> {{each['expName']}} </th>
+        <th> {{each['expType']}} </th>
+        <th> {{each['expAmt']}} </th>
+        <th> {{each['expDesc']}} </th>
+        <th> {{each['dateof']}} </th>
+      </tr>
+    {% endfor %}
+  </table>
+  <br><br>
+  </div>
+
+  <div id = "fixtable">
+    Fixed Table
+    <table cellpadding="15">
+      <tr>
+        <th> Name </th>
+        <th> Type </th>
+        <th> Amount </th>
+        <th> Description </th>
+      </tr>
+    {% for each in fixtable%}
+      <tr>
+        <th> {{each['fixedName']}} </th>
+        <th> {{each['fixedType']}} </th>
+        <th> {{each['fixedAmt']}} </th>
+        <th> {{each['fixedDesc']}} </th>
+      </tr>
+    {% endfor %}
+  </table>
+  <br><br>
+  </div>
+
 	
 	  <!-- SVG CHARTS GO HERE -------------------------------------------------------------------------->
 	  
