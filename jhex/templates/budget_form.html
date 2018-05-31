@@ -1,59 +1,117 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title> Budget Submission </title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+
+    <title>Clover</title>
+
+    <!-- Custom styles for this template -->
+    <link href="../static/budget_form.css" rel="stylesheet">
+    
   </head>
   
   <body>	
 
-    <h1> Budget Entry Form </h1>
-    <!-- <form method="POST" action="/login"> -->
-    Use this form to add entries to your master budget list.
 
-    <br><br>
-    
-    <form method="POST" action="/budget" id="budsub">
+    <!-- TOP NAVBAR SAME FOR ALL PAGES-->
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <a class="navbar-brand" href="#">Clover</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/home">Dashboard <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Budget <span class="sr-only">(current)</span></a>
+          </li>
+	  <li class="nav-item">
+            <a class="nav-link" href="/stocks">Stocks <span class="sr-only">(current)</span></a>
+          </li>
+	  <li class="nav-item">
+            <a class="nav-link" href="#">Settings <span class="sr-only">(current)</span></a>
+          </li>
+        </ul>
+        <form class="form-inline mt-2 mt-md-0" action="/logout">
+          <input class="btn btn-outline-success my-2 my-sm-0" type="submit" value="Logout">
+        </form>
+      </div>
+    </nav>
 
-      <!--------------------------- Entry Name ------------------------>
-      Name: <br>
-      <input type="text" placeholder="Entry name" name="name" required>
-      <!--------------------------------------------------------------->
-      
-      <br><br>
 
-      <!---------------------------- Input Type ----------------------->
-      Input Type: <br>
-      <select name="type">
-	<option value="save"> Saving
-	<option value="expend"> Expenditure
-      </select>
-      <!--------------------------------------------------------------->
-      
-      <br><br>
+    <div class="container-fluid">
+      <div class="row">
+        <main role="main" class="col">
+          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">Budget Form</h1>
+          </div>
 
-      <!-------------------------- Description ------------------------>
-      Description of Input: <br>
-      Enter short description of your input <br>
-      <textarea name="desc" form="budsub" rows="6" cols="30" placeholder="Add short description"></textarea>
-      <!--------------------------------------------------------------->
-      
-      <br><br>
+	  <!-- <form method="POST" action="/login"> -->
+	  Use this form to add entries to your master budget list.
 
-      <!----------------------- Duration ------------------------------>
-      Duration of Input: <br>
-      How long will this keep on affecting your budget?<br>
-      <select name="duration">
-	<option value="daily"> Daily
-	<option value="weekly"> Weekly
-	<option value="monthly"> Monthly
-	<option value="yearly"> Yearly
-      </select>
-      <!--------------------------------------------------------------->
-      
-      <br><br>
-      
-      <button type="submit" class="submit"> Submit! </button>		
-    </form>
+	  <br><br>
+
+	  <form method="POST" action="/budget" id="budsub">
+
+	    <!--------------------------- Entry Name ------------------------>
+	    Name: <br>
+	    <input type="text" placeholder="Entry name" name="name" required>
+	    <!--------------------------------------------------------------->
+	    
+	    <br><br>
+
+	    <!---------------------------- Input Type ----------------------->
+	    Input Type: <br>
+	    <select name="type">
+	      <option value="save"> Saving
+	      <option value="expend"> Expenditure
+	    </select>
+	    <!--------------------------------------------------------------->
+	    
+	    <br><br>
+
+	    <!-------------------------- Description ------------------------>
+	    Description of Input: <br>
+	    <textarea name="desc" form="budsub" rows="6" cols="30" placeholder="Add short description of your input"></textarea>
+	    <!--------------------------------------------------------------->
+	    
+	    <br><br>
+
+	    <!----------------------- Duration ------------------------------>
+	    Duration of Input: <br>
+	    How long will this keep on affecting your budget?<br>
+	    <select name="duration">
+	      <option value="daily"> Daily
+	      <option value="weekly"> Weekly
+	      <option value="monthly"> Monthly
+	      <option value="yearly"> Yearly
+	    </select>
+	    <!--------------------------------------------------------------->
+	    
+	    <br><br>
+	    
+	    <button type="submit" class="submit"> Submit! </button>		
+	  </form>
+	  
+	</main>
+      </div>
+    </div>
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+
   </body>
 </html>
-      
+
