@@ -4,6 +4,9 @@ configStatusHTML = document.getElementById("configStatus").innerHTML;
 configButton = document.getElementById("goConfig");
 configEntries = document.getElementById("configEntries");
 
+costBox = document.getElementById("costbox");
+
+
 
 function checkConfig(){
 
@@ -15,6 +18,11 @@ function checkConfig(){
 		while (configBox.firstChild) {
 		    configBox.removeChild(configBox.firstChild);
 		}
+	}
+	else{
+		while (costBox.firstChild) {
+		    costBox.removeChild(costBox.firstChild);
+		}	
 	}
 
 }

@@ -62,7 +62,7 @@
           </div>
 
 	  
-	  <!-- PROFILE CONFIGURATION -->
+	  <!-- PROFILE CONFIGURATION -------------------------------------------------------------------------->
 	  <div id = "configBox">
 	  <p id = "configStatus" hidden>{{config}}</p>
 	  <input type="button" id="goConfig" value="Click to Configure your Profile"/>
@@ -73,78 +73,109 @@
 	  <form action="/config" id = "configEntries" method="POST">
 	    Current Bank Balance $  
 	    <!-- Make it only int -->
-	    <input required type="number" value="0"  name="currentMoney">
+	    <input required type="number" step="0.01" min="0" value="0"  name="currentMoney">
 	    <br>
 	    Savings $
-	    <input required type="number" value="0" name="savings">
+	    <input required type="number" step="0.01" min="0" value="0" name="savings">
 	    <br>
 	    Monthly Income $
-	    <input required type="number" value="0" name="monthIncome">
+	    <input required type="number" step="0.01" min="0" value="0" name="monthIncome">
 	    <br>
 	    Other Income $
-	    <input required type="number" value="0" name="otherIncome">
+	    <input required type="number" step="0.01" min="0" value="0" name="otherIncome">
 	    <br>
 	    <!-- Add to the design doc -->
 	    Percent of Income to Save
-	    <input required type="number" value="0" name="savingPercent"> %
+	    <input required type="number" step="0.01" min="0" value="0" name="savingPercent"> %
 	    <br>
       <br>
       Discretionary Spending Budget
       <br>
-      Monthly Budget for Entertainment
-      <input required type="number" value="0" name="entertainment"> 
-      <br>
       Monthly Budget for Dining Out
-      <input required type="number" value="0" name="eatOut"> 
+      <input required type="number" step="0.01" min="0" value="0" name="eatOut"> 
       <br>
-      Monthly Budget for Shopping
-      <input required type="number" value="0" name="shop"> 
+      Monthly Budget for Entertainment
+      <input required type="number" step="0.01" min="0" value="0" name="entertainment"> 
+      <br>
+      Monthly Budget for Events
+      <input required type="number" step="0.01" min="0" value="0" name="event"> 
+      <br> 
+      Monthly Budget for Groceries
+      <input required type="number" step="0.01" min="0" value="0" name="grocery"> 
       <br>
       Monthly Budget for Miscellaneous
-      <input required type="number" value="0" name="misc"> 
+      <input required type="number" step="0.01" min="0" value="0" name="misc"> 
       <br>
+      Monthly Budget for Shopping
+      <input required type="number" step="0.01" min="0" value="0" name="shop"> 
+      <br>
+   
 	    <input type="submit" value="Done">
 	  </form>
 	</div>
 
-  <div id = "fixedcost">
-    Fixed Cost
-    <form action="budget" method="POST" accept-charset="utf-8">
-      Expenditure Name 
-      <input required type="number" value="0" name="fixedname">
-      <br>
-      Amount $
-      <input required type="number" value="0" name="fixedAmt">
-      <br>
-      Description
-      <input  type="text" name="fixedDesc">
-      <br>
-      <input type="submit" value="Done">
-    </form>
+
+  <!-- FORM FOR THE FIXED/VAR BUDGET --------------------------------------------------------------------->
+  <div id = "costbox">
+    <div id = "fixedcost">
+      Fixed Cost
+      <form action="fixcost" method="POST" accept-charset="utf-8">
+        Expenditure Name 
+        <input required type="text"  name="fixedName">
+        <br>
+        Amount $
+        <input required type="number" step="0.01" min="0" value="0" name="fixedAmt">
+        <br>
+        Type
+        <select name="type">
+          <option value="bills">Bills</option>
+          <option value="insurance">Insurance</option>
+          <option value="medical">Medical</option>
+          <option value="membership">Membership/Subscription</option>
+          <option value="mortgage">Mortgage/Rent</option>
+          <option value="transportation">Transportation</option>
+          <option value="utility">Utilities</option>
+        </select>
+        <br>
+        Description
+        <input  type="text" name="fixedDesc">
+        <br>
+        <input type="submit" value="Done">
+      </form>
+    </div>
+    <br><br>
+
+    <div id = "variablecost">
+      Variable Cost
+      <form action="varcost" method="POST" accept-charset="utf-8">
+        Expenditure Name 
+        <input required type="text" name="expName">
+        <br>
+        Amount $
+        <input required type="number" step="0.01" min="0" value="0" name="expAmt">
+        <br>
+        Type
+        <select name="type">
+          <option value="eatOut">Dining Out </option>
+          <option value="entertainment">Entertainment</option>
+          <option value="event">Events</option>
+          <option value="grocery">Grocery</option>
+          <option value="misc">Miscellaneous</option>
+          <option value="shop">Shopping</option>
+        </select>
+        <br>
+        Description
+        <input type="text" name="expDesc">
+        <br>
+        <input type="submit" value="Done">
+
+      </form>
+
+    </div>
   </div>
-  <br><br>
-
-  <div id = "variablecost">
-    Variable Cost
-    <form action="budget" method="POST" accept-charset="utf-8">
-      Expenditure Name 
-      <input required type="number" value="0" name="expName">
-      <br>
-      Amount $
-      <input required type="number" value="0" name="expAmt">
-      <br>
-      Description
-      <input type="text" name="expDesc">
-      <br>
-      <input type="submit" value="Done">
-
-    </form>
-
-  </div>
-
 
 	
-	  <!-- SVG CHARTS GO HERE -->
+	  <!-- SVG CHARTS GO HERE -------------------------------------------------------------------------->
 	  
           <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
 

@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, session, url_for, flash, redi
 from utils.accounts import authenticate, register
 from utils.db_builder import checkUsername, getPass, getUserID, getUserName, getConfig, setConfig, addUser
 from utils.db_builder import addMoneyTable, getMoneyTable, updateMoneyTable, addAllocateTable, getAllocateTable, updateAllocateTable
+from utils.db_builder import addVarCost, getVarCost, addFixCost,getAllFixCost,getAllVarCost
 from utils.api import get_apikey, get_info, get_date, get_today, get_last_days
 
 #from markupsafe import Markup
@@ -118,8 +119,10 @@ def config():
     eatOut = str(request.form['eatOut'])
     shop = str(request.form['shop'])
     misc =  str(request.form['misc'])
+    event = str(request.form['event'])
+    grocery = str(request.form['grocery'])
 
-    addAllocateTable(ID, entertain, eatOut, shop, misc)
+    addAllocateTable(ID, entertain, eatOut, shop, misc, grocery, event)
 
 
     return render_template("home.html",config=configBool)
@@ -143,7 +146,29 @@ def budget():
     c.execute('INSERT INTO variableCosts VALUES (?,?,?,?,?,?,?,?)',[ID, new_expID, name, inputtype, amt, budget, desc, date])
     db.commit()
     db.close()
-    
+
+@app.route('/varcost', methods = ['POST','GET'])
+def varcost():
+    ID = getUserID(session['user'])
+    expName = request.form['expName']
+    expAmt = request.form['expAmt']
+    exptype = request.form['type']
+    expDesc = request.form['expDesc']
+    addVarCost(ID, expName, expAmt, exptype, expDesc)
+    return redirect(url_for('root'))
+
+@app.route('/fixcost', methods = ['POST','GET'])
+def fixcost():
+    ID = getUserID(session['user'])
+    fixedName = request.form['fixedName']
+    fixedAmt = request.form['fixedAmt']
+    fixedtype = request.form['type']
+    fixedDesc = request.form['fixedDesc']
+    addFixCost(ID, fixedName, fixedAmt, fixedtype, fixedDesc)
+    return redirect(url_for('root'))
+
+
+
 #STOCKS==========================================================
 @app.route('/stocks', methods = ['POST','GET'])
 def stocks():    

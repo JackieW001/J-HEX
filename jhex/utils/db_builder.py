@@ -3,6 +3,7 @@ import sqlite3   #enable control of an sqlite database
 import csv       #facilitates CSV I/O
 import hashlib
 import uuid
+import datetime
 
 
 def tableCreation():
@@ -16,13 +17,13 @@ def tableCreation():
     money_table = 'CREATE TABLE money (userID INTEGER, currentMoney REAL, monthIncome REAL, otherIncome REAL, savings REAL, savingPercent REAL);'
     c.execute(money_table)
 
-    allocated_table = 'CREATE TABLE allocate (userID INTEGER, entertainment REAL, eatOut REAL, shop REAL, misc REAL);'
+    allocated_table = 'CREATE TABLE allocate (userID INTEGER, entertainment REAL, eatOut REAL, shop REAL, misc REAL, grocery REAL, event REAL);'
     c.execute(allocated_table)
  
-    fixedcost_table = 'CREATE TABLE fixedcost (userID INTEGER, expID INTEGER, fixedName TEXT, fixedAmt REAL, fixedDesc TEXT);'
+    fixedcost_table = 'CREATE TABLE fixedcost (userID INTEGER, fixedID INTEGER, fixedName TEXT, fixedAmt REAL, fixedType TEXT, fixedDesc TEXT);'
     c.execute(fixedcost_table)
 
-    variablecost_table = 'CREATE TABLE variablecost (userID INTEGER, expID INTEGER, expName TEXT, expType INT, expAmt REAL, expDesc TEXT, dateof TEXT);'
+    variablecost_table = 'CREATE TABLE variablecost (userID INTEGER, expID INTEGER, expName TEXT, expType TEXT, expAmt REAL, expDesc TEXT, dateof TEXT);'
     c.execute(variablecost_table)
 
     stocks_table = 'CREATE TABLE stocks (userID INTEGER, expID INTEGER, shares INTEGER, purdate TEXT, purprice DATE);'
@@ -91,23 +92,54 @@ def updateMoneyTable(ID, currentMoney, monthIncome, otherIncome, savings, saving
     db.commit()
     db.close()
 
-def addAllocateTable (ID, entertainment, eatOut, shop, misc):
+def addAllocateTable (ID, entertainment, eatOut, shop, misc, grocery, event):
     f="data/data.db"
     db = sqlite3.connect(f)
     c = db.cursor()
-    command = 'INSERT INTO allocate VALUES (?,?,?,?,?);'
-    c.execute(command,[ID,entertainment, eatOut, shop, misc])
+    command = 'INSERT INTO allocate VALUES (?,?,?,?,?,?,?);'
+    c.execute(command,[ID,entertainment, eatOut, shop, misc, grocery,event])
     db.commit()
     db.close()   
 
-def updateAllocateTable(ID, entertainment, eatOut, shop, misc):  
+def updateAllocateTable(ID, entertainment, eatOut, shop, misc, grocery,event):  
     f="data/data.db"
     db = sqlite3.connect(f)
     c = db.cursor()
-    c.execute('UPDATE allocate SET entertainment = {}, eatOut = {}, shop = {}, misc = {} WHERE userID = {}'.format(ID, entertainment, eatOut, shop, misc))
+    c.execute('UPDATE allocate SET entertainment = {}, eatOut = {}, shop = {}, misc = {}, grocery = {}, event = {} WHERE userID = {}'.format(ID, entertainment, eatOut, shop, misc, grocery,event))
     db.commit()
     db.close()
-#==========================================================================
+
+#userID INTEGER, expID INTEGER, expName TEXT, expType TEXT, expAmt REAL, expDesc TEXT, dateof TEXT
+def addVarCost(ID, expName, expType, expAmt, expDesc):
+    date = (datetime.datetime.now()).strftime('%Y-%m-%d')
+    f="data/data.db"
+    db = sqlite3.connect(f)
+    c = db.cursor() 
+
+    expID = c.execute('SELECT max(expID) FROM variablecost WHERE userID = {}'.format(ID)).fetchone()[0]
+    if expID == None:
+        expID = 0
+
+    print "\n\n\n"
+    c.execute('INSERT INTO variablecost VALUES (?,?,?,?,?,?,?);',[ID, expID, expName, expType, expAmt, expDesc, date])
+    db.commit()
+    db.close()
+#userID INTEGER, expID INTEGER, fixedName TEXT, fixedAmt REAL, fixedDesc TEXT
+def addFixCost(ID, fixedName, fixedAmt, fixedtype, fixedDesc):
+    f="data/data.db"
+    db = sqlite3.connect(f)
+    c = db.cursor() 
+
+    fixedID = c.execute('SELECT max(fixedID) FROM fixedcost WHERE userID = {}'.format(ID)).fetchone()[0]
+    if fixedID == None:
+        fixedID = 0
+
+    print "\n\n\n"
+    c.execute('INSERT INTO fixedcost VALUES (?,?,?,?,?,?);',[ID, fixedID, fixedName, fixedAmt, fixedtype, fixedDesc])
+    db.commit()
+    db.close()   
+ 
+#========================================================================================================
 
 #ACCESSORS
 
@@ -143,7 +175,6 @@ def getUserID(username):
     c = db.cursor()         #facilitates db ops
     command = 'SELECT userID FROM users WHERE username ="' + username + '";'
     info = c.execute(command)
-
     retVal = info.fetchall()[0][0]
 
     db.close()
@@ -201,17 +232,80 @@ def getAllocateTable(ID):
     ret['eatOut'] = c.execute('SELECT eatOut FROM allocate WHERE userID ={};'.format(ID)).fetchone()[0]
     ret['shop'] = c.execute('SELECT shop FROM allocate WHERE userID ={};'.format(ID)).fetchone()[0]
     ret['misc'] = c.execute('SELECT misc FROM allocate WHERE userID ={};'.format(ID)).fetchone()[0]
-
+    db.close()
     return ret
 
+# expName TEXT, expType TEXT, expAmt REAL, expDesc TEXT, dateof TEXT
+def getVarCost(ID, expID):
+    ret = {}
+    ret['ID'] = ID
+    ret['expID'] = expID
+    f="data/data.db"
+    db = sqlite3.connect(f) #open if f exists, otherwise create
+    c = db.cursor()         #facilitates db ops    
+    ret['expName'] = c.execute('SELECT expName FROM variablecost WHERE userID ={} AND expID = {};'.format(ID,expID)).fetchone()[0]
+    ret['expType'] = c.execute('SELECT expType FROM variablecost WHERE userID ={} AND expID = {};'.format(ID,expID)).fetchone()[0]
+    ret['expAmt'] = c.execute('SELECT expAmt FROM variablecost WHERE userID ={} AND expID = {};'.format(ID,expID)).fetchone()[0]
+    ret['expDesc'] = c.execute('SELECT expDesc FROM variablecost WHERE userID ={} AND expID = {};'.format(ID,expID)).fetchone()[0]
+    ret['dateof'] = c.execute('SELECT dateof FROM variablecost WHERE userID ={} AND expID = {};'.format(ID,expID)).fetchone()[0]
+    db.close()
+    return ret
 
+def getAllVarCost(ID):
+    ret = []
+    f="data/data.db"
+    db = sqlite3.connect(f) #open if f exists, otherwise create
+    c = db.cursor()    
+    maxID = c.execute('SELECT max(expID) FROM variablecost WHERE userID = {}'.format(ID)).fetchone()[0]
+    if maxID == None:
+        print "No var cost exist"
+        return
+    else:
+        for i in range(maxID):
+            ret.append(getVarCost(ID,i))
+    db.close()
+    return ret
+
+# userID INTEGER, fixedID INTEGER, fixedName TEXT, fixedAmt REAL, fixedType TEXT, fixedDesc TEXT
+def getFixCost(ID, fixedID):
+    ret = {}
+    ret['ID'] = ID
+    ret['fixedID'] = fixedID
+    f="data/data.db"
+    db = sqlite3.connect(f) #open if f exists, otherwise create
+    c = db.cursor()         #facilitates db ops    
+    ret['fixedName'] = c.execute('SELECT fixedName FROM fixedcost WHERE userID ={} AND fixedID = {};'.format(ID, fixedID)).fetchone()[0]
+    ret['fixedType'] = c.execute('SELECT fixedType FROM fixedcost WHERE userID ={} AND fixedID = {};'.format(ID, fixedID)).fetchone()[0]
+    ret['fixedAmt'] = c.execute('SELECT fixedAmt FROM fixedcost WHERE userID ={} AND fixedID = {};'.format(ID, fixedID)).fetchone()[0]
+    ret['fixedDesc'] = c.execute('SELECT fixedDesc FROM fixedcost WHERE userID ={} AND fixedID = {};'.format(ID, fixedID)).fetchone()[0]
+    db.close()
+    return ret   
+
+def getAllFixCost(ID):
+    ret = []
+    f="data/data.db"
+    db = sqlite3.connect(f) #open if f exists, otherwise create
+    c = db.cursor()    
+    maxID = c.execute('SELECT max(fixedID) FROM fixedcost WHERE userID = {}'.format(ID)).fetchone()[0]
+    if maxID == None:
+        print "No fix cost exist"
+        return
+    else:
+        for i in range(maxID+1):
+            ret.append(getFixCost(ID,i))
+    db.close()
+    return ret 
 #========
 #TESTING
 
 if __name__ == '__main__':     
     #TESTING
 
-    tableCreation()
+    #tableCreation()
+
+    print getAllFixCost(0)
+
+    #print getVarCost(0,0)
     #print getAllocateTable(0)
     #print getUserID("x")
 
