@@ -49,7 +49,6 @@ def check_password(hashed_password, user_password):
 
 #add a user
 def addUser(new_username, new_password, new_name, new_config):
-    f="data/data.db"
     db = sqlite3.connect(DIR) #open if f exists, otherwise create
     c = db.cursor()         #facilitates db ops
     #global userID_counter
@@ -68,7 +67,6 @@ def addUser(new_username, new_password, new_name, new_config):
 
 
 def setConfig(ID):
-    f="data/data.db"
     db = sqlite3.connect(DIR)
     c = db.cursor()
     command = 'UPDATE users SET config = 1 WHERE userID = '+str(ID)+';'
@@ -77,7 +75,6 @@ def setConfig(ID):
     db.close()
 
 def addMoneyTable (ID, currentMoney, monthIncome, otherIncome, savings, savingPercent):
-    f="data/data.db"
     db = sqlite3.connect(DIR)
     c = db.cursor()
     command = 'INSERT INTO money VALUES (?,?,?,?,?,?);'
@@ -86,8 +83,6 @@ def addMoneyTable (ID, currentMoney, monthIncome, otherIncome, savings, savingPe
     db.close()  
 
 def updateMoneyTable(ID, currentMoney, monthIncome, otherIncome, savings, savingPercent):
-    
-    f="data/data.db"
     db = sqlite3.connect(DIR)
     c = db.cursor()
     c.execute('UPDATE money SET currentMoney = {}, monthIncome = {}, otherIncome = {}, savings = {}, savingPercent = {} WHERE userID = {}'.format(currentMoney, monthIncome, otherIncome, savings, savingPercent, ID))
@@ -95,7 +90,6 @@ def updateMoneyTable(ID, currentMoney, monthIncome, otherIncome, savings, saving
     db.close()
 
 def addAllocateTable (ID, entertainment, eatOut, shop, misc, grocery, event):
-    f="data/data.db"
     db = sqlite3.connect(DIR)
     c = db.cursor()
     command = 'INSERT INTO allocate VALUES (?,?,?,?,?,?,?);'
@@ -104,7 +98,6 @@ def addAllocateTable (ID, entertainment, eatOut, shop, misc, grocery, event):
     db.close()   
 
 def updateAllocateTable(ID, entertainment, eatOut, shop, misc, grocery,event):  
-    f="data/data.db"
     db = sqlite3.connect(DIR)
     c = db.cursor()
     c.execute('UPDATE allocate SET entertainment = {}, eatOut = {}, shop = {}, misc = {}, grocery = {}, event = {} WHERE userID = {}'.format(ID, entertainment, eatOut, shop, misc, grocery,event))
@@ -114,7 +107,6 @@ def updateAllocateTable(ID, entertainment, eatOut, shop, misc, grocery,event):
 #userID INTEGER, expID INTEGER, expName TEXT, expType TEXT, expAmt REAL, expDesc TEXT, dateof TEXT
 def addVarCost(ID, expName, expType, expAmt, expDesc):
     date = (datetime.datetime.now()).strftime('%Y-%m-%d')
-    f="data/data.db"
     db = sqlite3.connect(DIR)
     c = db.cursor() 
 
@@ -130,7 +122,6 @@ def addVarCost(ID, expName, expType, expAmt, expDesc):
     db.close()
 #userID INTEGER, expID INTEGER, fixedName TEXT, fixedAmt REAL, fixedDesc TEXT
 def addFixCost(ID, fixedName, fixedAmt, fixedtype, fixedDesc):
-    f="data/data.db"
     db = sqlite3.connect(DIR)
     c = db.cursor() 
 
@@ -150,7 +141,6 @@ def addFixCost(ID, fixedName, fixedAmt, fixedtype, fixedDesc):
 #ACCESSORS
 
 def checkUsername(userN):
-    f="data/data.db"
     db = sqlite3.connect(DIR)
     c = db.cursor()
     users = c.execute('SELECT username FROM users;')
@@ -162,7 +152,6 @@ def checkUsername(userN):
     return result
 
 def getPass(username):
-    f="data/data.db"
     db = sqlite3.connect(DIR) #open if f exists, otherwise create
     c = db.cursor()         #facilitates db ops
     command = "SELECT username, password FROM users"
@@ -176,7 +165,6 @@ def getPass(username):
     return retVal
 
 def getUserID(username):
-    f="data/data.db"
     db = sqlite3.connect(DIR) #open if f exists, otherwise create
     c = db.cursor()         #facilitates db ops
     command = 'SELECT userID FROM users WHERE username ="' + username + '";'
@@ -187,7 +175,6 @@ def getUserID(username):
     return retVal
 
 def getUserName(ID):
-    f="data/data.db"
     db = sqlite3.connect(DIR) #open if f exists, otherwise create
     c = db.cursor()         #facilitates db ops
     command = 'SELECT userID FROM users WHERE userID ="' + str(ID) + '";'
@@ -201,7 +188,6 @@ def getUserName(ID):
     return retVal
 
 def getConfig(ID):
-    f="data/data.db"
     db = sqlite3.connect(DIR) #open if f exists, otherwise create
     c = db.cursor()         #facilitates db ops
     info = c.execute('SELECT config FROM users WHERE userID =' + str(ID) + ';')
@@ -218,7 +204,6 @@ def getConfig(ID):
 #otherIncome REAL, savings REAL, savingPercent REAL
 def getMoneyTable(ID):
     ret = {}
-    f="data/data.db"
     db = sqlite3.connect(DIR) #open if f exists, otherwise create
     c = db.cursor()         #facilitates db ops
     ret['currentMoney'] = c.execute('SELECT currentMoney FROM money WHERE userID ={};'.format(ID)).fetchone()[0]
@@ -231,7 +216,6 @@ def getMoneyTable(ID):
 
 def getAllocateTable(ID):
     ret = {}
-    f="data/data.db"
     db = sqlite3.connect(DIR) #open if f exists, otherwise create
     c = db.cursor()         #facilitates db ops
     ret['entertainment'] = c.execute('SELECT entertainment FROM allocate WHERE userID ={};'.format(ID)).fetchone()[0]
@@ -246,7 +230,6 @@ def getVarCost(ID, expID):
     ret = {}
     ret['ID'] = ID
     ret['expID'] = expID
-    f="data/data.db"
     db = sqlite3.connect(DIR) #open if f exists, otherwise create
     c = db.cursor()         #facilitates db ops    
     ret['expName'] = c.execute('SELECT expName FROM variablecost WHERE userID ={} AND expID = {};'.format(ID,expID)).fetchone()[0]
@@ -259,7 +242,6 @@ def getVarCost(ID, expID):
 
 def getAllVarCost(ID):
     ret = []
-    f="data/data.db"
     db = sqlite3.connect(DIR) #open if f exists, otherwise create
     c = db.cursor()    
     maxID = c.execute('SELECT max(expID) FROM variablecost WHERE userID = {};'.format(ID)).fetchone()[0]
@@ -277,7 +259,6 @@ def getFixCost(ID, fixedID):
     ret = {}
     ret['ID'] = ID
     ret['fixedID'] = fixedID
-    f="data/data.db"
     db = sqlite3.connect(DIR) #open if f exists, otherwise create
     c = db.cursor()         #facilitates db ops    
     ret['fixedName'] = c.execute('SELECT fixedName FROM fixedcost WHERE userID ={} AND fixedID = {};'.format(ID, fixedID)).fetchone()[0]
@@ -289,7 +270,6 @@ def getFixCost(ID, fixedID):
 
 def getAllFixCost(ID):
     ret = []
-    f="data/data.db"
     db = sqlite3.connect(DIR) #open if f exists, otherwise create
     c = db.cursor()    
     maxID = c.execute('SELECT max(fixedID) FROM fixedcost WHERE userID = {};'.format(ID)).fetchone()[0]
