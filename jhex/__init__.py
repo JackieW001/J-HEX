@@ -115,6 +115,8 @@ def home():
         print "working"
         return render_template("home.html",config=configBool, vartable = vartable, fixtable = fixtable)
 
+
+# NOT REAL PAGES ============================================================================
 @app.route('/config', methods = ['POST','GET'])
 def config():
     ID = getUserID(session['user'])
@@ -143,6 +145,8 @@ def config():
 
 @app.route('/budget', methods = ['POST','GET'])
 def budget():
+    return "This page doesn't work"
+    '''
     ID = getUserID(session['user'])
     name = request.form['name']
     inputtype = request.form['type']
@@ -160,6 +164,7 @@ def budget():
     c.execute('INSERT INTO variableCosts VALUES (?,?,?,?,?,?,?,?)',[ID, new_expID, name, inputtype, amt, budget, desc, date])
     db.commit()
     db.close()
+    '''
 
 @app.route('/varcost', methods = ['POST','GET'])
 def varcost():
@@ -181,9 +186,15 @@ def fixcost():
     addFixCost(ID, fixedName, fixedAmt, fixedtype, fixedDesc)
     return redirect(url_for('root'))
 
+#============================================================================
+@app.route('/settings', methods = ['POST','GET'])
+def settings():
+    ID = getUserID(session['user'])
+    return "This page doesn't work"
 
 
-#STOCKS==========================================================
+
+#STOCKS=========================================#=============================
 @app.route('/stocks', methods = ['POST','GET'])
 def stocks():    
     return render_template("stocks.html")
@@ -215,6 +226,13 @@ def stocksubmit():
 #pp.pprint(get_last_days("MSFT", "TIME_SERIES_WEEKLY", 8))                                                                                                                       
 #pp.pprint(get_last_days("MSFT", "TIME_SERIES_MONTHLY", 12))                                                                                                                     
 #print add_zero("05")  
+
+
+#=================================================================
+@app.errorhandler(404)
+def page_not_found(e):
+    # note that we set the 404 status explicitly
+    return render_template('404.html'), 404
 
 
 #RUNNING==========================================================
