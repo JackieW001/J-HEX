@@ -227,6 +227,10 @@ def stocksubmit():
 #pp.pprint(get_last_days("MSFT", "TIME_SERIES_MONTHLY", 12))                                                                                                                     
 #print add_zero("05")  
 
+@app.route('/test', methods = ['POST','GET'])
+def test():
+    weekData = get_last_days("MSFT", "TIME_SERIES_DAILY", 7)
+    return render_template('test.html', data_var = weekData)
 
 #=================================================================
 @app.errorhandler(404)
