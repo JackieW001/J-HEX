@@ -115,67 +115,7 @@
 	  </form>
 	</div>
 
-
-  <!-- FORM FOR THE FIXED/VAR BUDGET --------------------------------------------------------------------->
-  <div id = "costbox">
-    <div id = "fixedcost">
-      Fixed Cost
-      <form action="fixcost" method="POST" accept-charset="utf-8">
-        Expenditure Name 
-        <input required type="text"  name="fixedName">
-        <br>
-        Amount $
-        <input required type="number" step="0.01" min="0" value="0" name="fixedAmt">
-        <br>
-        Type
-        <select name="type">
-          <option value="bills">Bills</option>
-          <option value="insurance">Insurance</option>
-          <option value="medical">Medical</option>
-          <option value="membership">Membership/Subscription</option>
-          <option value="mortgage">Mortgage/Rent</option>
-          <option value="transportation">Transportation</option>
-          <option value="utility">Utilities</option>
-        </select>
-        <br>
-        Description
-        <input  type="text" name="fixedDesc">
-        <br>
-        <input type="submit" value="Done">
-      </form>
-    </div>
-    <br><br>
-
-    <div id = "variablecost">
-      Variable Cost
-      <form action="varcost" method="POST" accept-charset="utf-8">
-        Expenditure Name 
-        <input required type="text" name="expName">
-        <br>
-        Amount $
-        <input required type="number" step="0.01" min="0" value="0" name="expAmt">
-        <br>
-        Type
-        <select name="type">
-          <option value="eatOut">Dining Out </option>
-          <option value="entertainment">Entertainment</option>
-          <option value="event">Events</option>
-          <option value="grocery">Grocery</option>
-          <option value="misc">Miscellaneous</option>
-          <option value="shop">Shopping</option>
-        </select>
-        <br>
-        Description
-        <input type="text" name="expDesc">
-        <br>
-        <input type="submit" value="Done">
-
-      </form>
-
-    </div>
-  </div>
-
-
+  <!-- TABLES FOR THE BUDGETS ---------------------------------------------------------------------------->
   <div id = "vartable">
     Variable Table
     <table cellpadding="15">
@@ -220,12 +160,17 @@
   <br><br>
   </div>
 
+    
+  </main>
+      </div>
+    </div>
+
 	
 	  <!-- SVG CHARTS GO HERE -------------------------------------------------------------------------->
 	  
-          <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
+          <canvas class="chartsvg" id="myChart" width="900" height="380"></canvas>
 
-	  
+	   <!-- END SVG CHARTS ----------------------------------------------------------------------------> 
 	  <div class="row placeholders">
             <div class="col-xs-6 col-sm-3 placeholder">
               <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">

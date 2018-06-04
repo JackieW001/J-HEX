@@ -54,56 +54,66 @@
             <h1 class="h2">Budget Form</h1>
           </div>
 
-	  <!-- <form method="POST" action="/login"> -->
-	  Use this form to add entries to your master budget list.
-
-	  <br><br>
-
-	  <form method="POST" action="/budget" id="budsub">
-
-	    <!--------------------------- Entry Name ------------------------>
-	    Name: <br>
-	    <input type="text" placeholder="Entry name" name="name" required>
-	    <!--------------------------------------------------------------->
-	    
-	    <br><br>
-
-	    <!---------------------------- Input Type ----------------------->
-	    Input Type: <br>
-	    <select name="type">
-	      <option value="save"> Saving
-	      <option value="expend"> Expenditure
-	    </select>
-	    <!--------------------------------------------------------------->
-	    
-	    <br><br>
-
-	    <!-------------------------- Description ------------------------>
-	    Description of Input: <br>
-	    <textarea name="desc" form="budsub" rows="6" cols="30" placeholder="Add short description of your input"></textarea>
-	    <!--------------------------------------------------------------->
-	    
-	    <br><br>
-
-	    <!----------------------- Duration ------------------------------>
-	    Duration of Input: <br>
-	    How long will this keep on affecting your budget?<br>
-	    <select name="duration">
-	      <option value="daily"> Daily
-	      <option value="weekly"> Weekly
-	      <option value="monthly"> Monthly
-	      <option value="yearly"> Yearly
-	    </select>
-	    <!--------------------------------------------------------------->
-	    
-	    <br><br>
-	    
-	    <button type="submit" class="submit"> Submit! </button>		
-	  </form>
-	  
-	</main>
-      </div>
+  <!-- FORM FOR THE FIXED/VAR BUDGET --------------------------------------------------------------------->
+  <div id = "costbox">
+    <div id = "fixedcost">
+      Fixed Cost
+      <form action="fixcost" method="POST" accept-charset="utf-8">
+        Expenditure Name 
+        <input required type="text"  name="fixedName">
+        <br>
+        Amount $
+        <input required type="number" step="0.01" min="0" value="0" name="fixedAmt">
+        <br>
+        Type
+        <select name="type">
+          <option value="bills">Bills</option>
+          <option value="insurance">Insurance</option>
+          <option value="medical">Medical</option>
+          <option value="membership">Membership/Subscription</option>
+          <option value="mortgage">Mortgage/Rent</option>
+          <option value="transportation">Transportation</option>
+          <option value="utility">Utilities</option>
+        </select>
+        <br>
+        Description
+        <input  type="text" name="fixedDesc">
+        <br>
+        <input type="submit" value="Done">
+      </form>
     </div>
+    <br><br>
+
+    <div id = "variablecost">
+      Variable Cost
+      <form action="varcost" method="POST" accept-charset="utf-8">
+        Expenditure Name 
+        <input required type="text" name="expName">
+        <br>
+        Amount $
+        <input required type="number" step="0.01" min="0" value="0" name="expAmt">
+        <br>
+        Type
+        <select name="type">
+          <option value="eatOut">Dining Out </option>
+          <option value="entertainment">Entertainment</option>
+          <option value="event">Events</option>
+          <option value="grocery">Grocery</option>
+          <option value="misc">Miscellaneous</option>
+          <option value="shop">Shopping</option>
+        </select>
+        <br>
+        Description
+        <input type="text" name="expDesc">
+        <br>
+        <input type="submit" value="Done">
+
+      </form>
+
+    </div>
+  </div>
+
+
 
 
     <!-- Optional JavaScript -->

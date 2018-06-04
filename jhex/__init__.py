@@ -4,6 +4,7 @@ from utils.db_builder import tableCreation, checkUsername, getPass, getUserID, g
 from utils.db_builder import addMoneyTable, getMoneyTable, updateMoneyTable, addAllocateTable, getAllocateTable, updateAllocateTable
 from utils.db_builder import addVarCost, getVarCost, addFixCost,getAllFixCost,getAllVarCost
 from utils.api import get_apikey, get_info, get_date, get_today, get_last_days
+from utils.table_builder import addZero
 
 #from markupsafe import Markup
 
@@ -105,9 +106,9 @@ def home():
 
 
     print "TESTING \n\n\n"
-    vartable = getAllVarCost(ID)
+    vartable = addZero(getAllVarCost(ID),"var")
     print vartable
-    fixtable = getAllFixCost(ID)
+    fixtable = addZero(getAllFixCost(ID),"fix")
 
     if vartable == None or fixtable == None:
         return render_template("home.html",config=configBool)
@@ -145,7 +146,7 @@ def config():
 
 @app.route('/budget', methods = ['POST','GET'])
 def budget():
-    return "This page doesn't work"
+    return render_template("budget_form.html")
     '''
     ID = getUserID(session['user'])
     name = request.form['name']
