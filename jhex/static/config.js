@@ -19,11 +19,6 @@ function checkConfig(){
 		    configBox.removeChild(configBox.firstChild);
 		}
 	}
-	else{
-		while (costBox.firstChild) {
-		    costBox.removeChild(costBox.firstChild);
-		}	
-	}
 
 }
 

@@ -19,4 +19,4 @@ def addZero(l,typeOfTable):
 		print d[amount]
 		d[amount] = '${:,.2f}'.format(float(d[amount]))
 		retlist.append(d)
-	return retdict
+	return retlist

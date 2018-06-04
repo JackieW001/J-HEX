@@ -29,16 +29,16 @@ def tableCreation():
         variablecost_table = 'CREATE TABLE variablecost (userID INTEGER, expID INTEGER, expName TEXT, expAmt TEXT, expType TEXT, expDesc TEXT, dateof TEXT);'
         c.execute(variablecost_table)
 
-        stocks_table = 'CREATE TABLE stocks (userID INTEGER, expID INTEGER, shares INTEGER, purdate TEXT, purprice DATE);'
+        stocks_table = 'CREATE TABLE stocks (userID INTEGER, stockID INTEGER, ticker TEXT, shares INTEGER, purdate TEXT, purprice DATE);'
         c.execute(stocks_table)
 
 
         db.commit()
         db.close()
 
-#==========================================================================
+#===========================================================================================================================================
 
-#ADD VALUES TO TABLES
+#MUTATORS/ADD VALUES TO TABLES
 
 def hash_password(password):
     key = uuid.uuid4().hex
@@ -135,11 +135,27 @@ def addFixCost(ID, fixedName, fixedAmt, fixedtype, fixedDesc):
     print "\n\n\n"
     c.execute('INSERT INTO fixedcost VALUES (?,?,?,?,?,?);',[ID, fixedID, fixedName, fixedAmt, fixedtype, fixedDesc])
     db.commit()
+    db.close()  
+
+def addStock(ID, ticker, shares, purprice):
+    date = (datetime.datetime.now()).strftime('%Y-%m-%d')
+    db = sqlite3.connect(DIR)
+    c = db.cursor() 
+
+    stockID = c.execute('SELECT max(stockID) FROM stocks WHERE userID = {}'.format(ID)).fetchone()[0]
+    if stockID == None:
+        stockID = 0
+    else:
+        stockID = int(stockID) + 1
+
+    print "\n\n\n"
+    c.execute('INSERT INTO stocks VALUES (?,?,?,?,?,?);',[ID, stockID, ticker, shares, date, purprice])
+    db.commit()
     db.close()   
  
-#========================================================================================================
+#==================================================================================================================================
 
-#ACCESSORS
+#ACCESSORS/GETTING
 
 def checkUsername(userN):
     db = sqlite3.connect(DIR)
@@ -282,13 +298,80 @@ def getAllFixCost(ID):
             ret.append(getFixCost(ID,i))
     db.close()
     return ret 
-#========
-#TESTING
+
+
+#CREATE TABLE stocks (userID INTEGER, stockID INTEGER, ticker TEXT, shares INTEGER, purdate TEXT, purprice DATE)'
+#ONLY BY TICKER
+def getStock(ID, stockID):
+    ret = {}
+    ret['ID'] = ID
+    ret['stockID'] = stockID
+    db = sqlite3.connect(DIR) #open if f exists, otherwise create
+    c = db.cursor()         #facilitates db ops    
+    ret['ticker'] = c.execute('SELECT ticker FROM stocks WHERE userID ={} AND stockID = {};'.format(ID, stockID)).fetchone()[0]
+    ret['shares'] = c.execute('SELECT shares FROM stocks WHERE userID ={} AND stockID = {};'.format(ID, stockID)).fetchone()[0]
+    ret['purdate'] = c.execute('SELECT purdate FROM stocks WHERE userID ={} AND stockID = {};'.format(ID, stockID)).fetchone()[0]
+    ret['purprice'] = c.execute('SELECT purprice FROM stocks WHERE userID ={} AND stockID = {};'.format(ID, stockID)).fetchone()[0]
+    db.close()
+    return ret    
+
+def getAllStocks(ID):
+    ret = []
+    db = sqlite3.connect(DIR) #open if f exists, otherwise create
+    c = db.cursor()    
+    maxID = c.execute('SELECT max(stockID) FROM stocks WHERE userID = {};'.format(ID)).fetchone()[0]
+    if maxID == None:
+        print "No fix cost exist"
+        return None
+    else:
+        for i in range(maxID+1):
+            ret.append(getStock(ID,i))
+    db.close()
+    return ret   
+
+#==================================================================================================================================
+#REMOVING
+
+
+def removeVarCost(ID, expID):
+    db = sqlite3.connect(DIR) #open if f exists, otherwise create
+    c = db.cursor() 
+    command = 'DELETE FROM variablecost WHERE userID ={} AND expID = {};'    
+    c.execute(command.format(ID, expID))
+    db.commit()         
+    db.close()
+    print "Removed ID {} from entry {} successfully".format(ID, expID)
+
+
+def removeFixedCost(ID, fixedID):
+    db = sqlite3.connect(DIR) #open if f exists, otherwise create
+    c = db.cursor() 
+    command = 'DELETE FROM fixedcost WHERE userID ={} AND  fixedID = {};'    
+    c.execute(command.format(ID, fixedID))
+    db.commit()
+    db.close()
+    print "Removed ID {} from entry {} successfully".format(ID, fixedID)
+
+def removeStock(ID, stockID):
+    db = sqlite3.connect(DIR) #open if f exists, otherwise create
+    c = db.cursor() 
+    command = 'DELETE FROM stocks WHERE userID ={} AND stockID = {};'    
+    c.execute(command.format(ID, stockID))
+    db.commit()
+    db.close()
+    print "Removed ID {} from entry {} successfully".format(ID, stockID)
+
+
+
+
+
+#==================================================================================================================================
 
 if __name__ == '__main__':     
     #TESTING
 
-    tableCreation()
+    removeFixedCost(0,1)
+    #tableCreation()
 
     #print getAllVarCost(0)
     #print getVarCost(0,0)
@@ -301,3 +384,4 @@ if __name__ == '__main__':
     #add users
     #addUser('eric12', '123', 'eric')
     #print getUserID('eric1')
+    pass
