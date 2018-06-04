@@ -1,9 +1,5 @@
 // --------------------------- HANDLE DATA ---------------------------
-console.log( csvdata );
-
-var currentSet = "GDP";
-var currentAttr = "GDP";
-    
+console.log( Object.keys(csvdata) );
 // --------------------------- SET INITIAL VARIABLES ---------------------------
 var w = 950;
 var h = 605;
@@ -23,62 +19,77 @@ d3.select('svg')
     .append('text')
     .attr('transform', 'translate(12, 300)rotate(-90)')
     .attr({'id': 'yL', 'text-anchor': 'middle'})
-    .text('Life Expectancy(in years)');
+    .text('Stock Price');
 
 d3.select('svg')
     .append('text')
     .attr({'id': 'xLabel', 'x': 500, 'y': 600, 'text-anchor': 'middle'})
-    .text("State GDP Per Capita(in USD)");
+    .text("Day");
 
 var lobfeq = d3.select("#lobfeq");
 var lobfreg = d3.select("#lobfreg");
 
 var color = d3.scale.category20();
 
-
-
 // --------------------------- DRAW AXES ---------------------------
-
 // helper method to get the minimum value for a particular dataset
 var getMinVal = function( dataset ) {
-    var currentMin = 10000000000000;
-    
-    return currentMin;
+    return 25;
 }
 
 
 // helper method to get the maximum value for a particular dataset
 var getMaxVal = function( dataset ) {
-    var currentMax = 0;
-    return currentMax;
+    return 100;
 }
 
+// helper method to get the minimum value for a particular dataset
+var getMinDate = function( dataset ) {
+    var min = Object.keys(dataset)[0];
+    return new Date(min);
+}
+
+console.log(getMinDate(csvdata));
+
+// helper method to get the maximum value for a particular dataset
+var getMaxDate = function( dataset ) {
+    var max = Object.keys(dataset)[Object.keys(dataset).length - 1];
+    return new Date(max);
+}
+
+console.log(getMaxDate(csvdata));
 
 // the scale function for the x-axis (set by setXScale)
 var xScale;
 // set the xScale
-var min = getMinVal( currentSet );
-var max = getMaxVal( currentSet );
-xScale = d3.scale.linear()
-				 .domain( [ min - min/10, max + max/10 ] )
-				 .range( [padding, w - padding] );
-
+var min = getMinDate( csvdata );
+var max = getMaxDate( csvdata );
+//var min = new Date(2020, 0, 1);
+//var max = new Date(2020, 0, 11);
+/*
+xScale = d3.time.scale()
+    .domain( [ min - min/10, max + max/10 ] )
+    .range( [padding, w - padding] );
+*/
+xScale = d3.time.scale().range([padding, w - padding]);
+xScale.domain([min, max]);
 // the scale function for the y-axis
 var yScale;
 // set the yScale
-var lifeExMin = getMinVal( "Average Life Expectancy" );
-var lifeExMax = getMaxVal( "Average Life Expectancy" );
+//var lifeExMin = getMinVal( "Average Life Expectancy" );
+//var lifeExMax = getMaxVal( "Average Life Expectancy" );
+var lifeExMin = 0;
+var lifeExMax = 100;
 yScale = d3.scale.linear()
-				 .domain( [ lifeExMin - lifeExMin/10, lifeExMax + lifeExMax/10 ] )
-				 .range( [h - padding, padding] );
-
+    .domain( [ lifeExMin - lifeExMin/10, lifeExMax + lifeExMax/10 ] )
+    .range( [h - padding, padding] );
 
 
 // sets the scale function for the x-axis given a particular dataset
 var setXScale = function() {
-	var min = getMinVal( currentSet );
-	var max = getMaxVal( currentSet );
-	xScale.domain( [ min - min/10, max + max/10 ] ) // the values we can enter, offset to prevent awkward ends
+    var min = getMinDate( currentSet );
+    var max = getMaxDate( currentSet );
+    xScale.range( [ min - min/10, max + max/10 ] ) // the values we can enter, offset to prevent awkward ends
 }
 
 // define the y axis
@@ -106,7 +117,7 @@ svg.append("g")
 
 
 // --------------------------- DRAW POINTS ---------------------------
-
+/*
 // set the initial points by adding the data and setting the attributes
 svg.selectAll("circle")
     .data( csvdata )
@@ -210,7 +221,7 @@ var bestFit = function (xArray, yArray) {
     
 };
 
-
+*/
 
 var drawLoBF = function (currentdata) {
     
@@ -286,11 +297,11 @@ var drawLoBF = function (currentdata) {
     */
 };
 
-drawLoBF(currentSet);
+//drawLoBF(currentSet);
 
 
 // --------------------------- TRANSITIONS ---------------------------
-
+/*
 // changes the currently displayed dataset to newSet and does the transition
 var changeSet = function( newSet ) {
 	// set the new dataset
@@ -338,8 +349,9 @@ var changeSet = function( newSet ) {
 
 //var displayInfo = function(){
 //var circles = svg.selectAll("circle");
-
+*/
 // --------------------------- CHANGING ---------------------------
+/*
 var button1 = document.getElementById("button1");
 var button2 = document.getElementById("button2");
 var button3 = document.getElementById("button3");
@@ -538,3 +550,4 @@ var drawGuideLines = function(event){
 svg.selectAll("circle")
     .on("mouseover", hoverDisplay)
 .on("mouseout", clearDisplay);
+*/
