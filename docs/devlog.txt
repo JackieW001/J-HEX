@@ -56,7 +56,7 @@ added to the api file
 
 May 21
 ==================================================
--e liE -- 2018-05-21 15:34:26
+-e ericL -- 2018-05-21 15:34:26
 Fixed the database functions and included a config var
 
 jackieW -- 2018-05-22 21:52:47
@@ -83,7 +83,12 @@ May 31
 -e ericL -- 2018-05-30 14:04:37
 Edited the forms for required and text
 
--e liE -- 2018-05-31 11:38:49
+-e ericL -- 2018-05-31 11:38:49
 Finished tables
 
+June 4
+==================================================
+
+-e ericL -- 2018-06-04 14:05:31
+Added to the table with removal functions. Added stock functions. Fixed minor JS error.
 
