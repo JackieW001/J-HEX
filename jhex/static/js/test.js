@@ -1,5 +1,32 @@
 // --------------------------- HANDLE DATA ---------------------------
-console.log( Object.keys(csvdata) );
+//console.log( csvdata );
+//console.log( Object.keys(csvdata) );
+
+var keys = Object.keys(csvdata);
+var len = keys.length;
+
+//console.log(len);
+/*
+for (var i = 0; i < len; i++){
+    var key = keys[i];
+    console.log(key);
+    console.log(csvdata[key]);
+    console.log(csvdata[key]["1. open"]);
+    console.log(csvdata[key]["2. high"]);
+    console.log(csvdata[key]["3. low"]);
+    console.log(csvdata[key]["4. close"]);
+    console.log(csvdata[key]["5. volume"]);
+
+    for (var key in obj){
+        var attrName = key;
+	console.log(attrName);
+        var attrValue = obj[key];
+	console.log(attrValue);
+    }
+
+
+}
+*/
 // --------------------------- SET INITIAL VARIABLES ---------------------------
 var w = 950;
 var h = 605;
@@ -34,14 +61,35 @@ var color = d3.scale.category20();
 // --------------------------- DRAW AXES ---------------------------
 // helper method to get the minimum value for a particular dataset
 var getMinVal = function( dataset ) {
-    return 25;
-}
+    var min = 9999;
 
+    for (var i = 0; i < len; i++){
+	var key = keys[i];
+	value = csvdata[key]["4. close"];
+	//console.log(value);
+	if (value < min) {
+	    min = value;
+	}
+    }    
+    return min;
+};
 
 // helper method to get the maximum value for a particular dataset
-var getMaxVal = function( dataset ) {
-    return 100;
+var getMaxVal = function( dataset ) {   
+    var max = -9999;
+
+    for (var i = 0; i < len; i++){
+	var key = keys[i];
+	value = csvdata[key]["4. close"];
+	if (value > max) {	    
+	    max = value;
+	}
+    }    
+    return max;
 }
+
+console.log(getMinVal(csvdata));
+console.log(getMaxVal(csvdata));
 
 // helper method to get the minimum value for a particular dataset
 var getMinDate = function( dataset ) {
@@ -49,7 +97,7 @@ var getMinDate = function( dataset ) {
     return new Date(min);
 }
 
-console.log(getMinDate(csvdata));
+//console.log(getMinDate(csvdata));
 
 // helper method to get the maximum value for a particular dataset
 var getMaxDate = function( dataset ) {
@@ -57,7 +105,7 @@ var getMaxDate = function( dataset ) {
     return new Date(max);
 }
 
-console.log(getMaxDate(csvdata));
+//console.log(getMaxDate(csvdata));
 
 // the scale function for the x-axis (set by setXScale)
 var xScale;
