@@ -11,8 +11,9 @@ body {
 
 .flashmsg {
     background-color:lightsteelblue;
+    width:50%;
     border:1px;
-    padding-left:80px;
+    text-align:center;
 }
 
 /*
