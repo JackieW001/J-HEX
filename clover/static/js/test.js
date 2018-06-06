@@ -41,7 +41,6 @@ d3.select('svg')
     .append('line')
     .attr('id', 'bestfit');
 
-
 d3.select('svg')
     .append('text')
     .attr('transform', 'translate(12, 300)rotate(-90)')
@@ -67,6 +66,7 @@ var getMinVal = function( dataset ) {
 	var key = keys[i];
 	value = csvdata[key]["4. close"];
 	//console.log(value);
+	value = parseFloat(value);
 	if (value < min) {
 	    min = value;
 	}
@@ -81,6 +81,7 @@ var getMaxVal = function( dataset ) {
     for (var i = 0; i < len; i++){
 	var key = keys[i];
 	value = csvdata[key]["4. close"];
+	value = parseFloat(value);
 	if (value > max) {	    
 	    max = value;
 	}
@@ -126,8 +127,10 @@ var yScale;
 // set the yScale
 //var lifeExMin = getMinVal( "Average Life Expectancy" );
 //var lifeExMax = getMaxVal( "Average Life Expectancy" );
-var lifeExMin = 0;
-var lifeExMax = 100;
+var lifeExMin = getMinVal(csvdata);
+var lifeExMax = getMaxVal(csvdata);
+console.log(lifeExMin);
+console.log(lifeExMax);
 yScale = d3.scale.linear()
     .domain( [ lifeExMin - lifeExMin/10, lifeExMax + lifeExMax/10 ] )
     .range( [h - padding, padding] );
@@ -150,6 +153,9 @@ var xAxis = d3.svg.axis()
     .orient("bottom")
     .scale(xScale);
 
+var valueline = d3.svg.line()
+    .x(function(d) { return xScale(getDate(d)); })
+    .y(function(d) { return yScale(csvdata[d]["4. close"]); });
 
 // draw y axis with labels and move in from the size by the amount of padding
 svg.append("g")
@@ -165,43 +171,49 @@ svg.append("g")
 
 
 // --------------------------- DRAW POINTS ---------------------------
-/*
+
 // set the initial points by adding the data and setting the attributes
+console.log(svg);
+
+var getDate = function(d) {
+    return new Date(d);
+}
+
+svg.selectAll(".dot")
+    .data(keys)
+    .enter().append("circle")
+    .attr("class", "dot")
+    .attr("r", 3.5)
+    .attr("cx", function(d) {
+	console.log(d);
+	return xScale(getDate(d));
+    })
+    .attr("cy", function(d) {
+	return yScale(csvdata[d]["4. close"]);
+    })
+    .style("fill", function(d) { return "blue";});
+
+
+svg.append("path")
+    .attr("class", "line")
+    .attr("d", valueline(keys));
+
+/*
 svg.selectAll("circle")
     .data( csvdata )
     .enter()
     .append('circle')
     .attr('cx',function(d) {
-	return xScale( d[currentSet] )
+	console.log(d);
+	return xScale( d[currentSet] );
     })
     .attr("cy", function(d) {
 	return yScale( d["Average Life Expectancy"] )
     })
     .attr("r", 10)
     .attr("fill",function(d,i){return color(i);})
-
-    .attr("state", function(d){
-	return d["State"];
-    })
-    .attr("life", function(d){
-	return d["Average Life Expectancy"];
-    })
-    .attr("approval", function(d){
-	return d["Obama Approval Rating"];
-    })
-    .attr("unemploy", function(d){
-	return d["Unemployment Rate"];
-    })
-    .attr("wellbeing", function(d){
-	return d["Wellbeing Index"];
-    })
-    .attr("GDP", function(d){
-	return d["GDP"];
-    })
-    .attr("health", function(d){
-	return d["Health Spending Per Capita"];
-    })
-    
+*/
+console.log(svg);
 // --------------------------- LINE OF BEST FIT-----------------------
 
 var bestFit = function (xArray, yArray) {
@@ -269,7 +281,7 @@ var bestFit = function (xArray, yArray) {
     
 };
 
-*/
+
 
 var drawLoBF = function (currentdata) {
     
