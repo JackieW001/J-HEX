@@ -18,6 +18,12 @@
   
   <body>	
 
+    <div class = "flashmsg">
+      {% set messages = get_flashed_messages() %}
+      {% for message in messages %}
+      {{ message }}
+      {% endfor %}
+    </div>
 
     <!-- TOP NAVBAR SAME FOR ALL PAGES-->
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">

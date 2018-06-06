@@ -16,7 +16,15 @@
   </head>
 
   <body style="background-color: white">
-  <br>
+
+    <div class = "flashmsg">
+      {% set messages = get_flashed_messages() %}
+      {% for message in messages %}
+      {{ message }}
+      {% endfor %}
+    </div>
+    
+    <br>
 
   <div id="graph" transform="translate(200,-60)">
   </div>

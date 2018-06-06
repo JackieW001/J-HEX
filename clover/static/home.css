@@ -9,6 +9,11 @@ body {
     padding-right: 80px;
 }
 
+.flashmsg {
+    background-color:lightsteelblue;
+    border:1px;
+    padding-left:80px;
+}
 
 /*
  * Global add-ons

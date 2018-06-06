@@ -5,6 +5,13 @@
 </head>
 <body>
 
+  <div class = "flashmsg">
+    {% set messages = get_flashed_messages() %}
+    {% for message in messages %}
+    {{ message }}
+    {% endfor %}
+  </div>
+
   <form method="post" action="/stocksubmit">
     Choose a stock: (MSFT)
     <input type="text" name="stockName">
