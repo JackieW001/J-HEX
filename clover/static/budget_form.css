@@ -10,11 +10,10 @@ body {
     padding-bottom: 50px;
 }
 
-.flashmsg {
-    width:50%;
-    background-color:lightsteelblue;
-    border:1px;
-    text-align:center;
+.alert {
+    margin-left: 30%;
+    width: 40%;
+    text-align: center;
 }
 
 /*

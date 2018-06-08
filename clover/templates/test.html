@@ -17,12 +17,13 @@
 
   <body style="background-color: white">
 
-    <div class = "flashmsg">
-      {% set messages = get_flashed_messages() %}
-      {% for message in messages %}
+    {% set messages = get_flashed_messages() %}
+    {% for message in messages %}
+    <div class="alert alert-danger" role="alert">
       {{ message }}
-      {% endfor %}
     </div>
+    {% endfor %}
+    
     
     <br>
 

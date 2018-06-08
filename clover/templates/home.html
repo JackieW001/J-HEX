@@ -17,13 +17,14 @@
   
   <body>
 
-    <div class = "flashmsg">
-      {% set messages = get_flashed_messages() %}
-      {% for message in messages %}
+    {% set messages = get_flashed_messages() %}
+    {% for message in messages %}
+    <div class="alert alert-danger" role="alert">
       {{ message }}
-      {% endfor %}
     </div>
+    {% endfor %}
 
+    
     <!-- TOP NAVBAR SAME FOR ALL PAGES-->
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
       <a class="navbar-brand" href="#">Clover</a>

@@ -6,12 +6,13 @@
 </head>
 <body>
 
-  <div class = "flashmsg">
-    {% set messages = get_flashed_messages() %}
-    {% for message in messages %}
+  {% set messages = get_flashed_messages() %}
+  {% for message in messages %}
+  <div class="alert alert-danger" role="alert">
     {{ message }}
-    {% endfor %}
   </div>
+  {% endfor %}
+  
 
   <h1>Displaying Stocks</h1>
   <h2>Today:</h2>
