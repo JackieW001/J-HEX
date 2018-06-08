@@ -183,7 +183,7 @@ svg.selectAll(".dot")
     .data(keys)
     .enter().append("circle")
     .attr("class", "dot")
-    .attr("r", 3.5)
+    .attr("r", 5)
     .attr("cx", function(d) {
 	console.log(d);
 	return xScale(getDate(d));
@@ -191,12 +191,15 @@ svg.selectAll(".dot")
     .attr("cy", function(d) {
 	return yScale(csvdata[d]["4. close"]);
     })
-    .style("fill", function(d) { return "blue";});
+    .style("fill", function(d) { return "red";});
 
 
 svg.append("path")
     .attr("class", "line")
-    .attr("d", valueline(keys));
+    .attr("d", valueline(keys))
+    .attr("stroke", "black")
+    .attr("stroke-width", 2)
+    .attr("fill", "none");
 
 /*
 svg.selectAll("circle")

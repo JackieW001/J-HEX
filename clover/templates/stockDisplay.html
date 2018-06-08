@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Display Stocks</title>
+    <meta charset="utf-8">
+	  <style>
+      #graph_title {
+        align-self: center;
+          color: purple;
+          font-size: 30pt;
+          font-weight: 200;
+          font-family: Garamond;
+          font-variant: small-caps;
+      }
+    </style>
+  </head>
+
+  <body style="background-color: white">
+
+    {% set messages = get_flashed_messages() %}
+    {% for message in messages %}
+    <div class="alert alert-danger" role="alert">
+      {{ message }}
+    </div>
+    {% endfor %}
+    
+    
+    <br>
+
+  <div id="graph" transform="translate(200,-60)">
+  </div>
+  
+  <p id="displayInfoTitle" style="text-align: center; font-size=24px;">
+  </p>
+    
+  <p id="displayInfo" style="text-align: center">
+  </p>
+ 
+      
+  <br>
+  <div class="center">
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+    
+    <script type="text/javascript">      
+             var csvdata = {{ data_var|tojson }}
+    </script>
+    <script src='../static/js/test.js'></script>
+    
+  </div>
+
+  <br><br><br><br>
+  </body>
+</html>

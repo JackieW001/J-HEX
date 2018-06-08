@@ -13,16 +13,66 @@
   {% endfor %}
   
 
-  <form method="post" action="/stocksubmit">
+
+    <!-- TOP NAVBAR SAME FOR ALL PAGES-->
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <a class="navbar-brand" href="#">Clover</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/home">Dashboard <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/budget">Budget <span class="sr-only">(current)</span></a>
+          </li>
+	  <li class="nav-item">
+            <a class="nav-link" href="/stocks">Stocks <span class="sr-only">(current)</span></a>
+          </li>
+	  <li class="nav-item">
+            <a class="nav-link" href="/settings">Settings <span class="sr-only">(current)</span></a>
+          </li>
+        </ul>
+        <form class="form-inline mt-2 mt-md-0" action="/logout">
+          <input class="btn btn-outline-success my-2 my-sm-0" type="submit" value="Logout">
+        </form>
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <main role="main" class="col">
+          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">Dashboard</h1>
+            <div class="btn-toolbar mb-2 mb-md-0">
+              <div class="btn-group mr-2">
+                <button class="btn btn-sm btn-outline-secondary">Share</button>
+                <button class="btn btn-sm btn-outline-secondary">Export</button>
+              </div>
+              <button class="btn btn-sm btn-outline-secondary dropdown-toggle">
+                <span data-feather="calendar"></span>
+                This week
+              </button>
+            </div>
+          </div>
+      </div>
+    </div>
+  
+  <form method="post" action="/stockdisplay">
     Choose a stock: (MSFT)
-    <input type="text" name="stockName">
-    <br>
+    <input type="text" name="stockName"><br>
+    <input type="radio" name="period" value="DAILY" checked> Daily<br>
+    <input type="radio" name="period" value="WEEKLY"> Weekly<br>
+    <input type="radio" name="period" value="MONTHLY"> Monthly<br>
     <input type="submit" value="Submit">
   </form>
 
-
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>  
 </body>
 
 <!--<script src="../static/js/scatter.js"></script>!-->
-</script>
 </html>
