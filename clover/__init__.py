@@ -232,38 +232,18 @@ def removefix():
 def stocks():    
     return render_template("stocks.html")
 
-@app.route('/stocksubmit', methods = ['POST','GET'])
-def stocksubmit():    
+@app.route('/stockdisplay', methods = ['POST','GET'])
+def stockdisplay():
     stockName = request.form['stockName']
-    #DATA SPLITTING
-    todayData = get_last_days(stockName, "TIME_SERIES_DAILY", 1)
-    weekData = get_last_days(stockName, "TIME_SERIES_DAILY", 7)
-    #monthData = get_last_days(stockName, "TIME_SERIES_WEEKLY", 8)
-
-    pp = pprint.PrettyPrinter(indent=4)
-
-    todayData = pp.pformat(todayData)
-    weekData = pp.pformat(weekData)
-
-    #monthData = pp.pformat(monthData)
-
-    #return render_template("displayStocks.html", today = todayData, week = weekData, month = monthData)
-    return render_template("displayStocks.html", today = todayData, week = weekData, month = "filler")
-    #return render_template("displayStocks.html", today = Markup(todayData), week = Markup(weekData), month = "filler")
-
-
-#print(get_info('MSFT', "TIME_SERIES_DAILY"))                                                                                                                                    
-#print(get_date('MSFT', '2018-05-14'))                                                                                                                                           
-#print(get_today('MSFT'))
-#pp.pprint(get_last_days("MSFT", "TIME_SERIES_DAILY", 7))                                                                                                                       
-#pp.pprint(get_last_days("MSFT", "TIME_SERIES_WEEKLY", 8))                                                                                                                       
-#pp.pprint(get_last_days("MSFT", "TIME_SERIES_MONTHLY", 12))                                                                                                                     
-#print add_zero("05")  
-
-@app.route('/test', methods = ['POST','GET'])
-def test():
-    weekData = get_last_days("MSFT", "TIME_SERIES_DAILY", 7)
-    return render_template('test.html', data_var = weekData)
+    period = request.form['period']
+    #print stockName
+    #print period
+    period = "TIME_SERIES_" + period
+    #print period
+    data = get_last_days(stockName, period, 12)
+    #monthlyData = get_last_days("MSFT", "TIME_SERIES_WEEKLY", 12)
+    #yearlyData = get_last_days("MSFT", "TIME_SERIES_MONTHLY", 12)
+    return render_template('stockDisplay.html', data_var = data)
 
 #=================================================================
 @app.errorhandler(404)
