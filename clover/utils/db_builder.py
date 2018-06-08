@@ -36,6 +36,25 @@ def tableCreation():
         db.commit()
         db.close()
 
+        dummyUser()
+
+def dummyUser():
+    addUser('z', 'z', 'z', 1)
+    addMoneyTable (0, 1000, 500, 0, 7000, 10.8)
+    addAllocateTable (0, 100, 150, 200, 300, 500, 700)
+    addVarCost(0, "Dinner at Dorsia", 'eatOut', 500, "Nice dinner.")
+    addVarCost(0, "Infinity Wars", 'entertainment', 40, "Thanos.")
+    addVarCost(0, "Wedding", 'event', 1500, "Went to Frank's wedding.")
+    addVarCost(0, "60 pounds of mac and cheese", 'grocery', 500, "Dinner for the rest of the year.")
+    addFixCost(0, "Electricity", 150 , "utility", "Basic utility.")
+    addFixCost(0, "Heating", 70 , "utility", "Basic utility.")
+    addFixCost(0, "Water", 50 , "utility", "Basic utility.")
+    addFixCost(0, "Health Insurance", 100 , "insurance", "In case I die.")
+    addFixCost(0, "Netflix", 10 , "membership", "TV and movies.")
+    addFixCost(0, "Subway", 120 , "Transportation", "Monthly subway rides.")
+
+
+
 #===========================================================================================================================================
 
 #MUTATORS/ADD VALUES TO TABLES
@@ -267,7 +286,11 @@ def getAllVarCost(ID):
         return None
     else:
         for i in range(maxID+1):
-            ret.append(getVarCost(ID,i))
+            try:
+                ret.append(getVarCost(ID,i))
+            except:
+                pass
+
     db.close()
     return ret
 
@@ -295,7 +318,10 @@ def getAllFixCost(ID):
         return None
     else:
         for i in range(maxID+1):
-            ret.append(getFixCost(ID,i))
+            try:
+                ret.append(getFixCost(ID,i))
+            except:
+                pass
     db.close()
     return ret 
 

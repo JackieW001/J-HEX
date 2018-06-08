@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+
+    <title>Clover</title>
+
+    <!-- Custom styles for this template -->
+    <link href="../static/home.css" rel="stylesheet">
+  </head>
+  
+  <body>
+
+    <div class = "flashmsg">
+      {% set messages = get_flashed_messages() %}
+      {% for message in messages %}
+      {{ message }}
+      {% endfor %}
+    </div>
+
+    <!-- TOP NAVBAR SAME FOR ALL PAGES-->
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <a class="navbar-brand" href="#">Clover</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/home">Dashboard <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/budget">Budget <span class="sr-only">(current)</span></a>
+          </li>
+	  <li class="nav-item">
+            <a class="nav-link" href="/stocks">Stocks <span class="sr-only">(current)</span></a>
+          </li>
+	  <li class="nav-item">
+            <a class="nav-link" href="/settings">Settings <span class="sr-only">(current)</span></a>
+          </li>
+        </ul>
+        <form class="form-inline mt-2 mt-md-0" action="/logout">
+          <input class="btn btn-outline-success my-2 my-sm-0" type="submit" value="Logout">
+        </form>
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <main role="main" class="col">
+          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">Dashboard</h1>
+            <div class="btn-toolbar mb-2 mb-md-0">
+              <div class="btn-group mr-2">
+                <button class="btn btn-sm btn-outline-secondary">Share</button>
+                <button class="btn btn-sm btn-outline-secondary">Export</button>
+              </div>
+              <button class="btn btn-sm btn-outline-secondary dropdown-toggle">
+                <span data-feather="calendar"></span>
+                This week
+              </button>
+            </div>
+          </div>
+
+
+  <!-- TABLES FOR THE BUDGETS ---------------------------------------------------------------------------->
+    <div id = "fixtable">
+    Fixed Table
+    <form action="/removefix" method="POST">
+    <table cellpadding="15">
+      <tr>
+        <th> Name </th>
+        <th> Type </th>
+        <th> Amount </th>
+        <th> Description </th>
+        <th> Remove </th>
+      </tr>
+    {% if fixtable != None %}
+    {% for each in fixtable%}
+      <tr>
+        <th> {{each['fixedName']}} </th>
+        <th> {{each['fixedType']}} </th>
+        <th> {{each['fixedAmt']}} </th>
+        <th> {{each['fixedDesc']}} </th>
+        <th> <input type="checkbox" name = {{each['fixedID']}} > </th>
+      </tr>
+    {% endfor %}
+    {% endif %}
+  </table>
+  <input type="submit" value="Remove">
+</form>
+  <br><br>
+  </div>
+
+  <div id = "vartable">
+    Variable Table
+    <form  action="/removevar" method="POST">
+    <table cellpadding="15">
+      <tr>
+        <th> Name </th>
+        <th> Type </th>
+        <th> Amount </th>
+        <th> Description </th>
+        <th> Date </th>
+        <th> Remove </th>
+      </tr>
+
+    {% if vartable != None %}
+    {% for each in vartable%}
+
+      <tr>
+        <th> {{each['expName']}} </th>
+        <th> {{each['expType']}} </th>
+        <th> {{each['expAmt']}} </th>
+        <th> {{each['expDesc']}} </th>
+        <th> {{each['dateof']}} </th>
+        <th>  <input type="checkbox" name = {{each['expID']}} > </th>
+      </tr>
+
+    {% endfor %}
+    {% endif %}
+  </table>
+  <input type="submit" value="Remove">
+
+</form>
+  <br><br>
+  </div>
+    
+  </main>
+      </div>
+    </div>
+
+	  <div class="row placeholders">
+            <div class="col-xs-6 col-sm-3 placeholder">
+              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
+              <h4>Label</h4>
+              <span class="text-muted">Something else</span>
+            </div>
+            <div class="col-xs-6 col-sm-3 placeholder">
+              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
+              <h4>Label</h4>
+              <span class="text-muted">Something else</span>
+            </div>
+            <div class="col-xs-6 col-sm-3 placeholder">
+              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
+              <h4>Label</h4>
+              <span class="text-muted">Something else</span>
+            </div>
+            <div class="col-xs-6 col-sm-3 placeholder">
+              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
+              <h4>Label</h4>
+              <span class="text-muted">Something else</span>
+            </div>
+          </div>
+
+	  
+
+    </div>
+
+    <script src="../static/config.js"></script>
+    
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+  </body>
+</html>

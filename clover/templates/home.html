@@ -133,6 +133,7 @@
         <th> Description </th>
         <th> Date </th>
       </tr>
+    {% if vartable != None %}
     {% for each in vartable%}
       <tr>
         <th> {{each['expName']}} </th>
@@ -142,6 +143,7 @@
         <th> {{each['dateof']}} </th>
       </tr>
     {% endfor %}
+    {% endif %}
   </table>
   <br><br>
   </div>
@@ -155,6 +157,7 @@
         <th> Amount </th>
         <th> Description </th>
       </tr>
+    {% if fixtable != None %}
     {% for each in fixtable%}
       <tr>
         <th> {{each['fixedName']}} </th>
@@ -163,6 +166,7 @@
         <th> {{each['fixedDesc']}} </th>
       </tr>
     {% endfor %}
+    {% endif %}
   </table>
   <br><br>
   </div>

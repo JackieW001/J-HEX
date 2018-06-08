@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, session, url_for, flash, redi
 from utils.accounts import authenticate, register
 from utils.db_builder import tableCreation, checkUsername, getPass, getUserID, getUserName, getConfig, setConfig, addUser
 from utils.db_builder import addMoneyTable, getMoneyTable, updateMoneyTable, addAllocateTable, getAllocateTable, updateAllocateTable
-from utils.db_builder import addVarCost, getVarCost, addFixCost,getAllFixCost,getAllVarCost
+from utils.db_builder import addVarCost, getVarCost, addFixCost,getAllFixCost,getAllVarCost, removeVarCost, removeFixedCost
 from utils.api import get_apikey, get_info, get_date, get_today, get_last_days
 from utils.table_builder import addZero
 
@@ -110,7 +110,11 @@ def home():
     print vartable
     fixtable = addZero(getAllFixCost(ID),"fix")
 
-    if vartable == None or fixtable == None:
+    if vartable == None:
+        return render_template("home.html",config=configBool, fixtable = fixtable)
+    elif fixtable == None:
+        return render_template("home.html",config=configBool, vartable = vartable,)
+    elif fixtable == None and vartable == None:
         return render_template("home.html",config=configBool)
     else:
         print "working"
@@ -187,13 +191,41 @@ def fixcost():
     addFixCost(ID, fixedName, fixedAmt, fixedtype, fixedDesc)
     return redirect(url_for('root'))
 
+
 #============================================================================
 @app.route('/settings', methods = ['POST','GET'])
 def settings():
     ID = getUserID(session['user'])
-    return "This page doesn't work"
 
+    vartable = addZero(getAllVarCost(ID),"var")
 
+    fixtable = addZero(getAllFixCost(ID),"fix")
+
+    if vartable == None:
+        return render_template("settings.html", fixtable = fixtable)
+    elif fixtable == None:
+        return render_template("settings.html", vartable = vartable)
+    elif fixtable == None and vartable == None:
+        return render_template("settings.html")
+    else:
+        print "working"
+        return render_template("settings.html", vartable = vartable, fixtable = fixtable)
+
+@app.route('/removevar', methods = ['POST','GET'])
+def removevar():
+    ID = getUserID(session['user'])
+    for expID in request.form:
+        removeVarCost(ID, expID)
+    
+    return redirect(url_for('settings'))
+
+@app.route('/removefix', methods = ['POST','GET'])
+def removefix():
+    ID = getUserID(session['user'])
+    for fixedID in request.form:
+        removeFixedCost(ID, fixedID)
+    
+    return redirect(url_for('settings'))
 
 #STOCKS=========================================#=============================
 @app.route('/stocks', methods = ['POST','GET'])
