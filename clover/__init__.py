@@ -3,7 +3,8 @@ from utils.accounts import authenticate, register
 from utils.db_builder import tableCreation, checkUsername, getPass, getUserID, getUserName, getConfig, setConfig, addUser
 from utils.db_builder import addMoneyTable, getMoneyTable, updateMoneyTable, addAllocateTable, getAllocateTable, updateAllocateTable
 from utils.db_builder import addVarCost, getVarCost, addFixCost,getAllFixCost,getAllVarCost, removeVarCost, removeFixedCost, bigUpdater
-from utils.api import get_apikey, get_info, get_date, get_today, get_last_days
+from utils.db_builder import getAllUpdateTable
+from utils.api import get_apikey, get_info, get_date, get_today, get_last_days, add_zero
 from utils.table_builder import addZero
 
 #from markupsafe import Markup
@@ -133,9 +134,40 @@ def home():
         vartable = []
     if fixtable == None:
         fixtable = []
-        
+
+    graphData = getAllUpdateTable(ID)
+    print "before"
+    print graphData
+    print "after"
+
+    years = []
+    months = []
+    days = []
+    dates = []
+    currMon = []
+    saving = []
+
+    for dict in graphData:
+        years.append(dict['year']) 
+        months.append(dict['month']) 
+        days.append(dict['day']) 
+        currMon.append(dict['currentMoney']) 
+        saving.append(dict['savings']) 
+
+    print years
+    print months
+    print days
+    print currMon
+    print saving
 
     return render_template("home.html",config=configBool, vartable = vartable, fixtable = fixtable, moneyTable = moneyTable)
+
+    #=====GRAPHIN STUFF====
+'''
+'''
+    #======================        
+
+
 
 
 # NOT REAL PAGES ============================================================================

@@ -52,7 +52,7 @@ def get_last_days(ticker, time_frame, num_dates):
         retVal[x] = info[x]
     return retVal
 
-'''
+
 #takes in a string
 #if length > 2, add a leading 0 
 def add_zero(strg):
@@ -60,7 +60,7 @@ def add_zero(strg):
         return "0" + strg
     else:
         return strg
-'''
+
 
 pp = pprint.PrettyPrinter(indent=4)
 
