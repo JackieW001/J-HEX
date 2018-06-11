@@ -45,6 +45,9 @@ def dummyUser():
     addUser('z', 'z', 'z', 1)
     addMoneyTable (0, 1000, 500, 0, 7000, 10.8)
     addAllocateTable (0, 100, 150, 200, 300, 500, 700)
+    addVarCost(0, "Went to the spa", 'shop', 35, "Cucumbers",'2017-06-17')
+    addVarCost(0, "Vacation to Laos", 'entertainment', 5000, "Vacation time~",'2017-08-17')
+    addVarCost(0, "Halloween costume", 'entertainment', 40, "Boo!!!",'2017-10-20')
     addVarCost(0, "Infinity Wars", 'entertainment', 40, "Thanos.",'2017-12-25')
     addVarCost(0, "Dinner at Dorsia", 'eatOut', 500, "Nice dinner.", '2018-01-30')
     addVarCost(0, "Wedding", 'event', 1500, "Went to Frank's wedding.", '2018-02-40')
@@ -533,7 +536,7 @@ def getRecentUpdateTable(ID):
     return getUpdateTable(ID, maxID)
 
 
-def getPercentageByAllocation(ID):
+def getPercentageByAllocation(ID, timerange = "all"):
     entertain = 0
     eat = 0
     shop = 0
@@ -542,7 +545,24 @@ def getPercentageByAllocation(ID):
     event = 0
 
     allocate = getAllocateTable(ID)
-    vartable = getAllVarCost(ID)
+    vartable = getAllVarCost(ID, timerange)
+
+
+    today = datetime.datetime.now()
+    mon = today.month
+    yr = today.year
+    updateTable = getUpdateTable(ID, 0)
+    datedifference = (yr - updateTable['year'])*12 + (mon - updateTable['month'])
+    multiplier = 1
+
+    if timerange == 'year' and datedifference > 12:
+        multiplier = 12
+    elif timerange == 'year' and datedifference < 12:
+        multiplier = multiplier + 1
+    elif timerange == 'all':
+        multiplier = multiplier + 1
+    else:
+        multiplier = 1
 
 
     for each in vartable:
@@ -559,12 +579,18 @@ def getPercentageByAllocation(ID):
         elif each['expType'] == 'event':
             event+= float(each['expAmt'])                   
 
-    entertain = float("%.2f" % (entertain / allocate['entertainment'] * 100))
-    eat = float("%.2f" % (eat / allocate['eatOut'] * 100))
-    shop = float("%.2f" % (shop / allocate['shop'] * 100))
-    misc = float("%.2f" % (misc / allocate['misc'] * 100))
-    groc = float("%.2f" % (groc / allocate['grocery'] * 100))
-    event = float("%.2f" % (event / allocate['event'] * 100))
+    #prevent division by zero
+    for each in allocate:
+        if allocate[each] == 0:
+            allocate[each] == 0.01
+
+
+    entertain = float("%.2f" % (entertain / (allocate['entertainment'] * multiplier) * 100))
+    eat = float("%.2f" % (eat / (allocate['eatOut'] * multiplier) * 100))
+    shop = float("%.2f" % (shop / (allocate['shop'] * multiplier) * 100))
+    misc = float("%.2f" % (misc / (allocate['misc'] * multiplier) * 100))
+    groc = float("%.2f" % (groc / (allocate['grocery'] * multiplier) * 100))
+    event = float("%.2f" % (event / (allocate['event'] * multiplier) * 100))
 
     percentDict = {}
     percentDict['eatOut'] = eat
@@ -620,7 +646,17 @@ def removeStock(ID, stockID):
 
 #==================================================================================================================================
 
-if __name__ == '__main__':    
+if __name__ == '__main__':  
+
+    tableCreation()
+    dummyUser()  
+
+    #print getPercentageByAllocation(0,'all')
+    #print getPercentageByAllocation(0,'year')
+    #print getPercentageByAllocation(0,'month')
+
+
+    #print getAllVarCost(0)
 
 
     #print getAllVarCost(0)
@@ -628,9 +664,6 @@ if __name__ == '__main__':
     #print getAllVarCost(0, 'year')
     #print getAllUpdateTable(0)
     #changeMoney(0, 1, 1, 10000)
-
-    tableCreation()
-    dummyUser()
 
     #bigUpdater(0)
 
