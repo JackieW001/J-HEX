@@ -128,7 +128,6 @@ def home():
         fixtable = []
         
 
-
     return render_template("home.html",config=configBool, vartable = vartable, fixtable = fixtable, moneyTable = moneyTable)
 
 
@@ -165,25 +164,7 @@ def config():
 @app.route('/budget', methods = ['POST','GET'])
 def budget():
     return render_template("budget_form.html")
-    '''
-    ID = getUserID(session['user'])
-    name = request.form['name']
-    inputtype = request.form['type']
-    amt = request.form['amt']
-    budget = request.form['budget']
-    desc = request.form['desc']
-    date = request.form['date']
-    f = "data/data.db"
-    db = sqlite3.connect(f)
-    c = db.cursor()
-    expCount = c.execute('SELECT COUNT(*) FROM variableCosts;')
-    new_expID = 0
-    for x in expCount:
-        new_expID = x[0]
-    c.execute('INSERT INTO variableCosts VALUES (?,?,?,?,?,?,?,?)',[ID, new_expID, name, inputtype, amt, budget, desc, date])
-    db.commit()
-    db.close()
-    '''
+
 
 @app.route('/varcost', methods = ['POST','GET'])
 def varcost():
@@ -217,14 +198,11 @@ def settings():
     fixtable = addZero(getAllFixCost(ID),"fix")
 
     if vartable == None:
-        return render_template("settings.html", fixtable = fixtable)
-    elif fixtable == None:
-        return render_template("settings.html", vartable = vartable)
-    elif fixtable == None and vartable == None:
-        return render_template("settings.html")
-    else:
-        print "working"
-        return render_template("settings.html", vartable = vartable, fixtable = fixtable)
+        vartable = []
+    if fixtable == None:
+        fixtable = []
+
+    return render_template("settings.html", vartable = vartable, fixtable = fixtable)
 
 @app.route('/removevar', methods = ['POST','GET'])
 def removevar():
