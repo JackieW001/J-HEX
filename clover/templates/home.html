@@ -62,10 +62,25 @@
                 <button class="btn btn-sm btn-outline-secondary">Share</button>
                 <button class="btn btn-sm btn-outline-secondary">Export</button>
               </div>
+              <!--
               <button class="btn btn-sm btn-outline-secondary dropdown-toggle">
                 <span data-feather="calendar"></span>
-                This week
+                  <a class="dropdown-item" id = "currentmonth" href="#"> Month </a>
+                  <a class="dropdown-item" id = "currentyear" href="#">Year</a>
+                  <a class="dropdown-item" id = "alltime" href="#">All Time</a>
               </button>
+            -->
+                            <div class="dropdown show">
+                  <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Date Range 
+                  </a>
+
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                  <a class="dropdown-item" id = "currentmonth" href="#"> Month </a>
+                  <a class="dropdown-item" id = "currentyear" href="#">Year</a>
+                  <a class="dropdown-item" id = "alltime" href="#">All Time</a>
+                  </div>
+                </div>
             </div>
           </div>
 
