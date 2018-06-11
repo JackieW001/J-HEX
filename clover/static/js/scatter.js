@@ -1,7 +1,32 @@
-// --------------------------- PARSE DATA ---------------------------
+// --------------------------- HANDLE DATA ---------------------------
+//console.log( csvdata );
+//console.log( Object.keys(csvdata) );
 
-console.log(stockdata);
+var keys = Object.keys(csvdata);
+var len = keys.length;
 
+//console.log(len);
+/*
+for (var i = 0; i < len; i++){
+    var key = keys[i];
+    console.log(key);
+    console.log(csvdata[key]);
+    console.log(csvdata[key]["1. open"]);
+    console.log(csvdata[key]["2. high"]);
+    console.log(csvdata[key]["3. low"]);
+    console.log(csvdata[key]["4. close"]);
+    console.log(csvdata[key]["5. volume"]);
+
+    for (var key in obj){
+        var attrName = key;
+	console.log(attrName);
+        var attrValue = obj[key];
+	console.log(attrValue);
+    }
+
+
+}
+*/
 // --------------------------- SET INITIAL VARIABLES ---------------------------
 var w = 950;
 var h = 605;
@@ -16,78 +41,107 @@ d3.select('svg')
     .append('line')
     .attr('id', 'bestfit');
 
-
 d3.select('svg')
     .append('text')
     .attr('transform', 'translate(12, 300)rotate(-90)')
     .attr({'id': 'yL', 'text-anchor': 'middle'})
-    .text('Life Expectancy(in years)');
+    .text('Stock Price');
 
 d3.select('svg')
     .append('text')
     .attr({'id': 'xLabel', 'x': 500, 'y': 600, 'text-anchor': 'middle'})
-    .text("State GDP Per Capita(in USD)");
+    .text("Day");
 
 var lobfeq = d3.select("#lobfeq");
 var lobfreg = d3.select("#lobfreg");
 
 var color = d3.scale.category20();
 
-
-
 // --------------------------- DRAW AXES ---------------------------
-
 // helper method to get the minimum value for a particular dataset
 var getMinVal = function( dataset ) {
-	var currentMin = 10000000000000;
-	csvdata.forEach( function(o) {
-		if ( o[dataset] < currentMin ){
-			currentMin = o[dataset];
-		}
-	});
-	return currentMin;
-}
+    var min = 9999;
 
+    for (var i = 0; i < len; i++){
+	var key = keys[i];
+	value = csvdata[key]["4. close"];
+	//console.log(value);
+	value = parseFloat(value);
+	if (value < min) {
+	    min = value;
+	}
+    }    
+    return min;
+};
 
 // helper method to get the maximum value for a particular dataset
-var getMaxVal = function( dataset ) {
-	var currentMax = 0;
-	csvdata.forEach( function(o) {
-		if ( o[dataset] > currentMax ){
-			currentMax = o[dataset];
-		}
-	});
-	return currentMax;
+var getMaxVal = function( dataset ) {   
+    var max = -9999;
+
+    for (var i = 0; i < len; i++){
+	var key = keys[i];
+	value = csvdata[key]["4. close"];
+	value = parseFloat(value);
+	if (value > max) {	    
+	    max = value;
+	}
+    }    
+    return max;
 }
 
+console.log(getMinVal(csvdata));
+console.log(getMaxVal(csvdata));
+
+// helper method to get the minimum value for a particular dataset
+var getMinDate = function( dataset ) {
+    var min = Object.keys(dataset)[0];
+    return new Date(min);
+}
+
+//console.log(getMinDate(csvdata));
+
+// helper method to get the maximum value for a particular dataset
+var getMaxDate = function( dataset ) {
+    var max = Object.keys(dataset)[Object.keys(dataset).length - 1];
+    return new Date(max);
+}
+
+//console.log(getMaxDate(csvdata));
 
 // the scale function for the x-axis (set by setXScale)
 var xScale;
 // set the xScale
-var min = getMinVal( currentSet );
-var max = getMaxVal( currentSet );
-xScale = d3.scale.linear()
-				 .domain( [ min - min/10, max + max/10 ] )
-				 .range( [padding, w - padding] );
-
+var min = getMinDate( csvdata );
+var max = getMaxDate( csvdata );
+//var min = new Date(2020, 0, 1);
+//var max = new Date(2020, 0, 11);
+/*
+xScale = d3.time.scale()
+    .domain( [ min - min/10, max + max/10 ] )
+    .range( [padding, w - padding] );
+*/
+xScale = d3.time.scale().range([padding, w - padding]);
+xScale.domain([min, max]);
 // the scale function for the y-axis
 var yScale;
 // set the yScale
-var lifeExMin = getMinVal( "Average Life Expectancy" );
-var lifeExMax = getMaxVal( "Average Life Expectancy" );
+//var lifeExMin = getMinVal( "Average Life Expectancy" );
+//var lifeExMax = getMaxVal( "Average Life Expectancy" );
+var lifeExMin = getMinVal(csvdata);
+var lifeExMax = getMaxVal(csvdata);
+console.log(lifeExMin);
+console.log(lifeExMax);
 yScale = d3.scale.linear()
-				 .domain( [ lifeExMin - lifeExMin/10, lifeExMax + lifeExMax/10 ] )
-				 .range( [h - padding, padding] );
-
+    .domain( [ lifeExMin - lifeExMin/10, lifeExMax + lifeExMax/10 ] )
+    .range( [h - padding, padding] );
 
 
 // sets the scale function for the x-axis given a particular dataset
 var setXScale = function() {
-	var min = getMinVal( currentSet );
-	var max = getMaxVal( currentSet );
-	xScale.domain( [ min - min/10, max + max/10 ] ) // the values we can enter, offset to prevent awkward ends
+    var min = getMinDate( currentSet );
+    var max = getMaxDate( currentSet );
+    xScale.range( [ min - min/10, max + max/10 ] ) // the values we can enter, offset to prevent awkward ends
 }
-
 
 // define the y axis
 var yAxis = d3.svg.axis()
@@ -99,6 +153,9 @@ var xAxis = d3.svg.axis()
     .orient("bottom")
     .scale(xScale);
 
+var valueline = d3.svg.line()
+    .x(function(d) { return xScale(getDate(d)); })
+    .y(function(d) { return yScale(csvdata[d]["4. close"]); });
 
 // draw y axis with labels and move in from the size by the amount of padding
 svg.append("g")
@@ -116,41 +173,50 @@ svg.append("g")
 // --------------------------- DRAW POINTS ---------------------------
 
 // set the initial points by adding the data and setting the attributes
+console.log(svg);
+
+var getDate = function(d) {
+    return new Date(d);
+}
+
+svg.selectAll(".dot")
+    .data(keys)
+    .enter().append("circle")
+    .attr("class", "dot")
+    .attr("r", 5)
+    .attr("cx", function(d) {
+	console.log(d);
+	return xScale(getDate(d));
+    })
+    .attr("cy", function(d) {
+	return yScale(csvdata[d]["4. close"]);
+    })
+    .style("fill", function(d) { return "red";});
+
+
+svg.append("path")
+    .attr("class", "line")
+    .attr("d", valueline(keys))
+    .attr("stroke", "black")
+    .attr("stroke-width", 2)
+    .attr("fill", "none");
+
+/*
 svg.selectAll("circle")
     .data( csvdata )
     .enter()
     .append('circle')
     .attr('cx',function(d) {
-	return xScale( d[currentSet] )
+	console.log(d);
+	return xScale( d[currentSet] );
     })
     .attr("cy", function(d) {
 	return yScale( d["Average Life Expectancy"] )
     })
     .attr("r", 10)
     .attr("fill",function(d,i){return color(i);})
-
-    .attr("state", function(d){
-	return d["State"];
-    })
-    .attr("life", function(d){
-	return d["Average Life Expectancy"];
-    })
-    .attr("approval", function(d){
-	return d["Obama Approval Rating"];
-    })
-    .attr("unemploy", function(d){
-	return d["Unemployment Rate"];
-    })
-    .attr("wellbeing", function(d){
-	return d["Wellbeing Index"];
-    })
-    .attr("GDP", function(d){
-	return d["GDP"];
-    })
-    .attr("health", function(d){
-	return d["Health Spending Per Capita"];
-    })
-    
+*/
+console.log(svg);
 // --------------------------- LINE OF BEST FIT-----------------------
 
 var bestFit = function (xArray, yArray) {
@@ -276,7 +342,6 @@ var drawLoBF = function (currentdata) {
 	    return "r = " + Number((coeff.r).toFixed(7));
 	});
     /*
-
     d3.select()
     
     var svgs = document.getElementsByTagName("svg")[0];
@@ -295,11 +360,11 @@ var drawLoBF = function (currentdata) {
     */
 };
 
-drawLoBF(currentSet);
+//drawLoBF(currentSet);
 
 
 // --------------------------- TRANSITIONS ---------------------------
-
+/*
 // changes the currently displayed dataset to newSet and does the transition
 var changeSet = function( newSet ) {
 	// set the new dataset
@@ -347,8 +412,9 @@ var changeSet = function( newSet ) {
 
 //var displayInfo = function(){
 //var circles = svg.selectAll("circle");
-
+*/
 // --------------------------- CHANGING ---------------------------
+/*
 var button1 = document.getElementById("button1");
 var button2 = document.getElementById("button2");
 var button3 = document.getElementById("button3");
@@ -546,4 +612,5 @@ var drawGuideLines = function(event){
 //Adding event listeners for hovering
 svg.selectAll("circle")
     .on("mouseover", hoverDisplay)
-    .on("mouseout", clearDisplay);
+.on("mouseout", clearDisplay);
+*/

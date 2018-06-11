@@ -13,6 +13,17 @@
 
     <!-- Custom styles for this template -->
     <link href="../static/home.css" rel="stylesheet">
+    <style>
+      #graph_title {
+        align-self: center;
+          color: purple;
+          font-size: 30pt;
+          font-weight: 200;
+          font-family: Garamond;
+          font-variant: small-caps;
+      }
+    </style>
+
   </head>
   
   <body>
@@ -198,11 +209,11 @@
     </div>
 
 	
-	  <!-- SVG CHARTS GO HERE -------------------------------------------------------------------------->
-	  
-          <canvas class="chartsvg" id="myChart" width="900" height="380"></canvas>
+    <!-- SVG CHARTS GO HERE -------------------------------------------------------------------------->
+    <div id="graph" transform="translate(200,-60)">
+    </div>
 
-	   <!-- END SVG CHARTS ----------------------------------------------------------------------------> 
+    <!-- END SVG CHARTS ----------------------------------------------------------------------------> 
 	  <div class="row placeholders">
             <div class="col-xs-6 col-sm-3 placeholder">
               <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
@@ -359,12 +370,17 @@
       </div>
     </div>
 
-    <script src="../static/config.js"></script>
+   <script src="http://d3js.org/d3.v3.min.js"></script>
+   <script src="../static/config.js"></script>
+   <script src="../static/home.js"></script>
     
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    <!--
+	!-->
+    <script src='../static/js/home.js'></script>
   </body>
 </html>
