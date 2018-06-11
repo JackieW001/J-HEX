@@ -110,10 +110,8 @@ def home():
     print "Config Boolean:" 
     print configBool
 
-
-    print "TESTING \n\n\n"
     vartable = addZero(getAllVarCost(ID),"var")
-    print vartable
+
     fixtable = addZero(getAllFixCost(ID),"fix")
 
     try:
@@ -125,14 +123,13 @@ def home():
         bigUpdater(ID)
 
     if vartable == None:
-        return render_template("home.html",config=configBool, fixtable = fixtable, moneyTable = moneyTable)
-    elif fixtable == None:
-        return render_template("home.html",config=configBool, vartable = vartable, moneyTable = moneyTable)
-    elif fixtable == None and vartable == None:
-        return render_template("home.html",config=configBool, moneyTable = moneyTable)
-    else:
-        print "working"
-        return render_template("home.html",config=configBool, vartable = vartable, fixtable = fixtable, moneyTable = moneyTable)
+        vartable = []
+    if fixtable == None:
+        fixtable = []
+        
+
+
+    return render_template("home.html",config=configBool, vartable = vartable, fixtable = fixtable, moneyTable = moneyTable)
 
 
 # NOT REAL PAGES ============================================================================
