@@ -232,6 +232,9 @@ def changeMoney(ID, sign, location, amt):
 
     if location == 0:
         currentMoney = currentMoney + float(amt)*sign
+        print "========"
+        print float(amt)*sign
+        print "========"
         c.execute('UPDATE money SET currentMoney = {} WHERE userID = {}'.format(currentMoney, ID))
 
     else:
@@ -248,17 +251,34 @@ def bigUpdater(ID):
 
     moneyTable = getMoneyTable(ID)
     updateTable = getRecentUpdateTable(ID)
+    fixcost =  getAllFixCost(ID)
+    for i in range(len(fixcost)):
+        print fixcost[i]['fixedAmt']
+
+
 
     today = datetime.datetime.now()
     mon = today.month
     yr = today.year 
 
-    if mon!=updateTable['month'] or yr!=updateTable['year']:
+    multiplier = (yr - updateTable['year'])*12 + (mon - updateTable['month'])
+    #print "Multiplier==============================="
+    print multiplier
+    #print "========================================="
+
+    if multiplier > 0:
         totalIncome = float(moneyTable['monthIncome']) + float(moneyTable['otherIncome'])
-        addSaving = float("%.2f" % (float(moneyTable['savingPercent'])*0.01*totalIncome))
-        addition = float("%.2f" % ((1.0-float(moneyTable['savingPercent']))*0.01*totalIncome))
+        addSaving = float("%.2f" % (float(moneyTable['savingPercent'])*0.01*totalIncome)) * multiplier
+        addition = float("%.2f" % ((1.0-float(moneyTable['savingPercent']))*0.01*totalIncome)) * multiplier
         changeMoney(ID, 1, 0, addition)
         changeMoney(ID, 1, 1, addSaving)
+
+        for i in range(len(fixcost)):
+            costOf = multiplier * float(fixcost[i]['fixedAmt'])
+            #print "Fixed Amounts===================="
+            print costOf
+            changeMoney(ID, -1, 0, costOf)
+        #print "======================="
 
     print "Updated"
  
@@ -319,8 +339,8 @@ def getConfig(ID):
     info = c.execute('SELECT config FROM users WHERE userID =' + str(ID) + ';')
     retVal = None
     for user in info:
-        print "user:"
-        print user
+        #print "user:"
+        #print user
         retVal = user[0]
 
     db.close()
@@ -540,7 +560,7 @@ def removeStock(ID, stockID):
 if __name__ == '__main__':    
 
 
-    print getAllVarCost(0, 'year')
+    #print getAllVarCost(0, 'year')
     #print getAllUpdateTable(0)
     #changeMoney(0, 1, 1, 10000)
     '''

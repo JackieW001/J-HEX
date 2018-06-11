@@ -73,9 +73,9 @@ def login():
 @app.route('/register', methods = ['POST', 'GET'])
 def register():
     user = request.form['user']
-    print "User: " + user
+    #print "User: " + user
     password = request.form['pass']
-    print "Pass: " + password
+    #print "Pass: " + password
     name = request.form['name']
 
     if checkUsername(user):
@@ -91,8 +91,10 @@ def register():
 
 @app.route('/logout', methods = ['POST','GET'])
 def logout():
-    #ID = getUserID(session['user'])
-    #setConfig(ID)
+    try:
+        ID = getUserID(session['user'])
+    except:
+        return redirect( url_for('root'))
     session.pop('user')
     flash('You have been logged out successfully')
     return redirect(url_for('root'))
@@ -105,13 +107,13 @@ def home():
         ID = getUserID(session['user'])
     except:
         return redirect( url_for('root'))
-    print "User:"
-    print session['user']
-    print "UserID:"
-    print ID
+    #print "User:"
+    #print session['user']
+    #print "UserID:"
+    #print ID
     configBool = getConfig(ID)
-    print "Config Boolean:" 
-    print configBool
+    #print "Config Boolean:" 
+    #print configBool
 
     vartable = addZero(getAllVarCost(ID),"var")
 
@@ -122,8 +124,10 @@ def home():
     except:
         moneyTable = {'otherIncome': 0, 'currentMoney': 0, 'savings': 0, 'monthIncome': 0, 'savingPercent': 0}
 
-    if (config == 1):
+    try:
         bigUpdater(ID)
+    except:
+        pass
 
     if vartable == None:
         vartable = []
