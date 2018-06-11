@@ -141,9 +141,9 @@ def updateAllocateTable(ID, entertainment, eatOut, shop, misc, grocery,event):
 
 #userID INTEGER, expID INTEGER, expName TEXT, expType TEXT, expAmt REAL, expDesc TEXT, dateof TEXT
 def addVarCost(ID, expName, expType, expAmt, expDesc, date = None):
-    print "========================="
-    print date
-    print "========================="
+    #print "========================="
+    #print date
+    #print "========================="
     if date == None:
         date = (datetime.datetime.now()).strftime('%Y-%m-%d')
     db = sqlite3.connect(DIR)
@@ -228,6 +228,9 @@ def changeMoney(ID, sign, location, amt, date = None):
     addUpdate(ID, currentMoney, savings, date)
 
 def addUpdate(ID, currentMoney, savings, date=None):
+    print "Adding Update===================================="
+    print date
+    print "================================================="
     db = sqlite3.connect(DIR)
     c = db.cursor()
 
