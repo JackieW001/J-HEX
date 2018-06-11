@@ -101,7 +101,10 @@ def logout():
 
 @app.route('/home', methods = ['POST','GET'])
 def home():
-    ID = getUserID(session['user'])
+    try:
+        ID = getUserID(session['user'])
+    except:
+        return redirect( url_for('root'))
     print "User:"
     print session['user']
     print "UserID:"
@@ -134,7 +137,10 @@ def home():
 # NOT REAL PAGES ============================================================================
 @app.route('/config', methods = ['POST','GET'])
 def config():
-    ID = getUserID(session['user'])
+    try:
+        ID = getUserID(session['user'])
+    except:
+        return redirect( url_for('root'))
     setConfig(ID)
     configBool = getConfig(ID)
 
@@ -168,7 +174,10 @@ def budget():
 
 @app.route('/varcost', methods = ['POST','GET'])
 def varcost():
-    ID = getUserID(session['user'])
+    try:
+        ID = getUserID(session['user'])
+    except:
+        return redirect( url_for('root'))
     expName = request.form['expName']
     expAmt = request.form['expAmt']
     exptype = request.form['type']
@@ -178,7 +187,10 @@ def varcost():
 
 @app.route('/fixcost', methods = ['POST','GET'])
 def fixcost():
-    ID = getUserID(session['user'])
+    try:
+        ID = getUserID(session['user'])
+    except:
+        return redirect( url_for('root'))
     fixedName = request.form['fixedName']
     fixedAmt = request.form['fixedAmt']
     fixedtype = request.form['type']
@@ -190,7 +202,10 @@ def fixcost():
 #============================================================================
 @app.route('/settings', methods = ['POST','GET'])
 def settings():
-    ID = getUserID(session['user'])
+    try:
+        ID = getUserID(session['user'])
+    except:
+        return redirect( url_for('root'))
     configBool = getConfig(ID)
 
     vartable = addZero(getAllVarCost(ID),"var")
@@ -222,11 +237,21 @@ def removefix():
 
 #STOCKS=========================================#=============================
 @app.route('/stocks', methods = ['POST','GET'])
-def stocks():    
+def stocks(): 
+    try:
+        ID = getUserID(session['user'])
+    except:
+        return redirect( url_for('root'))
+
     return render_template("stocks.html")
 
 @app.route('/stockdisplay', methods = ['POST','GET'])
 def stockdisplay():
+    try:
+        ID = getUserID(session['user'])
+    except:
+        return redirect( url_for('root'))
+
     stockName = request.form['stockName']
     period = request.form['period']
     #print stockName
@@ -242,6 +267,7 @@ def stockdisplay():
 @app.errorhandler(404)
 def page_not_found(e):
     # note that we set the 404 status explicitly
+    flash('You are on a bad page! Return back to login.')
     return render_template('404.html'), 404
 
 
