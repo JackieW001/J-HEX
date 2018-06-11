@@ -276,7 +276,7 @@ def bigUpdater(ID):
 
     multiplier = (yr - updateTable['year'])*12 + (mon - updateTable['month'])
     #print "Multiplier==============================="
-    print multiplier
+    #print multiplier
     #print "========================================="
 
     if multiplier > 0:
@@ -293,7 +293,7 @@ def bigUpdater(ID):
             changeMoney(ID, -1, 0, costOf)
         #print "======================="
 
-    print "Updated"
+    print "All cost were updated"
  
 #==================================================================================================================================
 
@@ -574,7 +574,9 @@ def getPercentageByAllocation(ID):
     percentDict['grocery'] = groc
     percentDict['event'] = event
 
-    print percentDict
+    return percentDict
+
+    #print percentDict
 
 
 
@@ -621,7 +623,7 @@ def removeStock(ID, stockID):
 if __name__ == '__main__':    
 
 
-    print getAllVarCost(0)
+    #print getAllVarCost(0)
     #getPercentageByAllocation(0)
     #print getAllVarCost(0, 'year')
     #print getAllUpdateTable(0)
