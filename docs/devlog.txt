@@ -93,6 +93,14 @@ June 4
 Added to the table with removal functions. Added stock functions. Fixed minor JS error.
 
 
+June 10
+==================================================
+-e ericL -- 2018-06-10 12:05:00
+	- Update savings based on expenditure
+	- Add incomes/savings histroy table
+	- Expenditures auto updated
+
+
 June 11
 ==================================================
 -e ericL -- 2018-06-11 14:05:31
