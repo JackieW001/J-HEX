@@ -2,11 +2,17 @@ from flask import Flask, render_template, request, session, url_for, flash, redi
 from utils.accounts import authenticate, register
 from utils.db_builder import tableCreation, checkUsername, getPass, getUserID, getUserName, getConfig, setConfig, addUser
 from utils.db_builder import addMoneyTable, getMoneyTable, updateMoneyTable, addAllocateTable, getAllocateTable, updateAllocateTable
-from utils.db_builder import addVarCost, getVarCost, addFixCost,getAllFixCost,getAllVarCost, removeVarCost, removeFixedCost
+from utils.db_builder import addVarCost, getVarCost, addFixCost,getAllFixCost,getAllVarCost, removeVarCost, removeFixedCost, bigUpdater
 from utils.api import get_apikey, get_info, get_date, get_today, get_last_days
 from utils.table_builder import addZero
 
 #from markupsafe import Markup
+
+
+#   getMoneyTable -> gets currentmoney/savings etc
+#
+#
+#
 
 import pprint
 import sqlite3
@@ -110,15 +116,20 @@ def home():
     print vartable
     fixtable = addZero(getAllFixCost(ID),"fix")
 
+    moneyTable = getMoneyTable(ID)
+
+    if (config == 1):
+        bigUpdater(ID)
+
     if vartable == None:
-        return render_template("home.html",config=configBool, fixtable = fixtable)
+        return render_template("home.html",config=configBool, fixtable = fixtable, moneyTable = moneyTable)
     elif fixtable == None:
-        return render_template("home.html",config=configBool, vartable = vartable,)
+        return render_template("home.html",config=configBool, vartable = vartable, moneyTable = moneyTable)
     elif fixtable == None and vartable == None:
-        return render_template("home.html",config=configBool)
+        return render_template("home.html",config=configBool, moneyTable = moneyTable)
     else:
         print "working"
-        return render_template("home.html",config=configBool, vartable = vartable, fixtable = fixtable)
+        return render_template("home.html",config=configBool, vartable = vartable, fixtable = fixtable, moneyTable = moneyTable)
 
 
 # NOT REAL PAGES ============================================================================
@@ -178,7 +189,7 @@ def varcost():
     expAmt = request.form['expAmt']
     exptype = request.form['type']
     expDesc = request.form['expDesc']
-    addVarCost(ID, expName, expAmt, exptype, expDesc)
+    addVarCost(ID, expName,exptype, expAmt, expDesc)
     return redirect(url_for('root'))
 
 @app.route('/fixcost', methods = ['POST','GET'])

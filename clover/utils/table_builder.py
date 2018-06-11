@@ -13,10 +13,10 @@ def addZero(l,typeOfTable):
 
 	retlist = []
 	for d in l:
-		print "Dict"
-		print d
-		print "Dict amount"
-		print d[amount]
+		#print "Dict"
+		#print d
+		#print "Dict amount"
+		#print d[amount]
 		d[amount] = '${:,.2f}'.format(float(d[amount]))
 		retlist.append(d)
 	return retlist

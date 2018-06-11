@@ -32,6 +32,9 @@ def tableCreation():
         stocks_table = 'CREATE TABLE stocks (userID INTEGER, stockID INTEGER, ticker TEXT, shares INTEGER, purdate TEXT, purprice DATE);'
         c.execute(stocks_table)
 
+        update_table = 'CREATE TABLE update_table (userID INTEGER, updateID INTEGER, month INT, day INT, year INT, currentMoney REAL, savings REAL);'
+        c.execute(update_table)
+
 
         db.commit()
         db.close()
@@ -99,6 +102,16 @@ def addMoneyTable (ID, currentMoney, monthIncome, otherIncome, savings, savingPe
     c = db.cursor()
     command = 'INSERT INTO money VALUES (?,?,?,?,?,?);'
     c.execute(command,[ID,currentMoney,monthIncome,otherIncome,savings,savingPercent])
+
+
+    #userID INTEGER, updateID INTEGER, month INT, day INT, year INT, currentMoney REAL, savings REAL
+    today = datetime.datetime.now()
+    mon = today.month
+    day = today.day
+    yr = today.year
+    command = 'INSERT INTO update_table VALUES (?,?,?,?,?,?,?);'
+    c.execute(command, [ID, 0, mon, day, yr, currentMoney, savings])
+
     db.commit()
     db.close()  
 
@@ -126,6 +139,8 @@ def updateAllocateTable(ID, entertainment, eatOut, shop, misc, grocery,event):
 
 #userID INTEGER, expID INTEGER, expName TEXT, expType TEXT, expAmt REAL, expDesc TEXT, dateof TEXT
 def addVarCost(ID, expName, expType, expAmt, expDesc):
+
+
     date = (datetime.datetime.now()).strftime('%Y-%m-%d')
     db = sqlite3.connect(DIR)
     c = db.cursor() 
@@ -140,6 +155,9 @@ def addVarCost(ID, expName, expType, expAmt, expDesc):
     c.execute('INSERT INTO variablecost VALUES (?,?,?,?,?,?,?);',[ID, expID, expName, expAmt, expType, expDesc, date])
     db.commit()
     db.close()
+
+    changeMoney(ID, -1, 0, expAmt)
+
 #userID INTEGER, expID INTEGER, fixedName TEXT, fixedAmt REAL, fixedDesc TEXT
 def addFixCost(ID, fixedName, fixedAmt, fixedtype, fixedDesc):
     db = sqlite3.connect(DIR)
@@ -155,6 +173,7 @@ def addFixCost(ID, fixedName, fixedAmt, fixedtype, fixedDesc):
     c.execute('INSERT INTO fixedcost VALUES (?,?,?,?,?,?);',[ID, fixedID, fixedName, fixedAmt, fixedtype, fixedDesc])
     db.commit()
     db.close()  
+    changeMoney(ID, -1, 0, fixedAmt)
 
 def addStock(ID, ticker, shares, purprice):
     date = (datetime.datetime.now()).strftime('%Y-%m-%d')
@@ -170,7 +189,78 @@ def addStock(ID, ticker, shares, purprice):
     print "\n\n\n"
     c.execute('INSERT INTO stocks VALUES (?,?,?,?,?,?);',[ID, stockID, ticker, shares, date, purprice])
     db.commit()
-    db.close()   
+    db.close()  
+
+def addUpdate(ID, currentMoney, savings):
+    db = sqlite3.connect(DIR)
+    c = db.cursor()
+
+    #userID INTEGER, updateID INTEGER, month INT, day INT, year INT, currentMoney REAL, savings REAL
+    today = datetime.datetime.now()
+    mon = today.month
+    day = today.day
+    yr = today.year
+
+    updateID = c.execute('SELECT max(updateID) FROM update_table WHERE userID = {}'.format(ID)).fetchone()[0]
+    if updateID == None:
+        updateID = 0
+    else:
+        updateID = int(updateID) + 1
+
+
+    command = 'INSERT INTO update_table VALUES (?,?,?,?,?,?,?);'
+    c.execute(command, [ID, updateID, mon, day, yr, currentMoney, savings])
+
+    db.commit()
+    db.close()  
+
+#sign
+#   -1 = subtract
+#   +1 = increase
+#location
+#    0 = currentMoney
+#    1 = savings
+
+
+def changeMoney(ID, sign, location, amt):
+    db = sqlite3.connect(DIR)
+    c = db.cursor()
+
+    currentMoney = c.execute('SELECT currentMoney FROM money WHERE userID = {}'.format(ID)).fetchone()[0]
+    savings = c.execute('SELECT savings FROM money WHERE userID = {}'.format(ID)).fetchone()[0]
+
+
+    if location == 0:
+        currentMoney = currentMoney + float(amt)*sign
+        c.execute('UPDATE money SET currentMoney = {} WHERE userID = {}'.format(currentMoney, ID))
+
+    else:
+        savings = savings + float(amt)*sign
+        c.execute('UPDATE money SET savings = {} WHERE userID = {}'.format(savings, ID))
+
+    db.commit()
+    db.close() 
+
+    addUpdate(ID, currentMoney, savings)
+
+
+def bigUpdater(ID):
+
+    moneyTable = getMoneyTable(ID)
+    updateTable = getRecentUpdateTable(ID)
+
+    today = datetime.datetime.now()
+    mon = today.month
+    yr = today.year 
+
+    if mon!=updateTable['month'] or yr!=updateTable['year']:
+        totalIncome = float(moneyTable['monthIncome']) + float(moneyTable['otherIncome'])
+        addSaving = float("%.2f" % (float(moneyTable['savingPercent'])*0.01*totalIncome))
+        addition = float("%.2f" % ((1.0-float(moneyTable['savingPercent']))*0.01*totalIncome))
+        changeMoney(ID, 1, 0, addition)
+        changeMoney(ID, 1, 1, addSaving)
+
+    print "Updated"
  
 #==================================================================================================================================
 
@@ -263,6 +353,7 @@ def getAllocateTable(ID):
 
 # expName TEXT, expType TEXT, expAmt REAL, expDesc TEXT, dateof TEXT
 def getVarCost(ID, expID):
+
     ret = {}
     ret['ID'] = ID
     ret['expID'] = expID
@@ -276,7 +367,12 @@ def getVarCost(ID, expID):
     db.close()
     return ret
 
-def getAllVarCost(ID):
+
+def getAllVarCost(ID, timerange = 'all'):
+    today = datetime.datetime.now()
+    mon = today.month
+    yr = today.year
+
     ret = []
     db = sqlite3.connect(DIR) #open if f exists, otherwise create
     c = db.cursor()    
@@ -287,7 +383,16 @@ def getAllVarCost(ID):
     else:
         for i in range(maxID+1):
             try:
-                ret.append(getVarCost(ID,i))
+                tempMonth = int(getVarCost(ID,i)['dateof'].split('-')[1])
+                tempYear = int(getVarCost(ID,i)['dateof'].split('-')[0])
+                if timerange == 'all':
+                    ret.append(getVarCost(ID,i))
+                elif timerange == 'month':
+                    if tempYear == yr and tempMonth == mon:
+                        ret.append(getVarCost(ID,i))
+                elif timerange == 'year':
+                    if tempYear == yr:
+                        ret.append(getVarCost(ID,i))
             except:
                 pass
 
@@ -347,13 +452,52 @@ def getAllStocks(ID):
     c = db.cursor()    
     maxID = c.execute('SELECT max(stockID) FROM stocks WHERE userID = {};'.format(ID)).fetchone()[0]
     if maxID == None:
-        print "No fix cost exist"
+        print "No stocks exist"
         return None
     else:
         for i in range(maxID+1):
             ret.append(getStock(ID,i))
     db.close()
     return ret   
+
+
+#userID INTEGER, updateID INTEGER, month INT, day INT, year INT, currentMoney REAL, savings REAL
+def getUpdateTable(ID, updateID):
+    ret = {}
+    ret['ID'] = ID
+    ret['updateID'] = updateID
+    db = sqlite3.connect(DIR) #open if f exists, otherwise create
+    c = db.cursor()         #facilitates db ops    
+    ret['month'] = c.execute('SELECT month FROM update_table WHERE userID ={} AND updateID = {};'.format(ID, updateID)).fetchone()[0]
+    ret['day'] = c.execute('SELECT day FROM update_table WHERE userID ={} AND updateID = {};'.format(ID, updateID)).fetchone()[0]
+    ret['year'] = c.execute('SELECT year FROM update_table WHERE userID ={} AND updateID = {};'.format(ID, updateID)).fetchone()[0]
+    ret['currentMoney'] = c.execute('SELECT currentMoney FROM update_table WHERE userID ={} AND updateID = {};'.format(ID, updateID)).fetchone()[0]
+    ret['savings'] = c.execute('SELECT savings FROM update_table WHERE userID ={} AND updateID = {};'.format(ID, updateID)).fetchone()[0]
+    db.close()
+    return ret 
+
+def getAllUpdateTable(ID):
+    ret = []
+    db = sqlite3.connect(DIR) #open if f exists, otherwise create
+    c = db.cursor()    
+    maxID = c.execute('SELECT max(updateID) FROM update_table WHERE userID = {};'.format(ID)).fetchone()[0]
+    if maxID == None:
+        print "No update table exist"
+        return None
+    else:
+        for i in range(maxID+1):
+            ret.append(getUpdateTable(ID,i))
+    db.close()
+    return ret
+
+def getRecentUpdateTable(ID):
+    db = sqlite3.connect(DIR)
+    c = db.cursor()    
+    maxID = c.execute('SELECT max(updateID) FROM update_table WHERE userID = {};'.format(ID)).fetchone()[0]
+    db.close()
+    return getUpdateTable(ID, maxID)
+
+
 
 #==================================================================================================================================
 #REMOVING
@@ -393,10 +537,24 @@ def removeStock(ID, stockID):
 
 #==================================================================================================================================
 
-if __name__ == '__main__':     
+if __name__ == '__main__':    
+
+
+    print getAllVarCost(0, 'year')
+    #print getAllUpdateTable(0)
+    #changeMoney(0, 1, 1, 10000)
+    '''
+    tableCreation()
+    dummyUser()
+    bigUpdater(0)
+    '''
+    #print getRecentUpdateTable(0)
+    #print getMoneyTable(0)
+    #print getAllUpdateTable(0) 
     #TESTING
 
-    removeFixedCost(0,1)
+    #changeMoney(0,1,0,9999)
+    #removeFixedCost(0,1)
     #tableCreation()
 
     #print getAllVarCost(0)
