@@ -628,11 +628,12 @@ if __name__ == '__main__':
     #print getAllVarCost(0, 'year')
     #print getAllUpdateTable(0)
     #changeMoney(0, 1, 1, 10000)
-    '''
+
     tableCreation()
     dummyUser()
-    bigUpdater(0)
-    '''
+
+    #bigUpdater(0)
+
     #print getRecentUpdateTable(0)
     #print getMoneyTable(0)
     #print getAllUpdateTable(0) 
