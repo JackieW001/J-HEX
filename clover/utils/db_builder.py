@@ -45,10 +45,10 @@ def dummyUser():
     addUser('z', 'z', 'z', 1)
     addMoneyTable (0, 1000, 500, 0, 7000, 10.8)
     addAllocateTable (0, 100, 150, 200, 300, 500, 700)
-    addVarCost(0, "Dinner at Dorsia", 'eatOut', 500, "Nice dinner.")
-    addVarCost(0, "Infinity Wars", 'entertainment', 40, "Thanos.")
-    addVarCost(0, "Wedding", 'event', 1500, "Went to Frank's wedding.")
-    addVarCost(0, "60 pounds of mac and cheese", 'grocery', 500, "Dinner for the rest of the year.")
+    addVarCost(0, "Infinity Wars", 'entertainment', 40, "Thanos.",'2017-12-25')
+    addVarCost(0, "Dinner at Dorsia", 'eatOut', 500, "Nice dinner.", '2018-01-30')
+    addVarCost(0, "Wedding", 'event', 1500, "Went to Frank's wedding.", '2018-02-40')
+    addVarCost(0, "60 pounds of mac and cheese", 'grocery', 500, "Dinner for the rest of the year.",'2018-03-05')
     addFixCost(0, "Electricity", 150 , "utility", "Basic utility.")
     addFixCost(0, "Heating", 70 , "utility", "Basic utility.")
     addFixCost(0, "Water", 50 , "utility", "Basic utility.")
@@ -140,10 +140,12 @@ def updateAllocateTable(ID, entertainment, eatOut, shop, misc, grocery,event):
     db.close()
 
 #userID INTEGER, expID INTEGER, expName TEXT, expType TEXT, expAmt REAL, expDesc TEXT, dateof TEXT
-def addVarCost(ID, expName, expType, expAmt, expDesc):
-
-
-    date = (datetime.datetime.now()).strftime('%Y-%m-%d')
+def addVarCost(ID, expName, expType, expAmt, expDesc, date = None):
+    print "========================="
+    print date
+    print "========================="
+    if date == None:
+        date = (datetime.datetime.now()).strftime('%Y-%m-%d')
     db = sqlite3.connect(DIR)
     c = db.cursor() 
 
@@ -234,9 +236,9 @@ def changeMoney(ID, sign, location, amt):
 
     if location == 0:
         currentMoney = currentMoney + float(amt)*sign
-        print "========"
-        print float(amt)*sign
-        print "========"
+        #print "========"
+        #print float(amt)*sign
+        #print "========"
         c.execute('UPDATE money SET currentMoney = {} WHERE userID = {}'.format(currentMoney, ID))
 
     else:
@@ -254,8 +256,8 @@ def bigUpdater(ID):
     moneyTable = getMoneyTable(ID)
     updateTable = getRecentUpdateTable(ID)
     fixcost =  getAllFixCost(ID)
-    for i in range(len(fixcost)):
-        print fixcost[i]['fixedAmt']
+    #for i in range(len(fixcost)):
+    #    print fixcost[i]['fixedAmt']
 
 
 

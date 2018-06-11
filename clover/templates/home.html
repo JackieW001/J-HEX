@@ -128,9 +128,10 @@
 	</div>
 
   <!-- TABLES FOR THE BUDGETS ---------------------------------------------------------------------------->
+
   <div id = "vartable">
     Variable Table
-    <table cellpadding="15">
+    <table cellpadding="15" >
       <tr>
         <th> Name </th>
         <th> Type </th>
@@ -141,11 +142,11 @@
     {% if vartable != None %}
     {% for each in vartable%}
       <tr>
-        <th> {{each['expName']}} </th>
-        <th> {{each['expType']}} </th>
-        <th> {{each['expAmt']}} </th>
-        <th> {{each['expDesc']}} </th>
-        <th> {{each['dateof']}} </th>
+        <td> {{each['expName']}} </td>
+        <td> {{each['expType']}} </td>
+        <td> {{each['expAmt']}} </td>
+        <td> {{each['expDesc']}} </td>
+        <td> {{each['dateof']}} </td>
       </tr>
     {% endfor %}
     {% endif %}
@@ -165,10 +166,10 @@
     {% if fixtable != None %}
     {% for each in fixtable%}
       <tr>
-        <th> {{each['fixedName']}} </th>
-        <th> {{each['fixedType']}} </th>
-        <th> {{each['fixedAmt']}} </th>
-        <th> {{each['fixedDesc']}} </th>
+        <td> {{each['fixedName']}} </td>
+        <td> {{each['fixedType']}} </td>
+        <td> {{each['fixedAmt']}} </td>
+        <td> {{each['fixedDesc']}} </td>
       </tr>
     {% endfor %}
     {% endif %}

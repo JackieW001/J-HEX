@@ -10,9 +10,6 @@ from utils.table_builder import addZero
 
 
 #   getMoneyTable -> gets currentmoney/savings etc
-#
-#
-#
 
 import pprint
 import sqlite3
