@@ -116,7 +116,10 @@ def home():
     print vartable
     fixtable = addZero(getAllFixCost(ID),"fix")
 
-    moneyTable = getMoneyTable(ID)
+    try:
+        moneyTable = getMoneyTable(ID)
+    except:
+        moneyTable = {'otherIncome': 0, 'currentMoney': 0, 'savings': 0, 'monthIncome': 0, 'savingPercent': 0}
 
     if (config == 1):
         bigUpdater(ID)
@@ -155,9 +158,12 @@ def config():
     grocery = str(request.form['grocery'])
 
     addAllocateTable(ID, entertain, eatOut, shop, misc, grocery, event)
+    try:
+        moneyTable = getMoneyTable(ID)
+    except:
+        moneyTable = {'otherIncome': 0, 'currentMoney': 0, 'savings': 0, 'monthIncome': 0, 'savingPercent': 0}
 
-
-    return render_template("home.html",config=configBool)
+    return render_template("home.html",config=configBool, moneyTable = moneyTable)
 
 @app.route('/budget', methods = ['POST','GET'])
 def budget():
@@ -207,6 +213,7 @@ def fixcost():
 @app.route('/settings', methods = ['POST','GET'])
 def settings():
     ID = getUserID(session['user'])
+    configBool = getConfig(ID)
 
     vartable = addZero(getAllVarCost(ID),"var")
 
