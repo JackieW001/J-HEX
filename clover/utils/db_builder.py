@@ -160,7 +160,7 @@ def addVarCost(ID, expName, expType, expAmt, expDesc, date = None):
     db.commit()
     db.close()
 
-    changeMoney(ID, -1, 0, expAmt)
+    changeMoney(ID, -1, 0, expAmt, date)
 
 #userID INTEGER, expID INTEGER, fixedName TEXT, fixedAmt REAL, fixedDesc TEXT
 def addFixCost(ID, fixedName, fixedAmt, fixedtype, fixedDesc):
@@ -195,29 +195,6 @@ def addStock(ID, ticker, shares, purprice):
     db.commit()
     db.close()  
 
-def addUpdate(ID, currentMoney, savings):
-    db = sqlite3.connect(DIR)
-    c = db.cursor()
-
-    #userID INTEGER, updateID INTEGER, month INT, day INT, year INT, currentMoney REAL, savings REAL
-    today = datetime.datetime.now()
-    mon = today.month
-    day = today.day
-    yr = today.year
-
-    updateID = c.execute('SELECT max(updateID) FROM update_table WHERE userID = {}'.format(ID)).fetchone()[0]
-    if updateID == None:
-        updateID = 0
-    else:
-        updateID = int(updateID) + 1
-
-
-    command = 'INSERT INTO update_table VALUES (?,?,?,?,?,?,?);'
-    c.execute(command, [ID, updateID, mon, day, yr, currentMoney, savings])
-
-    db.commit()
-    db.close()  
-
 #sign
 #   -1 = subtract
 #   +1 = increase
@@ -226,7 +203,7 @@ def addUpdate(ID, currentMoney, savings):
 #    1 = savings
 
 
-def changeMoney(ID, sign, location, amt):
+def changeMoney(ID, sign, location, amt, date = None):
     db = sqlite3.connect(DIR)
     c = db.cursor()
 
@@ -248,7 +225,36 @@ def changeMoney(ID, sign, location, amt):
     db.commit()
     db.close() 
 
-    addUpdate(ID, currentMoney, savings)
+    addUpdate(ID, currentMoney, savings, date)
+
+def addUpdate(ID, currentMoney, savings, date=None):
+    db = sqlite3.connect(DIR)
+    c = db.cursor()
+
+    #userID INTEGER, updateID INTEGER, month INT, day INT, year INT, currentMoney REAL, savings REAL
+    if date == None:
+        today = datetime.datetime.now()
+        mon = today.month
+        day = today.day
+        yr = today.year
+    else:
+        yr = int(date.split('-')[0])
+        mon = int(date.split('-')[1])
+        day = int(date.split('-')[2])
+
+    updateID = c.execute('SELECT max(updateID) FROM update_table WHERE userID = {}'.format(ID)).fetchone()[0]
+    if updateID == None:
+        updateID = 0
+    else:
+        updateID = int(updateID) + 1
+
+
+    command = 'INSERT INTO update_table VALUES (?,?,?,?,?,?,?);'
+    c.execute(command, [ID, updateID, mon, day, yr, currentMoney, savings])
+
+    db.commit()
+    db.close()  
+
 
 
 def bigUpdater(ID):
@@ -612,6 +618,7 @@ def removeStock(ID, stockID):
 if __name__ == '__main__':    
 
 
+    print getAllVarCost(0)
     #getPercentageByAllocation(0)
     #print getAllVarCost(0, 'year')
     #print getAllUpdateTable(0)
