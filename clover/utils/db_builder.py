@@ -100,6 +100,7 @@ def setConfig(ID):
 def addMoneyTable (ID, currentMoney, monthIncome, otherIncome, savings, savingPercent):
     db = sqlite3.connect(DIR)
     c = db.cursor()
+    c.execute('DELETE FROM money WHERE userID = {};'.format(ID))
     command = 'INSERT INTO money VALUES (?,?,?,?,?,?);'
     c.execute(command,[ID,currentMoney,monthIncome,otherIncome,savings,savingPercent])
 
@@ -118,6 +119,7 @@ def addMoneyTable (ID, currentMoney, monthIncome, otherIncome, savings, savingPe
 def updateMoneyTable(ID, currentMoney, monthIncome, otherIncome, savings, savingPercent):
     db = sqlite3.connect(DIR)
     c = db.cursor()
+    c.execute('DELETE FROM allocate WHERE userID = {};'.format(ID))
     c.execute('UPDATE money SET currentMoney = {}, monthIncome = {}, otherIncome = {}, savings = {}, savingPercent = {} WHERE userID = {}'.format(currentMoney, monthIncome, otherIncome, savings, savingPercent, ID))
     db.commit()
     db.close()
@@ -368,6 +370,8 @@ def getAllocateTable(ID):
     ret['eatOut'] = c.execute('SELECT eatOut FROM allocate WHERE userID ={};'.format(ID)).fetchone()[0]
     ret['shop'] = c.execute('SELECT shop FROM allocate WHERE userID ={};'.format(ID)).fetchone()[0]
     ret['misc'] = c.execute('SELECT misc FROM allocate WHERE userID ={};'.format(ID)).fetchone()[0]
+    ret['grocery'] = c.execute('SELECT grocery FROM allocate WHERE userID ={};'.format(ID)).fetchone()[0]
+    ret['event'] = c.execute('SELECT event FROM allocate WHERE userID ={};'.format(ID)).fetchone()[0]
     db.close()
     return ret
 
@@ -518,6 +522,52 @@ def getRecentUpdateTable(ID):
     return getUpdateTable(ID, maxID)
 
 
+def getPercentageByAllocation(ID):
+    entertain = 0
+    eat = 0
+    shop = 0
+    misc = 0
+    groc = 0
+    event = 0
+
+    allocate = getAllocateTable(ID)
+    vartable = getAllVarCost(ID)
+
+
+    for each in vartable:
+        if each['expType'] == 'eatOut':
+            eat+= float(each['expAmt'])
+        elif each['expType'] == 'entertainment':
+            entertain+= float(each['expAmt'])
+        elif each['expType'] == 'shop':
+            shop+= float(each['expAmt'])
+        elif each['expType'] == 'misc':
+            misc+= float(each['expAmt'])
+        elif each['expType'] == 'grocery':
+            groc+= float(each['expAmt'])
+        elif each['expType'] == 'event':
+            event+= float(each['expAmt'])                   
+
+    entertain = float("%.2f" % (entertain / allocate['entertainment'] * 100))
+    eat = float("%.2f" % (eat / allocate['eatOut'] * 100))
+    shop = float("%.2f" % (shop / allocate['shop'] * 100))
+    misc = float("%.2f" % (misc / allocate['misc'] * 100))
+    groc = float("%.2f" % (groc / allocate['grocery'] * 100))
+    event = float("%.2f" % (event / allocate['event'] * 100))
+
+    percentDict = {}
+    percentDict['eatOut'] = eat
+    percentDict['entertain'] = entertain
+    percentDict['shop'] = shop
+    percentDict['misc'] = misc
+    percentDict['grocery'] = groc
+    percentDict['event'] = event
+
+    print percentDict
+
+
+
+   
 
 #==================================================================================================================================
 #REMOVING
@@ -560,6 +610,7 @@ def removeStock(ID, stockID):
 if __name__ == '__main__':    
 
 
+    #getPercentageByAllocation(0)
     #print getAllVarCost(0, 'year')
     #print getAllUpdateTable(0)
     #changeMoney(0, 1, 1, 10000)

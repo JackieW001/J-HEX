@@ -121,6 +121,9 @@ def home():
 
     try:
         moneyTable = getMoneyTable(ID)
+        moneyTable['currentMoney'] = '${:,.2f}'.format(float(moneyTable['currentMoney']))
+        moneyTable['savings'] = '${:,.2f}'.format(float(moneyTable['savings']))
+
     except:
         moneyTable = {'otherIncome': 0, 'currentMoney': 0, 'savings': 0, 'monthIncome': 0, 'savingPercent': 0}
 
@@ -169,7 +172,7 @@ def config():
     except:
         moneyTable = {'otherIncome': 0, 'currentMoney': 0, 'savings': 0, 'monthIncome': 0, 'savingPercent': 0}
 
-    return render_template("home.html",config=configBool, moneyTable = moneyTable)
+    return redirect(url_for('home'))
 
 @app.route('/budget', methods = ['POST','GET'])
 def budget():
@@ -216,12 +219,26 @@ def settings():
 
     fixtable = addZero(getAllFixCost(ID),"fix")
 
+    try:
+        moneyTable = getMoneyTable(ID)
+        allocateTable = getAllocateTable(ID)
+
+        for each in moneyTable:
+            moneyTable[each] = '{:,.2f}'.format(moneyTable[each])
+        for each in allocateTable:
+            allocateTable[each] = '{:,.2f}'.format(allocateTable[each])
+
+    except:
+        moneyTable = {'otherIncome': 0, 'currentMoney': 0, 'savings': 0, 'monthIncome': 0, 'savingPercent': 0}
+        allocateTable = {'eatOut': 0, 'entertain': 0, 'shop':0, 'misc':0, 'grocery':0, 'event':0}
+
+
     if vartable == None:
         vartable = []
     if fixtable == None:
         fixtable = []
 
-    return render_template("settings.html", vartable = vartable, fixtable = fixtable)
+    return render_template("settings.html", vartable = vartable, fixtable = fixtable, moneyTable = moneyTable, allocateTable = allocateTable)
 
 @app.route('/removevar', methods = ['POST','GET'])
 def removevar():

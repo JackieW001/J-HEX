@@ -92,3 +92,14 @@ June 4
 -e ericL -- 2018-06-04 14:05:31
 Added to the table with removal functions. Added stock functions. Fixed minor JS error.
 
+
+June 11
+==================================================
+-e ericL -- 2018-06-11 14:05:31
+	- Format var/fixed input type better
+	- Update for fixed cost 
+	- Percent calculations
+	- Current Money/Savings - float cut off
+	- Edit the current money and savings in settings
+
+

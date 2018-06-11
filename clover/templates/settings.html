@@ -69,6 +69,50 @@
           </div>
 
 
+ <!--- -->
+    <form action="/config" id = "configEntries" method="POST">
+      Current Bank Balance $  
+      <!-- Make it only int -->
+      <input required type="number" step="0.01" min="0" value={{moneyTable["currentMoney"]}}  name="currentMoney">
+      <br>
+      Savings $
+      <input required type="number" step="0.01" min="0" value={{moneyTable["savings"]}} name= "savings">
+      <br>
+      Monthly Income $
+      <input required type="number" step="0.01" min="0" value={{moneyTable["monthIncome"]}} name="monthIncome">
+      <br>
+      Other Income $
+      <input required type="number" step="0.01" min="0" value={{moneyTable["otherIncome"]}} name="otherIncome">
+      <br>
+      <!-- Add to the design doc -->
+      Percent of Income to Save
+      <input required type="number" step="0.01" min="0" value={{moneyTable["savingPercent"]}} name="savingPercent" > %
+      <br>
+      <br>
+      Discretionary Spending Budget
+      <br>
+      Monthly Budget for Dining Out
+      <input required type="number" step="0.01" min="0" value={{allocateTable["eatOut"]}} name="eatOut"> 
+      <br>
+      Monthly Budget for Entertainment
+      <input required type="number" step="0.01" min="0" value={{allocateTable["entertainment"]}} name="entertainment"> 
+      <br>
+      Monthly Budget for Events
+      <input required type="number" step="0.01" min="0" value={{allocateTable["event"]}} name="event"> 
+      <br> 
+      Monthly Budget for Groceries
+      <input required type="number" step="0.01" min="0" value={{allocateTable["grocery"]}} name="grocery"> 
+      <br>
+      Monthly Budget for Miscellaneous
+      <input required type="number" step="0.01" min="0" value={{allocateTable["misc"]}} name="misc"> 
+      <br>
+      Monthly Budget for Shopping
+      <input required type="number" step="0.01" min="0" value={{allocateTable["shop"]}} name="shop"> 
+      <br>
+   
+      <input type="submit" value="Done">
+    </form>
+
   <!-- TABLES FOR THE BUDGETS ---------------------------------------------------------------------------->
     <div id = "fixtable">
     Fixed Table
