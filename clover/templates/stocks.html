@@ -18,14 +18,13 @@
   
   <body>
 
-    <!--
+
     {% set messages = get_flashed_messages() %}
     {% for message in messages %}
     <div class="alert alert-danger" role="alert">
       {{ message }}
     </div>
     {% endfor %}
-    -->
     
 
 
@@ -66,14 +65,34 @@
       </div>
     </div>
     
+    <h1> Searching </h1>
     <form method="post" action="/stockdisplay">
-      Choose a stock: (MSFT)
+      Choose a stock: 
       <input type="text" name="stockName"><br>
       <input type="radio" name="period" value="DAILY" checked> Daily<br>
       <input type="radio" name="period" value="WEEKLY"> Weekly<br>
       <input type="radio" name="period" value="MONTHLY"> Monthly<br>
       <button class="btn btn-default" type="submit" value="Submit">Submit</button>
     </form>
+
+    <h1> Buying </h1>
+    <form method="post" action="/stockpurchase">
+      Choose a stock: 
+      <input type="text" name="stockName"><br>
+      Choose quantity:
+      <input type="text" name="numStocks"><br>
+      <button class="btn btn-default" type="submit" value="Buy">Buy</button>
+    </form>
+
+    <h1> Selling </h1>
+    <form method="post" action="/stocksell">
+      Choose a stock: 
+      <input type="text" name="stockName"><br>
+      Choose quantity:
+      <input type="text" name="numStocks"><br>
+      <button class="btn btn-default" type="submit" value="Sell">Sell</button>
+    </form>
+
 
 
     <!-- Optional JavaScript -->
