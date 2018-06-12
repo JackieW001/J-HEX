@@ -376,12 +376,13 @@
       </div>
     </div>
 
-  <script> var JACKIE = {{vartableJS| tojson}}; </script>
+   <script> var JACKIE = {{vartableJS| tojson}}; </script>
    <script src="http://d3js.org/d3.v3.min.js"></script>
    <script src="../static/config.js"></script>
    <script src="../static/home.js"></script>
    <script type="text/javascript">
-     
+     var csvdata = {{ data_var|tojson }}
+     var sKeys = {{ data_k|tojson }}    
    </script>
    <script src='../static/js/home.js'></script>
     
