@@ -10,7 +10,6 @@ var get_val = function(dict){
     return vals;
 }
 
-data = get_val(data);
 
 var calc_stroke_dasharray = function(val,total, r){
     var circ = 2*Math.PI*r;
@@ -48,10 +47,15 @@ var get_tot = function(data){
 }
 
 var setPie = function (svg_id, data, fill, r, cx, cy, stroke, stroke_width, offset){
-    var total = get_tot(data);
-
+    var vals = get_val(data);
+    console.log(vals);
+    
+    var total = get_tot(vals);
+    console.log(total);
+ 
+    
     var cont = d3.select(svg_id);
-    var circles = cont.selectAll("circle").data(data).enter();
+    var circles = cont.selectAll("circle").data(vals).enter();
     circles.append("circle")
 	.attr("r", r)
 	.attr("cx", cx)
@@ -60,7 +64,16 @@ var setPie = function (svg_id, data, fill, r, cx, cy, stroke, stroke_width, offs
 	.attr("stroke", function(d){return get_rand_color();})
 	.attr("stroke-width", stroke_width)
 	.attr("stroke-dasharray", function(d){return calc_stroke_dasharray(d,total,r);})
-	.attr("stroke-dashoffset", function(d,i){return calc_dashoffset(data, i, total,r);})
+	.attr("stroke-dashoffset", function(d,i){return calc_dashoffset(vals, i, total,r);})
+
+    var keys = Object.keys(data);
+    var text = cont.selectAll("text").data(keys).enter();
+    text.append("text")
+	.attr("y", cy)
+	.attr("x", cx-20)
+	.attr("stroke", "black")
+	.attr("font-size", 20)
+	.text(function(d,i){ return d;})
 
 }
 
