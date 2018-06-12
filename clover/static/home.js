@@ -46,12 +46,9 @@ var get_tot = function(data){
     return total;
 }
 
-var setPie = function (svg_id, data, fill, r, cx, cy, stroke, stroke_width, offset){
-    var vals = get_val(data);
-    console.log(vals);
-    
+var setPie = function (svg_id, data, r, cx, cy, stroke_width, offset){
+    var vals = get_val(data);    
     var total = get_tot(vals);
-    console.log(total);
  
     
     var cont = d3.select(svg_id);
@@ -77,6 +74,6 @@ var setPie = function (svg_id, data, fill, r, cx, cy, stroke, stroke_width, offs
 
 }
 
-setPie(expend_svg, data, "lightgrey", 100, 130, 130, "#655", 30, 100*2*Math.PI/4);
+setPie(expend_svg, data, 100, 130, 130, 30, 100*2*Math.PI/4);
 
 
