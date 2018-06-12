@@ -108,6 +108,7 @@ def addMoneyTable (ID, currentMoney, monthIncome, otherIncome, savings, savingPe
     c.execute(command,[ID,currentMoney,monthIncome,otherIncome,savings,savingPercent])
 
 
+
     #userID INTEGER, updateID INTEGER, month INT, day INT, year INT, currentMoney REAL, savings REAL
     today = datetime.datetime.now()
     mon = today.month
@@ -118,6 +119,8 @@ def addMoneyTable (ID, currentMoney, monthIncome, otherIncome, savings, savingPe
 
     db.commit()
     db.close()  
+
+    addUpdate(ID, currentMoney, savings)
 
 def updateMoneyTable(ID, currentMoney, monthIncome, otherIncome, savings, savingPercent):
     db = sqlite3.connect(DIR)
@@ -134,6 +137,7 @@ def addAllocateTable (ID, entertainment, eatOut, shop, misc, grocery, event):
     c.execute(command,[ID,entertainment, eatOut, shop, misc, grocery,event])
     db.commit()
     db.close()   
+    
 
 def updateAllocateTable(ID, entertainment, eatOut, shop, misc, grocery,event):  
     db = sqlite3.connect(DIR)
@@ -605,10 +609,6 @@ def getPercentageByAllocation(ID, timerange = "all"):
 
     #print percentDict
 
-
-
-   
-
 #==================================================================================================================================
 #REMOVING
 
@@ -640,9 +640,6 @@ def removeStock(ID, stockID):
     db.commit()
     db.close()
     print "Removed ID {} from entry {} successfully".format(ID, stockID)
-
-
-
 
 
 #==================================================================================================================================
