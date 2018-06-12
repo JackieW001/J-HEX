@@ -162,11 +162,11 @@ var yAxis = d3.svg.axis()
 var xAxis = d3.svg.axis()
     .orient("bottom")
     .scale(xScale);
-/*
+
 var valueline = d3.svg.line()
     .x(function(d) { return xScale(getDate(d)); })
     .y(function(d) { return yScale(csvdata[d]); });
-*/
+
 // draw y axis with labels and move in from the size by the amount of padding
 svg.append("g")
     .attr("transform", "translate("+padding+",0)")
