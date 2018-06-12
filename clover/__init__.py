@@ -356,7 +356,9 @@ def stocks():
     except:
         return redirect( url_for('root'))
 
-    return render_template("stocks.html")
+    stockData = getAllStocks(ID)
+    print stockData
+    return render_template("stocks.html", stocksD = stockData)
 
 @app.route('/stockdisplay', methods = ['POST','GET'])
 def stockdisplay():
@@ -408,7 +410,7 @@ def stocksell():
 
     removeStock(ID, stockName, int(numStocks), int(float(price)))
     
-    #flash(getAllStocks(ID))
+    flash(getAllStocks(ID))
     return redirect( url_for('stocks'))
 
 #=================================================================

@@ -94,6 +94,36 @@
     </form>
 
 
+    <h2>Stocks Table</h2>
+    <div class="table-responsive">
+      <table class="table table-striped table-sm table-hover">
+        <tr>
+          <th> Stock </th>
+          <th> Current Shares </th>
+          <th> Total Shares </th>
+          <th> Total Shares Sold </th>
+          <th> Total Loss </th>
+          <th> Total Profit </th>
+        </tr>
+        {% if stocksD != None %}
+        {% for each in stocksD%}
+        <tr>
+          <td> {{each['ticker']}} </td>
+          <td> {{each['currentShares']}} </td>
+          <td> {{each['totalShares']}} </td>
+          <td> {{each['totalSharesSold']}} </td>
+          <td> {{each['totalLoss']}} </td>
+          <td> {{each['totalGain']}} </td>
+        </tr>
+        {% endfor %}
+        {% endif %}
+      </table>
+    </div>
+
+
+
+
+
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

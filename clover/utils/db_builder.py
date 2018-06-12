@@ -512,13 +512,13 @@ def getAllStocks(ID):
 
     for each in allData:
         tempd = {}
-        ret['ID'] = each[0]
-        ret['ticker'] = each[1]
-        ret['currentShares'] = each[2]
-        ret['totalShares'] = each[3]
-        ret['totalSharesSold '] = each[4]
-        ret[' totalLoss'] = each[5]
-        ret['totalGain'] = each[6]
+        tempd['ID'] = each[0]
+        tempd['ticker'] = each[1]
+        tempd['currentShares'] = each[2]
+        tempd['totalShares'] = each[3]
+        tempd['totalSharesSold'] = each[4]
+        tempd['totalLoss'] = each[5]
+        tempd['totalGain'] = each[6]
 
         ret.append(tempd)
  
@@ -663,14 +663,14 @@ def removeStock(ID, ticker, amount, price):
     check = check2.fetchone()[0]
 
     if check == 1:
-        currentAmount = c.execute('SELECT currentShares FROM stocks WHERE userID = {}'.format(ID)).fetchone()[0]
+        currentAmount = c.execute('SELECT currentShares FROM stocks WHERE userID = {} and ticker = "{}"'.format(ID, ticker)).fetchone()[0]
         currentShares = currentAmount - amount
-        totalSharesSold = c.execute('SELECT totalSharesSold FROM stocks WHERE userID = {}'.format(ID)).fetchone()[0]
+        totalSharesSold = c.execute('SELECT totalSharesSold FROM stocks WHERE userID = {} and ticker = "{}"'.format(ID, ticker)).fetchone()[0]
         totalSharesSold += amount
-        totalGain = c.execute('SELECT totalGain FROM stocks WHERE userID = {}'.format(ID)).fetchone()[0]
+        totalGain = c.execute('SELECT totalGain FROM stocks WHERE userID = {} and ticker = "{}"'.format(ID, ticker)).fetchone()[0]
         totalGain += (price*amount)
 
-        c.execute('UPDATE stocks SET currentShares = {}, totalSharesSold  = {}, totalGain = {} WHERE userID = {}'.format(currentShares,totalSharesSold,totalGain, ID))
+        c.execute('UPDATE stocks SET currentShares = {}, totalSharesSold  = {}, totalGain = {} WHERE userID = {} and ticker = "{}"'.format(currentShares,totalSharesSold,totalGain, ID, ticker))
 
     else:
         print "You don't have this stock."
