@@ -206,17 +206,17 @@ def home():
     while i < length:
         gData[dates[i]] = currMon[i]
         i += 1 
-    '''
+
     print "gData"
     print gData   
-    ''' 
+
 
     g_keys = sorted(gData)
 
-    '''
+
     print "g_keys"
     print g_keys
-    '''
+
 
     return render_template("home.html",config=configBool, vartable = vartable, fixtable = fixtable, moneyTable = moneyTable, data_var = gData, data_k = g_keys, vartableJS = vartableJS)
 
