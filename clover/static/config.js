@@ -1,6 +1,7 @@
 configBox = document.getElementById("configBox");
 configForm = document.getElementById("configForm");
-configStatusHTML = document.getElementById("configStatus").innerHTML;
+configStatus = document.getElementById("configStatus");
+configStatusHTML = configStatus.innerHTML;
 configButton = document.getElementById("goConfig");
 configEntries = document.getElementById("configEntries");
 
