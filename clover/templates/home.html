@@ -87,10 +87,32 @@
 
  
 
+	  <!-- SVG CHARTS GO HERE -------------------------------------------------------------------------->
+
+	  <h4> Current Money </h4>
+	  <br>
+	  <div id="graph" transform="translate(200,-60)">
+	  </div>
+
+	  <br><br>
+
+	  <h4> Expenditure Chart Breakdown </h4>
+	  <svg class="chart" xmlns="https://www.w3.org/2000/svg" width="900" height="380" id="expend"></svg>
+
+    <!-- END SVG CHARTS ---------------------------------------------------------------------------->
+
+    <!-- SVG CHART LABLES -------------------------------------------------------------------------->
+
+    <h4 class="chart_label" id="expend_label"></h3>
+
+   <!-- END SVG CHART LABLES -------------------------------------------------------------------------->
+    
     <!-- MONEY AMOUNT -------------------------------------------------------------------------->
 
-    Current Money: {{moneyTable['currentMoney']}} <br><br>
-    Savings: {{moneyTable['savings']}} <br><br>
+    <h4>Current Money: </h4> {{moneyTable['currentMoney']}}
+    <br><br>
+    <h4>Savings: </h4> {{moneyTable['savings']}}
+    <br><br>
 
 	  
 	  <!-- PROFILE CONFIGURATION -------------------------------------------------------------------------->
@@ -257,18 +279,6 @@
     </div>
 -->
 	
-    <!-- SVG CHARTS GO HERE -------------------------------------------------------------------------->
-    <div id="graph" transform="translate(200,-60)">
-    </div>
-    <svg class="chart" xmlns="https://www.w3.org/2000/svg" width="900" height="380" id="expend"></svg>
-
-    <!-- END SVG CHARTS ---------------------------------------------------------------------------->
-
-    <!-- SVG CHART LABLES -------------------------------------------------------------------------->
-
-    <h4 class="chart_label" id="expend_label"></h3>
-
-   <!-- END SVG CHART LABLES -------------------------------------------------------------------------->
     
    <script> var JACKIE = {{vartableJS| tojson}}; </script>
    <script src="http://d3js.org/d3.v3.min.js"></script>

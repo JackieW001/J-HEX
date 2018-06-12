@@ -1,21 +1,63 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Display Stocks</title>
+    <!-- Required meta tags -->
     <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+
+    <title>Clover</title>
+
+    <!-- Custom styles for this template -->
     <style>
+      body {
+      padding-top: 50px;
+      padding-left: 80px;
+      padding-right: 80px;
+      background-color: white !important;
+      }
       #graph_title {
-        align-self: center;
-          color: purple;
-          font-size: 30pt;
-          font-weight: 200;
-          font-family: Garamond;
-          font-variant: small-caps;
+      align-self: center;
+      color: purple;
+      font-size: 30pt;
+      font-weight: 200;
+      font-family: Garamond;
+      font-variant: small-caps;
       }
     </style>
   </head>
 
   <body style="background-color: white">
+
+    <!-- TOP NAVBAR SAME FOR ALL PAGES-->
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <a class="navbar-brand" href="#">Clover</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/home">Dashboard <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/budget">Budget <span class="sr-only">(current)</span></a>
+          </li>
+	  <li class="nav-item">
+            <a class="nav-link" href="/stocks">Stocks <span class="sr-only">(current)</span></a>
+          </li>
+	  <li class="nav-item">
+            <a class="nav-link" href="/settings">Settings <span class="sr-only">(current)</span></a>
+          </li>
+        </ul>
+        <form class="form-inline mt-2 mt-md-0" action="/logout">
+          <input class="btn btn-outline-success my-2 my-sm-0" type="submit" value="Logout">
+        </form>
+      </div>
+    </nav>
 
     {% set messages = get_flashed_messages() %}
     {% for message in messages %}
@@ -23,33 +65,40 @@
       {{ message }}
     </div>
     {% endfor %}
+
     
     
     <br>
 
-  <div id="graph" transform="translate(200,-60)">
-  </div>
-  
-  <p id="displayInfoTitle" style="text-align: center; font-size=24px;">
-  </p>
+    <div id="graph" transform="translate(200,-60)">
+    </div>
     
-  <p id="displayInfo" style="text-align: center">
-  </p>
- 
+    <p id="displayInfoTitle" style="text-align: center; font-size=24px;">
+    </p>
+    
+    <p id="displayInfo" style="text-align: center">
+    </p>
+    
+    
+    <br>
+    <div class="center">
+      <script src="http://d3js.org/d3.v3.min.js"></script>
       
-  <br>
-  <div class="center">
-    <script src="http://d3js.org/d3.v3.min.js"></script>
-    
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
-    
-    <script type="text/javascript">      
-             var csvdata = {{ data_var|tojson }}
-    </script>
-    <script src='../static/js/scatter.js'></script>
-    
-  </div>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+      
+      <script type="text/javascript">      
+        var csvdata = {{ data_var|tojson }}
+      </script>
+      <script src='../static/js/scatter.js'></script>
+      
+    </div>
 
-  <br><br><br><br>
+    <br><br><br><br>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
   </body>
 </html>
