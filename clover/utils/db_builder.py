@@ -198,6 +198,7 @@ def addStock(ID, ticker, shares, purprice):
     db.commit()
     db.close()  
 
+    changeMoney(ID, -1, 0, purprice*shares)
 #sign
 #   -1 = subtract
 #   +1 = increase
