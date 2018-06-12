@@ -1,4 +1,3 @@
-
 import sqlite3   #enable control of an sqlite database
 import csv       #facilitates CSV I/O
 import hashlib
@@ -632,14 +631,14 @@ def removeFixedCost(ID, fixedID):
     db.close()
     print "Removed ID {} from entry {} successfully".format(ID, fixedID)
 
-def removeStock(ID, stockID):
+def removeStock(ID, ticker):
     db = sqlite3.connect(DIR) #open if f exists, otherwise create
     c = db.cursor() 
-    command = 'DELETE FROM stocks WHERE userID ={} AND stockID = {};'    
-    c.execute(command.format(ID, stockID))
+    command = 'DELETE FROM stocks WHERE userID ={} AND ticker = {};'    
+    c.execute(command.format(ID, ticker))
     db.commit()
     db.close()
-    print "Removed ID {} from entry {} successfully".format(ID, stockID)
+    print "Removed ID {} from entry {} successfully".format(ID, ticker)
 
 
 
