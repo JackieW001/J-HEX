@@ -154,19 +154,46 @@ def home():
         currMon.append(dict['currentMoney']) 
         saving.append(dict['savings']) 
 
+    print "years"
     print years
     print months
     print days
     print currMon
     print saving
 
-    return render_template("home.html",config=configBool, vartable = vartable, fixtable = fixtable, moneyTable = moneyTable)
+    length = len(years)
+    i = 0
+
+    while i < length:
+        date = str(years[i]) + "-" + add_zero(str(months[i])) + "-" + add_zero(str(days[i]))
+        dates.append(date)
+        i += 1
+
+    print "dates"
+    print dates
+    gData = {}
+    i = 0
+
+    while i < length:
+        gData[dates[i]] = currMon[i]
+        i += 1 
+
+    print "gData"
+    print gData    
+
+    g_keys = sorted(gData)
+    print "g_keys"
+    print g_keys
+
+    return render_template("home.html",config=configBool, vartable = vartable, fixtable = fixtable, moneyTable = moneyTable, data_var = gData, data_k = g_keys)
 
     #=====GRAPHIN STUFF====
 '''
 '''
     #======================        
-
+def sortByKey(dict):
+    sortedByKeyDict = sorted(dict.items(), key = lambda t: t[0])
+    return sortedByKeyDict
 
 
 

@@ -1,9 +1,16 @@
 // --------------------------- HANDLE DATA ---------------------------
+//console.log( "csvdata" );
 //console.log( csvdata );
-//console.log( Object.keys(csvdata) );
+//console.log( "S_keys" );
+//console.log( sKeys );
 
 var keys = Object.keys(csvdata);
 var len = keys.length;
+
+//console.log("keys");
+//console.log(keys);
+//console.log("len");
+//console.log(len);
 
 //console.log(len);
 /*
@@ -30,7 +37,7 @@ for (var i = 0; i < len; i++){
 // --------------------------- SET INITIAL VARIABLES ---------------------------
 var w = 950;
 var h = 605;
-var padding = 50;
+var padding = 75;
 
 var svg = d3.select("#graph")
 	.append("svg")
@@ -45,7 +52,7 @@ d3.select('svg')
     .append('text')
     .attr('transform', 'translate(12, 300)rotate(-90)')
     .attr({'id': 'yL', 'text-anchor': 'middle'})
-    .text('Stock Price');
+    .text('Current Money');
 
 d3.select('svg')
     .append('text')
@@ -64,7 +71,7 @@ var getMinVal = function( dataset ) {
 
     for (var i = 0; i < len; i++){
 	var key = keys[i];
-	value = csvdata[key]["4. close"];
+	value = csvdata[key];
 	//console.log(value);
 	value = parseFloat(value);
 	if (value < min) {
@@ -80,7 +87,7 @@ var getMaxVal = function( dataset ) {
 
     for (var i = 0; i < len; i++){
 	var key = keys[i];
-	value = csvdata[key]["4. close"];
+	value = csvdata[key];
 	value = parseFloat(value);
 	if (value > max) {	    
 	    max = value;
@@ -89,8 +96,8 @@ var getMaxVal = function( dataset ) {
     return max;
 }
 
-console.log(getMinVal(csvdata));
-console.log(getMaxVal(csvdata));
+//console.log(getMinVal(csvdata));
+//console.log(getMaxVal(csvdata));
 
 // helper method to get the minimum value for a particular dataset
 var getMinDate = function( dataset ) {
@@ -122,6 +129,7 @@ xScale = d3.time.scale()
 */
 xScale = d3.time.scale().range([padding, w - padding]);
 xScale.domain([min, max]);
+
 // the scale function for the y-axis
 var yScale;
 // set the yScale
@@ -129,19 +137,21 @@ var yScale;
 //var lifeExMax = getMaxVal( "Average Life Expectancy" );
 var lifeExMin = getMinVal(csvdata);
 var lifeExMax = getMaxVal(csvdata);
-console.log(lifeExMin);
-console.log(lifeExMax);
+//console.log(lifeExMin);
+//console.log(lifeExMax);
 yScale = d3.scale.linear()
-    .domain( [ lifeExMin - lifeExMin/10, lifeExMax + lifeExMax/10 ] )
-    .range( [h - padding, padding] );
+    .domain( [ lifeExMin + lifeExMin/5, lifeExMax + lifeExMax/5] )
+    .range( [h - padding, 0] );
 
 
 // sets the scale function for the x-axis given a particular dataset
 var setXScale = function() {
     var min = getMinDate( currentSet );
     var max = getMaxDate( currentSet );
-    xScale.range( [ min - min/10, max + max/10 ] ) // the values we can enter, offset to prevent awkward ends
-}
+    xScale.range( [ min - min/100, max + max/100 ] ) // the values we can enter, offset to prevent awkward ends
+};
+
+//setXScale();
 
 // define the y axis
 var yAxis = d3.svg.axis()
@@ -152,11 +162,11 @@ var yAxis = d3.svg.axis()
 var xAxis = d3.svg.axis()
     .orient("bottom")
     .scale(xScale);
-
+/*
 var valueline = d3.svg.line()
     .x(function(d) { return xScale(getDate(d)); })
-    .y(function(d) { return yScale(csvdata[d]["4. close"]); });
-
+    .y(function(d) { return yScale(csvdata[d]); });
+*/
 // draw y axis with labels and move in from the size by the amount of padding
 svg.append("g")
     .attr("transform", "translate("+padding+",0)")
@@ -185,12 +195,12 @@ svg.selectAll(".dot")
     .attr("class", "dot")
     .attr("r", 5)
     .attr("cx", function(d) {
-	console.log(d);
-	return xScale(getDate(d));
-    })
+	    //console.log(d);
+	    return xScale(getDate(d));
+	})
     .attr("cy", function(d) {
-	return yScale(csvdata[d]["4. close"]);
-    })
+	    return yScale(csvdata[d]);
+	})
     .style("fill", function(d) { return "red";});
 
 
