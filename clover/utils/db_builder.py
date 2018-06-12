@@ -50,7 +50,7 @@ def dummyUser():
     addVarCost(0, "Halloween costume", 'entertainment', 40, "Boo!!!",'2017-10-20')
     addVarCost(0, "Infinity Wars", 'entertainment', 40, "Thanos.",'2017-12-25')
     addVarCost(0, "Dinner at Dorsia", 'eatOut', 500, "Nice dinner.", '2018-01-30')
-    addVarCost(0, "Wedding", 'event', 1500, "Went to Frank's wedding.", '2018-02-40')
+    addVarCost(0, "Wedding", 'event', 1500, "Went to Frank's wedding.", '2018-02-04')
     addVarCost(0, "60 pounds of mac and cheese", 'grocery', 500, "Dinner for the rest of the year.",'2018-03-05')
     addFixCost(0, "Electricity", 150 , "utility", "Basic utility.")
     addFixCost(0, "Heating", 70 , "utility", "Basic utility.")
