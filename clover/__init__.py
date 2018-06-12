@@ -376,7 +376,7 @@ def stockpurchase():
 
     addStock(ID, stockName, int(numStocks), int(float(price)))
 
-    flash(getAllStocks(ID))
+    #flash(getAllStocks(ID))
     return redirect( url_for('stocks'))
 
 @app.route('/stocksell', methods = ['POST','GET'])
@@ -394,9 +394,9 @@ def stocksell():
 
     price = data[keys[0]]["4. close"]
 
-    addStock(ID, stockName, int(numStocks), int(float(price)))
-
-    flash(getAllStocks(ID))
+    removeStock(ID, stockName, int(numStocks), int(float(price)))
+    
+    #flash(getAllStocks(ID))
     return redirect( url_for('stocks'))
 
 #=================================================================

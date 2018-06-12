@@ -57,6 +57,7 @@ def dummyUser():
     addFixCost(0, "Health Insurance", 100 , "insurance", "In case I die.")
     addFixCost(0, "Netflix", 10 , "membership", "TV and movies.")
     addFixCost(0, "Subway", 120 , "Transportation", "Monthly subway rides.")
+    #addStock(0, "APPL", 10, 100)
 
 
 
@@ -191,25 +192,26 @@ def addStock(ID, ticker, amount, price):
     db = sqlite3.connect(DIR)
     c = db.cursor() 
 
-    check = c.execute('SELECT EXISTS(SELECT 1 WHERE userID = {} and ticker = {});'.format(ID, ticker))
+    check2 = c.execute('SELECT EXISTS(SELECT 1 from stocks WHERE userID = {} and ticker = "{}");'.format(ID, ticker))
+    check = check2.fetchone()[0]
 
     if check == 1:
-        currentAmount = c.execute('SELECT currentShares FROM stocks WHERE userID = {}'.format(ID)).fetchone()[0]
+        currentAmount = c.execute('SELECT currentShares FROM stocks WHERE userID = {} and ticker = "{}"'.format(ID, ticker)).fetchone()[0]
         currentShares = currentAmount + amount
-        totalShares = c.execute('SELECT totalShares FROM stocks WHERE userID = {}'.format(ID)).fetchone()[0]
+        totalShares = c.execute('SELECT totalShares FROM stocks WHERE userID = {} and ticker = "{}"'.format(ID, ticker)).fetchone()[0]
         totalShares += amount
-        totalLoss = c.execute('SELECT totalLoss FROM stocks WHERE userID = {}'.format(ID)).fetchone()[0]
+        totalLoss = c.execute('SELECT totalLoss FROM stocks WHERE userID = {} and ticker = "{}"'.format(ID, ticker)).fetchone()[0]
         totalLoss -= (price*amount)
-
-        c.execute('UPDATE stocks SET currentShares = {}, totalShares = {}, totalLoss = {} WHERE userID = {}'.format(currentShares,totalShares,totalLoss, ID))
-
+        
+        c.execute('UPDATE stocks SET currentShares = {}, totalShares = {}, totalLoss = {} WHERE userID = {} and ticker = "{}"'.format(currentShares,totalShares,totalLoss, ID, ticker))
     else:
-        loss = price*amount
+        loss = -price*amount
         c.execute('INSERT INTO stocks VALUES (?,?,?,?,?,?,?);',[ID, ticker, amount, amount, 0, loss, 0])
+
     db.commit()
     db.close()  
 
-    changeMoney(ID, -1, 0, purprice*shares)
+    changeMoney(ID, -1, 0, price*amount)
 
 #sign
 #   -1 = subtract
@@ -657,7 +659,8 @@ def removeStock(ID, ticker, amount, price):
     db = sqlite3.connect(DIR)
     c = db.cursor() 
 
-    check = c.execute('SELECT EXISTS(SELECT 1 WHERE userID = {} and ticker = {});'.format(ID, ticker))
+    check2 = c.execute('SELECT EXISTS(SELECT 1 from stocks WHERE userID = {} and ticker = "{}");'.format(ID, ticker))
+    check = check2.fetchone()[0]
 
     if check == 1:
         currentAmount = c.execute('SELECT currentShares FROM stocks WHERE userID = {}'.format(ID)).fetchone()[0]
