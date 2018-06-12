@@ -3,11 +3,31 @@
  */
 
 /* Move down content because we have a fixed navbar that is 50px tall */
-body {
+#body {
     padding-top: 50px;
     padding-left: 80px;
     padding-right: 80px;
+    background-color: white !important;
 }
+
+#graph_title {
+      align-self: center;
+      color: purple;
+      font-size: 30pt;
+      font-weight: 200;
+      font-family: Garamond;
+      font-variant: small-caps;
+      }
+.tick {
+      font-size: 10pt;
+      }
+
+.table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
+        background-color: #99F7D4;
+      }
+.table-striped > tbody > tr:nth-child(2n) > td, .table-striped > tbody > tr:nth-child(2n) > th {
+        background-color: #FAF9F9;
+      }
 
 .alert {
     width: 40%;
