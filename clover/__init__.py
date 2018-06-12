@@ -6,6 +6,7 @@ from utils.db_builder import addVarCost, getVarCost, addFixCost,getAllFixCost,ge
 from utils.db_builder import getAllUpdateTable
 from utils.api import get_apikey, get_info, get_date, get_today, get_last_days, add_zero
 from utils.table_builder import addZero
+import pprint as pp
 
 #from markupsafe import Markup
 
@@ -120,13 +121,21 @@ def home():
     fixtable = addZero(getAllFixCost(ID),"fix")
 
     vartableJS = []
-    for each in vartableraw:
-        tempd = {}
-        tempd['expType'] = each['expType']
-        tempd['expAmt'] = each['expAmt']
-        print "-----------"
-        print each
-        vartableJS.append(tempd)
+    try:
+        for each in vartableraw:
+            tempd = {}
+            filterstuff = filter(lambda person: person['expType'] == each['expType'], vartableJS)
+            if not filterstuff:
+                tempd['expType'] = each['expType']
+                tempd['expAmt'] = int(each['expAmt'])
+            else:
+                vartableJS.remove(filterstuff[0])
+                tempd['expType'] = each['expType']
+                tempd['expAmt'] = int(each['expAmt']) + filterstuff[0]['expAmt']
+            vartableJS.append(tempd)
+        vartableJS = sorted(vartableJS, key=lambda d: int(d["expAmt"]))
+    except:
+        pass
 
     try:
         moneyTable = getMoneyTable(ID)
@@ -172,12 +181,15 @@ def home():
     currMon = []
     saving = []
 
-    for dict in graphData:
-        years.append(dict['year']) 
-        months.append(dict['month']) 
-        days.append(dict['day']) 
-        currMon.append(dict['currentMoney']) 
-        saving.append(dict['savings']) 
+    try:
+        for dict in graphData:
+            years.append(dict['year']) 
+            months.append(dict['month']) 
+            days.append(dict['day']) 
+            currMon.append(dict['currentMoney']) 
+            saving.append(dict['savings'])
+    except:
+        pass
 
     '''
     print "years"

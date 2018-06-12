@@ -62,10 +62,7 @@
           <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
             <h1 class="h2">Dashboard</h1>
             <div class="btn-toolbar mb-2 mb-md-0">
-              <div class="btn-group mr-2">
-                <button class="btn btn-sm btn-outline-secondary">Share</button>
-                <button class="btn btn-sm btn-outline-secondary">Export</button>
-              </div>
+              
               <!--
               <button class="btn btn-sm btn-outline-secondary dropdown-toggle">
                 <span data-feather="calendar"></span>
@@ -267,11 +264,16 @@
     <!-- SVG CHARTS GO HERE -------------------------------------------------------------------------->
     <div id="graph" transform="translate(200,-60)">
     </div>
-    <svg xmlns="https://www.w3.org/2000/svg" width="900" height="380" id="expend"></svg>
+    <svg class="chart" xmlns="https://www.w3.org/2000/svg" width="900" height="380" id="expend"></svg>
 
-    <!-- END SVG CHARTS ----------------------------------------------------------------------------> 
+    <!-- END SVG CHARTS ---------------------------------------------------------------------------->
 
+    <!-- SVG CHART LABLES -------------------------------------------------------------------------->
 
+    <h4 class="chart_label" id="expend_label"></h3>
+
+   <!-- END SVG CHART LABLES -------------------------------------------------------------------------->
+    
    <script> var JACKIE = {{vartableJS| tojson}}; </script>
    <script src="http://d3js.org/d3.v3.min.js"></script>
    <script src="../static/config.js"></script>
@@ -280,7 +282,7 @@
      var csvdata = {{ data_var|tojson }}
      var sKeys = {{ data_k|tojson }}    
    </script>
-   <script src='../static/js/home.js'></script>
+   <script src="../static/js/home.js"></script>
     
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

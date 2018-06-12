@@ -1,10 +1,19 @@
-console.log(JACKIE)
+//console.log(JACKIE)
+var test = {};
+for (var i = 0; i < JACKIE.length; i++){
+    test[JACKIE[i]["expType"]] = parseInt(JACKIE[i]["expAmt"]);
+    console.log("add");
+    console.log(test[JACKIE[i]["expType"]]);
+}
+console.log(test);
 
 
-
-var data = {"cat1": 50, "cat2": 30, "cat3": 20, "cat4": 70};
+//var data = {"cat4": 70, "cat1": 50, "cat2": 30, "cat3": 20 };
+//var data = {"cat3": 20, "cat2": 30, "cat1": 50, "cat4": 70};
+var data = test;
 
 var expend_svg = document.getElementById("expend");
+var expend_label = document.getElementById("expend_label");
 
 var get_val = function(dict){
     var vals = [];
@@ -50,6 +59,25 @@ var get_tot = function(data){
     return total;
 }
 
+var posPieLabel = function(label_id){
+    label_id.setAttribute("transform", "translateY(-100px)");
+
+}
+
+
+var mouseOverEffect = function(e){
+    console.log(this.innerHTML);
+    expend_label.innerHTML = this.getAttribute("textstuff");
+
+};
+
+/*
+var mouseOutEffect = function(){
+    //text.removeAttribute("text");
+};*/
+
+
+
 var setPie = function (svg_id, data, r, cx, cy, stroke_width, offset){
     var vals = get_val(data);    
     var total = get_tot(vals);
@@ -67,17 +95,27 @@ var setPie = function (svg_id, data, r, cx, cy, stroke_width, offset){
 	.attr("stroke-dasharray", function(d){return calc_stroke_dasharray(d,total,r);})
 	.attr("stroke-dashoffset", function(d,i){return calc_dashoffset(vals, i, total,r);})
 
+    
     var keys = Object.keys(data);
-    var text = cont.selectAll("text").data(keys).enter();
-    text.append("text")
-	.attr("y", cy)
-	.attr("x", cx-20)
-	.attr("stroke", "black")
-	.attr("font-size", 20)
-	.text(function(d,i){ return d;})
+    var label2 = document.getElementsByTagName("circle");
+    for (var i = 0; i < label2.length; i++){
+	label2[i].setAttribute("textstuff", keys[i] + ": <br>" + data[keys[i]]);
+    }
+    
 
 }
 
 setPie(expend_svg, data, 100, 130, 130, 30, 100*2*Math.PI/4);
+expend_label.setAttribute("style", "transform: translate(60px,-280px)");
+
+
+var circles = document.getElementsByTagName("circle");
+
+for (var i = 0; i < circles.length; i++){
+    circles[i].addEventListener('mouseover', mouseOverEffect);
+    //circles[i].addEventListener('mouseout', mouseOutEffect);
+};
+
+
 
 
