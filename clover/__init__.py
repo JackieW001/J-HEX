@@ -3,7 +3,7 @@ from utils.accounts import authenticate, register
 from utils.db_builder import tableCreation, checkUsername, getPass, getUserID, getUserName, getConfig, setConfig, addUser
 from utils.db_builder import addMoneyTable, getMoneyTable, updateMoneyTable, addAllocateTable, getAllocateTable, updateAllocateTable
 from utils.db_builder import addVarCost, getVarCost, addFixCost,getAllFixCost,getAllVarCost, removeVarCost, removeFixedCost, bigUpdater
-from utils.db_builder import getAllUpdateTable
+from utils.db_builder import getAllUpdateTable, addStock, removeStock, getAllStocks
 from utils.api import get_apikey, get_info, get_date, get_today, get_last_days, add_zero
 from utils.table_builder import addZero
 import pprint as pp
@@ -232,15 +232,6 @@ def home():
 
     return render_template("home.html",config=configBool, vartable = vartable, fixtable = fixtable, moneyTable = moneyTable, data_var = gData, data_k = g_keys, vartableJS = vartableJS)
 
-    #=====GRAPHIN STUFF====
-'''
-'''
-    #======================        
-def sortByKey(dict):
-    sortedByKeyDict = sorted(dict.items(), key = lambda t: t[0])
-    return sortedByKeyDict
-
-
 
 # NOT REAL PAGES ============================================================================
 @app.route('/config', methods = ['POST','GET'])
@@ -376,14 +367,49 @@ def stockdisplay():
 
     stockName = request.form['stockName']
     period = request.form['period']
-    #print stockName
-    #print period
     period = "TIME_SERIES_" + period
-    #print period
     data = get_last_days(stockName, period, 12)
-    #monthlyData = get_last_days("MSFT", "TIME_SERIES_WEEKLY", 12)
-    #yearlyData = get_last_days("MSFT", "TIME_SERIES_MONTHLY", 12)
     return render_template('stockDisplay.html', data_var = data)
+
+@app.route('/stockpurchase', methods = ['POST','GET'])
+def stockpurchase():
+    try:
+        ID = getUserID(session['user'])
+    except:
+        return redirect( url_for('root'))
+
+    stockName = request.form['stockName']
+    numStocks = request.form['numStocks']
+
+    data = get_last_days(stockName, "TIME_SERIES_DAILY", 1)
+    keys = data.keys()
+
+    price = data[keys[0]]["4. close"]
+
+    addStock(ID, stockName, int(numStocks), int(float(price)))
+
+    #flash(getAllStocks(ID))
+    return redirect( url_for('stocks'))
+
+@app.route('/stocksell', methods = ['POST','GET'])
+def stocksell():
+    try:
+        ID = getUserID(session['user'])
+    except:
+        return redirect( url_for('root'))
+
+    stockName = request.form['stockName']
+    numStocks = request.form['numStocks']
+
+    data = get_last_days(stockName, "TIME_SERIES_DAILY", 1)
+    keys = data.keys()
+
+    price = data[keys[0]]["4. close"]
+
+    removeStock(ID, stockName, int(numStocks), int(float(price)))
+    
+    #flash(getAllStocks(ID))
+    return redirect( url_for('stocks'))
 
 #=================================================================
 @app.errorhandler(404)

@@ -1,4 +1,3 @@
-
 import sqlite3   #enable control of an sqlite database
 import csv       #facilitates CSV I/O
 import hashlib
@@ -29,7 +28,7 @@ def tableCreation():
         variablecost_table = 'CREATE TABLE variablecost (userID INTEGER, expID INTEGER, expName TEXT, expAmt TEXT, expType TEXT, expDesc TEXT, dateof TEXT);'
         c.execute(variablecost_table)
 
-        stocks_table = 'CREATE TABLE stocks (userID INTEGER, stockID INTEGER, ticker TEXT, shares INTEGER, purdate TEXT, purprice DATE);'
+        stocks_table = 'CREATE TABLE stocks (userID INTEGER, ticker TEXT, currentShares INTEGER, totalShares INTEGER, totalSharesSold INTEGER, totalLoss INTEGER, totalGain INTEGER);'
         c.execute(stocks_table)
 
         update_table = 'CREATE TABLE update_table (userID INTEGER, updateID INTEGER, month INT, day INT, year INT, currentMoney REAL, savings REAL);'
@@ -58,6 +57,7 @@ def dummyUser():
     addFixCost(0, "Health Insurance", 100 , "insurance", "In case I die.")
     addFixCost(0, "Netflix", 10 , "membership", "TV and movies.")
     addFixCost(0, "Subway", 120 , "Transportation", "Monthly subway rides.")
+    #addStock(0, "APPL", 10, 100)
 
 
 
@@ -108,6 +108,7 @@ def addMoneyTable (ID, currentMoney, monthIncome, otherIncome, savings, savingPe
     c.execute(command,[ID,currentMoney,monthIncome,otherIncome,savings,savingPercent])
 
 
+
     #userID INTEGER, updateID INTEGER, month INT, day INT, year INT, currentMoney REAL, savings REAL
     today = datetime.datetime.now()
     mon = today.month
@@ -118,6 +119,8 @@ def addMoneyTable (ID, currentMoney, monthIncome, otherIncome, savings, savingPe
 
     db.commit()
     db.close()  
+
+    addUpdate(ID, currentMoney, savings)
 
 def updateMoneyTable(ID, currentMoney, monthIncome, otherIncome, savings, savingPercent):
     db = sqlite3.connect(DIR)
@@ -134,6 +137,7 @@ def addAllocateTable (ID, entertainment, eatOut, shop, misc, grocery, event):
     c.execute(command,[ID,entertainment, eatOut, shop, misc, grocery,event])
     db.commit()
     db.close()   
+    
 
 def updateAllocateTable(ID, entertainment, eatOut, shop, misc, grocery,event):  
     db = sqlite3.connect(DIR)
@@ -182,21 +186,32 @@ def addFixCost(ID, fixedName, fixedAmt, fixedtype, fixedDesc):
     db.close()  
     changeMoney(ID, -1, 0, fixedAmt)
 
-def addStock(ID, ticker, shares, purprice):
-    date = (datetime.datetime.now()).strftime('%Y-%m-%d')
+
+#(userID INTEGER, ticker TEXT, currentShares INTEGER, totalShares INTEGER, totalSharesSold INTEGER, totalLoss INTEGER, totalGain INTEGER)
+def addStock(ID, ticker, amount, price):
     db = sqlite3.connect(DIR)
     c = db.cursor() 
 
-    stockID = c.execute('SELECT max(stockID) FROM stocks WHERE userID = {}'.format(ID)).fetchone()[0]
-    if stockID == None:
-        stockID = 0
-    else:
-        stockID = int(stockID) + 1
+    check2 = c.execute('SELECT EXISTS(SELECT 1 from stocks WHERE userID = {} and ticker = "{}");'.format(ID, ticker))
+    check = check2.fetchone()[0]
 
-    print "\n\n\n"
-    c.execute('INSERT INTO stocks VALUES (?,?,?,?,?,?);',[ID, stockID, ticker, shares, date, purprice])
+    if check == 1:
+        currentAmount = c.execute('SELECT currentShares FROM stocks WHERE userID = {} and ticker = "{}"'.format(ID, ticker)).fetchone()[0]
+        currentShares = currentAmount + amount
+        totalShares = c.execute('SELECT totalShares FROM stocks WHERE userID = {} and ticker = "{}"'.format(ID, ticker)).fetchone()[0]
+        totalShares += amount
+        totalLoss = c.execute('SELECT totalLoss FROM stocks WHERE userID = {} and ticker = "{}"'.format(ID, ticker)).fetchone()[0]
+        totalLoss -= (price*amount)
+        
+        c.execute('UPDATE stocks SET currentShares = {}, totalShares = {}, totalLoss = {} WHERE userID = {} and ticker = "{}"'.format(currentShares,totalShares,totalLoss, ID, ticker))
+    else:
+        loss = -price*amount
+        c.execute('INSERT INTO stocks VALUES (?,?,?,?,?,?,?);',[ID, ticker, amount, amount, 0, loss, 0])
+
     db.commit()
     db.close()  
+
+    changeMoney(ID, -1, 0, price*amount)
 
 #sign
 #   -1 = subtract
@@ -469,33 +484,44 @@ def getAllFixCost(ID):
     return ret 
 
 
-#CREATE TABLE stocks (userID INTEGER, stockID INTEGER, ticker TEXT, shares INTEGER, purdate TEXT, purprice DATE)'
-#ONLY BY TICKER
-def getStock(ID, stockID):
+##(userID INTEGER, ticker TEXT, currentShares INTEGER, totalShares INTEGER, totalSharesSold INTEGER, totalLoss INTEGER, totalGain INTEGER)
+def getStock(ID, ticker):
     ret = {}
     ret['ID'] = ID
-    ret['stockID'] = stockID
+    ret['ticker'] = ticker
     db = sqlite3.connect(DIR) #open if f exists, otherwise create
     c = db.cursor()         #facilitates db ops    
-    ret['ticker'] = c.execute('SELECT ticker FROM stocks WHERE userID ={} AND stockID = {};'.format(ID, stockID)).fetchone()[0]
-    ret['shares'] = c.execute('SELECT shares FROM stocks WHERE userID ={} AND stockID = {};'.format(ID, stockID)).fetchone()[0]
-    ret['purdate'] = c.execute('SELECT purdate FROM stocks WHERE userID ={} AND stockID = {};'.format(ID, stockID)).fetchone()[0]
-    ret['purprice'] = c.execute('SELECT purprice FROM stocks WHERE userID ={} AND stockID = {};'.format(ID, stockID)).fetchone()[0]
+    
+    ret['currentShares'] = c.execute('SELECT currentShares FROM stocks WHERE userID ={} AND ticker = {};'.format(ID, ticker)).fetchone()[0]
+    ret['totalShares'] = c.execute('SELECT totalShares FROM stocks WHERE userID ={} AND ticker = {};'.format(ID, ticker)).fetchone()[0]
+
+    ret['totalSharesSold '] = c.execute('SELECT totalSharesSold  FROM stocks WHERE userID ={} AND ticker = {};'.format(ID, ticker)).fetchone()[0]
+    ret[' totalLoss'] = c.execute('SELECT  totalLoss FROM stocks WHERE userID ={} AND ticker = {};'.format(ID, ticker)).fetchone()[0]
+
+    ret['totalGain'] = c.execute('SELECT totalGain FROM stocks WHERE userID ={} AND ticker = {};'.format(ID, ticker)).fetchone()[0]
+    
     db.close()
-    return ret    
+    return ret  
 
 def getAllStocks(ID):
     ret = []
     db = sqlite3.connect(DIR) #open if f exists, otherwise create
     c = db.cursor()    
-    maxID = c.execute('SELECT max(stockID) FROM stocks WHERE userID = {};'.format(ID)).fetchone()[0]
-    if maxID == None:
-        print "No stocks exist"
-        return None
-    else:
-        for i in range(maxID+1):
-            ret.append(getStock(ID,i))
+    allData  = c.execute('SELECT * FROM stocks WHERE userID = {};'.format(ID)).fetchall()
     db.close()
+
+    for each in allData:
+        tempd = {}
+        ret['ID'] = each[0]
+        ret['ticker'] = each[1]
+        ret['currentShares'] = each[2]
+        ret['totalShares'] = each[3]
+        ret['totalSharesSold '] = each[4]
+        ret[' totalLoss'] = each[5]
+        ret['totalGain'] = each[6]
+
+        ret.append(tempd)
+ 
     return ret   
 
 
@@ -604,10 +630,6 @@ def getPercentageByAllocation(ID, timerange = "all"):
 
     #print percentDict
 
-
-
-   
-
 #==================================================================================================================================
 #REMOVING
 
@@ -631,17 +653,31 @@ def removeFixedCost(ID, fixedID):
     db.close()
     print "Removed ID {} from entry {} successfully".format(ID, fixedID)
 
-def removeStock(ID, stockID):
-    db = sqlite3.connect(DIR) #open if f exists, otherwise create
+
+#(userID INTEGER, ticker TEXT, currentShares INTEGER, totalShares INTEGER, totalSharesSold INTEGER, totalLoss INTEGER, totalGain INTEGER)
+def removeStock(ID, ticker, amount, price):    
+    db = sqlite3.connect(DIR)
     c = db.cursor() 
-    command = 'DELETE FROM stocks WHERE userID ={} AND stockID = {};'    
-    c.execute(command.format(ID, stockID))
+
+    check2 = c.execute('SELECT EXISTS(SELECT 1 from stocks WHERE userID = {} and ticker = "{}");'.format(ID, ticker))
+    check = check2.fetchone()[0]
+
+    if check == 1:
+        currentAmount = c.execute('SELECT currentShares FROM stocks WHERE userID = {}'.format(ID)).fetchone()[0]
+        currentShares = currentAmount - amount
+        totalSharesSold = c.execute('SELECT totalSharesSold FROM stocks WHERE userID = {}'.format(ID)).fetchone()[0]
+        totalSharesSold += amount
+        totalGain = c.execute('SELECT totalGain FROM stocks WHERE userID = {}'.format(ID)).fetchone()[0]
+        totalGain += (price*amount)
+
+        c.execute('UPDATE stocks SET currentShares = {}, totalSharesSold  = {}, totalGain = {} WHERE userID = {}'.format(currentShares,totalSharesSold,totalGain, ID))
+
+    else:
+        print "You don't have this stock."
+        pass
+
     db.commit()
-    db.close()
-    print "Removed ID {} from entry {} successfully".format(ID, stockID)
-
-
-
+    db.close()  
 
 
 #==================================================================================================================================
