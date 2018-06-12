@@ -19,13 +19,6 @@
   <body>
 
 
-    {% set messages = get_flashed_messages() %}
-    {% for message in messages %}
-    <div class="alert alert-danger" role="alert">
-      {{ message }}
-    </div>
-    {% endfor %}
-    
 
 
     <!-- TOP NAVBAR SAME FOR ALL PAGES-->
@@ -56,6 +49,14 @@
     </nav>
     <!----- END NAV --------->
 
+    {% set messages = get_flashed_messages() %}
+    {% for message in messages %}
+    <div class="alert alert-danger" role="alert">
+      {{ message }}
+    </div>
+    {% endfor %}
+    
+
     <div class="container-fluid">
       <div class="row">
         <main role="main" class="col">
@@ -63,60 +64,60 @@
             <h1 class="h2">Stocks</h1>
           </div>
       </div>
-    </div>
+    
     
     <table>
       <tr>
-<td>
-    <h4> Searching </h4>
-</td>
+	<td>
+	  <h4> Searching </h4>
+	</td>
+      </tr>
+      <tr>
+	<form method="post" action="/stockdisplay">
+	  <td>
+	    Choose a stock: 
+	  </td>
+	  <td>
+	    <input type="text" name="stockName"><br>
+	  </td>
+      </tr>
+      <tr>
+	<td>
+	</td>
+	<td>
+	  <input type="radio" name="period" value="DAILY" checked> Daily<br>
+	  <input type="radio" name="period" value="WEEKLY"> Weekly<br>
+	  <input type="radio" name="period" value="MONTHLY"> Monthly<br>
+	</td>
+      </tr>
+      <tr>
+	<td>
+	  <button type="submit" value="Submit">Submit</button>
+	</td>
+      </form>
 </tr>
 <tr>
-    <form method="post" action="/stockdisplay">
-<td>
-      Choose a stock: 
-</td>
-<td>
-      <input type="text" name="stockName"><br>
-</td>
-</tr>
-<tr>
-<td>
-</td>
-<td>
-      <input type="radio" name="period" value="DAILY" checked> Daily<br>
-      <input type="radio" name="period" value="WEEKLY"> Weekly<br>
-      <input type="radio" name="period" value="MONTHLY"> Monthly<br>
-</td>
-</tr>
-<tr>
-<td>
-      <button type="submit" value="Submit">Submit</button>
-</td>
-    </form>
-</tr>
-<tr>
-<td>
+  <td>
     <br><br>
-</td>
+  </td>
 </tr>
-    <tr>
-<td>
+<tr>
+  <td>
     <h4> Buying </h4>
-</td>
+  </td>
 </tr>
 <tr>
-    <form method="post" action="/stockpurchase">
-<td>
+  <form method="post" action="/stockpurchase">
+    <td>
       Choose a stock: 
-</td>
-<td>
+    </td>
+    <td>
       <input type="text" name="stockName"><br>
-</td>
+    </td>
 </tr>
 <tr>
-<td>
-      Choose quantity:
+  <td>
+    Choose quantity:
 </td>
 <td>
       <input type="text" name="numStocks"><br>
@@ -190,7 +191,7 @@
       </table>
     </div>
 
-
+</div>
 
 
 
