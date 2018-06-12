@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, session, url_for, flash, redirect
+from flask import Flask, render_template, request, session, url_for, flash, redirect, jsonify
 from utils.accounts import authenticate, register
 from utils.db_builder import tableCreation, checkUsername, getPass, getUserID, getUserName, getConfig, setConfig, addUser
 from utils.db_builder import addMoneyTable, getMoneyTable, updateMoneyTable, addAllocateTable, getAllocateTable, updateAllocateTable
@@ -113,9 +113,20 @@ def home():
     #print "Config Boolean:" 
     #print configBool
 
-    vartable = addZero(getAllVarCost(ID),"var")
+    vartableraw = getAllVarCost(ID)
+
+    vartable = addZero(vartableraw,"var")
 
     fixtable = addZero(getAllFixCost(ID),"fix")
+
+    vartableJS = []
+    for each in vartableraw:
+        tempd = {}
+        tempd['expType'] = each['expType']
+        tempd['expAmt'] = each['expAmt']
+        print "-----------"
+        print each
+        vartableJS.append(tempd)
 
     try:
         moneyTable = getMoneyTable(ID)
@@ -135,10 +146,24 @@ def home():
     if fixtable == None:
         fixtable = []
 
+    #json comp
+    '''
+    jsonl = []
+    for each in vartable:
+        jsonl.append(jsonify(each))
+    print jsonl
+    '''
+    #end json comp
+
+    print vartable
+
     graphData = getAllUpdateTable(ID)
+   
+    '''
     print "before"
     print graphData
     print "after"
+    '''
 
     years = []
     months = []
@@ -154,12 +179,14 @@ def home():
         currMon.append(dict['currentMoney']) 
         saving.append(dict['savings']) 
 
+    '''
     print "years"
     print years
     print months
     print days
     print currMon
     print saving
+    '''
 
     length = len(years)
     i = 0
@@ -168,24 +195,30 @@ def home():
         date = str(years[i]) + "-" + add_zero(str(months[i])) + "-" + add_zero(str(days[i]))
         dates.append(date)
         i += 1
-
+    '''
     print "dates"
     print dates
+    '''
+
     gData = {}
     i = 0
 
     while i < length:
         gData[dates[i]] = currMon[i]
         i += 1 
-
+    '''
     print "gData"
-    print gData    
+    print gData   
+    ''' 
 
     g_keys = sorted(gData)
+
+    '''
     print "g_keys"
     print g_keys
+    '''
 
-    return render_template("home.html",config=configBool, vartable = vartable, fixtable = fixtable, moneyTable = moneyTable, data_var = gData, data_k = g_keys)
+    return render_template("home.html",config=configBool, vartable = vartable, fixtable = fixtable, moneyTable = moneyTable, data_var = gData, data_k = g_keys, vartableJS = vartableJS)
 
     #=====GRAPHIN STUFF====
 '''

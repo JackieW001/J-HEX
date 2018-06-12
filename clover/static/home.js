@@ -1,3 +1,7 @@
+console.log(JACKIE)
+
+
+
 var data = {"cat1": 50, "cat2": 30, "cat3": 20, "cat4": 70};
 
 var expend_svg = document.getElementById("expend");
