@@ -38,13 +38,13 @@
             <a class="nav-link" href="/home">Dashboard <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Budget <span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="/budget">Budget <span class="sr-only">(current)</span></a>
           </li>
 	  <li class="nav-item">
             <a class="nav-link" href="/stocks">Stocks <span class="sr-only">(current)</span></a>
           </li>
 	  <li class="nav-item">
-            <a class="nav-link" href="#">Settings <span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="/settings">Settings <span class="sr-only">(current)</span></a>
           </li>
         </ul>
         <form class="form-inline mt-2 mt-md-0" action="/logout">
@@ -63,61 +63,121 @@
 
   <!-- FORM FOR THE FIXED/VAR BUDGET --------------------------------------------------------------------->
   <div id = "costbox">
-    <div id = "fixedcost">
-      Fixed Cost
-      <form action="fixcost" method="POST" accept-charset="utf-8">
-        Expenditure Name 
-        <input required type="text"  name="fixedName">
-        <br>
-        Amount $
-        <input required type="number" step="0.01" min="0" value="0" name="fixedAmt">
-        <br>
-        Type
-        <select name="type">
-          <option value="bills">Bills</option>
-          <option value="insurance">Insurance</option>
-          <option value="medical">Medical</option>
-          <option value="membership">Membership/Subscription</option>
-          <option value="mortgage">Mortgage/Rent</option>
-          <option value="transportation">Transportation</option>
-          <option value="utility">Utilities</option>
-        </select>
-        <br>
-        Description
-        <input  type="text" name="fixedDesc">
-        <br>
-        <input type="submit" value="Done">
-      </form>
-    </div>
-    <br><br>
+    <table>
+      <div id = "fixedcost">
+	<tr>
+	  <td>
+	    <h4>Fixed Cost</h4>
+	  </td>
+	</tr>
+	<form action="fixcost" method="POST" accept-charset="utf-8">
+	  <tr>
+	    <td>
+              Expenditure Name
+	    </td>
+	    <td>
+              &nbsp;&nbsp;<input required type="text"  name="fixedName">
+	    </td>
+          <tr>
+	    <td>
+              Amount
+	    </td>
+	    <td>
+              $<input required type="number" step="0.01" min="0" value="0" name="fixedAmt">
+	    </td>
+          <tr>
+	    <td>
+              Type
+	    </td>
+	    <td>
+              &nbsp;&nbsp;<select name="type" style="width: 175px;">
+		<option value="bills">Bills</option>
+		<option value="insurance">Insurance</option>
+		<option value="medical">Medical</option>
+		<option value="membership">Membership/Subscription</option>
+		<option value="mortgage">Mortgage/Rent</option>
+		<option value="transportation">Transportation</option>
+		<option value="utility">Utilities</option>
+              </select>
+	    </td>
+	  </tr>
+          <tr>
+	    <td>
+              Description
+	    </td>
+	    <td>
+              &nbsp;&nbsp;<input  type="text" name="fixedDesc">
+	    </td>
+	  </tr>
+          <tr>
+	    <td>
+              <input type="submit" value="Done">
+	    </td>
+	  </tr>
+	</form>
+      </div>
+      <tr>
+	<td>
+	  <br><br>
+	</td>
+      </tr>
 
-    <div id = "variablecost">
-      Variable Cost
-      <form action="varcost" method="POST" accept-charset="utf-8">
-        Expenditure Name 
-        <input required type="text" name="expName">
-        <br>
-        Amount $
-        <input required type="number" step="0.01" min="0" value="0" name="expAmt">
-        <br>
-        Type
-        <select name="type">
-          <option value="eatOut">Dining Out </option>
-          <option value="entertainment">Entertainment</option>
-          <option value="event">Events</option>
-          <option value="grocery">Grocery</option>
-          <option value="misc">Miscellaneous</option>
-          <option value="shop">Shopping</option>
-        </select>
-        <br>
-        Description
-        <input type="text" name="expDesc">
-        <br>
-        <input type="submit" value="Done">
+      <div id = "variablecost">
+	<tr>
+	  <td>
+	    <h4>Variable Cost</h4>
+	  </td>
+	</tr>
+	<form action="varcost" method="POST" accept-charset="utf-8">
+	  <tr>
+	    <td>
+              Expenditure Name
+	    </td>
+	    <td>
+              &nbsp;&nbsp;<input required type="text" name="expName">
+	    </td>
+	  </tr>
+          <tr>
+	    <td>
+              Amount
+	    </td>
+	    <td>
+              $<input required type="number" step="0.01" min="0" value="0" name="expAmt">
+	    </td>
+	  </tr>
+          <tr>
+	    <td>
+              Type
+	    </td>
+	    <td>
+              &nbsp;&nbsp;<select name="type" style="width: 175px;">
+		<option value="eatOut">Dining Out </option>
+		<option value="entertainment">Entertainment</option>
+		<option value="event">Events</option>
+		<option value="grocery">Grocery</option>
+		<option value="misc">Miscellaneous</option>
+		<option value="shop">Shopping</option>
+              </select>
+	    </td>
+	  </tr>
+          <tr>
+	    <td>
+              Description
+	    </td>
+	    <td>
+              &nbsp;&nbsp;<input type="text" name="expDesc">
+	    </td>
+	  </tr>
+          <tr>
+	    <td>
+              <input type="submit" value="Done">
+	    </td>
+	  </tr>
 
-      </form>
+	</form>
 
-    </div>
+      </div>
+    </table>
   </div>
 
 
