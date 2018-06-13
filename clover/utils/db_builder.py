@@ -38,7 +38,7 @@ def tableCreation():
         db.close()
 
         dummyUser()
-        dummyUser2()
+        dummytwo()
 
 def dummyUser():
     addUser('test', 'test', 'test', 1)
@@ -59,23 +59,23 @@ def dummyUser():
     addFixCost(0, "Subway", 120 , "Transportation", "Monthly subway rides.")
     #addStock(0, "APPL", 10, 100)
 
-def dummyUser2():
+def dummytwo():
     addUser('test2', 'test2', 'test2', 1)
-    addMoneyTable (0, 1000, 6000, 0, 7000, 10.8)
+    addMoneyTable (1, 1000, 6000, 0, 7000, 10.8)
     addAllocateTable (0, 100, 150, 200, 300, 500, 700)
-    addVarCost(0, "Went to the spa", 'shop', 35, "Cucumbers",'2017-06-17')
-    addVarCost(0, "Vacation to Laos", 'entertainment', 5000, "Vacation time~",'2017-08-17')
-    addVarCost(0, "Halloween costume", 'entertainment', 40, "Boo!!!",'2017-10-20')
-    addVarCost(0, "Infinity Wars", 'entertainment', 40, "Thanos.",'2017-12-25')
-    addVarCost(0, "Dinner at Dorsia", 'eatOut', 500, "Nice dinner.", '2018-01-30')
-    addVarCost(0, "Wedding", 'event', 1500, "Went to Frank's wedding.", '2018-02-04')
-    addVarCost(0, "60 pounds of mac and cheese", 'grocery', 500, "Dinner for the rest of the year.",'2018-03-05')
-    addFixCost(0, "Electricity", 150 , "utility", "Basic utility.")
-    addFixCost(0, "Heating", 70 , "utility", "Basic utility.")
-    addFixCost(0, "Water", 50 , "utility", "Basic utility.")
-    addFixCost(0, "Health Insurance", 100 , "insurance", "In case I die.")
-    addFixCost(0, "Netflix", 10 , "membership", "TV and movies.")
-    addFixCost(0, "Subway", 120 , "Transportation", "Monthly subway rides.")
+    addVarCost(1, "Went to the spa", 'shop', 35, "Cucumbers",'2017-06-17')
+    addVarCost(1, "Vacation to Laos", 'entertainment', 5000, "Vacation time~",'2017-08-17')
+    addVarCost(1, "Halloween costume", 'entertainment', 40, "Boo!!!",'2017-10-20')
+    addVarCost(1, "Infinity Wars", 'entertainment', 40, "Thanos.",'2017-12-25')
+    addVarCost(1, "Dinner at Dorsia", 'eatOut', 500, "Nice dinner.", '2018-01-30')
+    addVarCost(1, "Wedding", 'event', 1500, "Went to Frank's wedding.", '2018-02-04')
+    addVarCost(1, "60 pounds of mac and cheese", 'grocery', 500, "Dinner for the rest of the year.",'2018-03-05')
+    addFixCost(1, "Electricity", 150 , "utility", "Basic utility.")
+    addFixCost(1, "Heating", 70 , "utility", "Basic utility.")
+    addFixCost(1, "Water", 50 , "utility", "Basic utility.")
+    addFixCost(1, "Health Insurance", 100 , "insurance", "In case I die.")
+    addFixCost(1, "Netflix", 10 , "membership", "TV and movies.")
+    addFixCost(1, "Subway", 120 , "Transportation", "Monthly subway rides.")
     #addStock(0, "APPL", 10, 100)
 
 
@@ -314,8 +314,10 @@ def bigUpdater(ID):
     yr = today.year 
 
     
-    multiplier = (updateTable['year'] - yr)*12 + (updateTable['month'] - mon)
-    #multiplier = (yr - updateTable['year'])*12 + (mon - updateTable['month'])
+    if ID == 1:
+        multiplier = (updateTable['year'] - yr)*12 + (updateTable['month'] - mon)
+    else:
+        multiplier = (yr - updateTable['year'])*12 + (mon - updateTable['month'])
     print "Multiplier==============================="
     print multiplier
     print "========================================="
@@ -726,8 +728,9 @@ def removeStock(ID, ticker, amount, price):
 
 if __name__ == '__main__':  
 
-    tableCreation()
-    dummyUser()  
+    #tableCreation()
+    dummytwo()
+    #dummyUser()  
 
     #print getPercentageByAllocation(0,'all')
     #print getPercentageByAllocation(0,'year')
