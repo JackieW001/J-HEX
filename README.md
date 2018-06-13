@@ -40,12 +40,9 @@ python __init__.py
 
 ## API Key Instructions
 
-#### API_1
+#### Alpha Vantage
 1. Have a file called ```keys.txt``` in ```/J-HEX/clover/```
 2. Retrive an api key from [Alpha Vantage](https://www.alphavantage.co/documentation/)
-
-## Bugs and Issues
-* [insert bugs and issues here]
 
 ## File Structure
 ```
