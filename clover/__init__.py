@@ -369,8 +369,9 @@ def stockpurchase():
         return redirect( url_for('stocks'))
 
     keys = data.keys()    
-    price = data[keys[0]]["4. close"]
+    price = data[keys[0]]["4. close"]    
     addStock(ID, stockName, int(numStocks), int(float(price)))
+    flash("Bought " + str(numStocks) + " shares of " + stockName)
     return redirect( url_for('stocks'))
 
 '''
