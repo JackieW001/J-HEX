@@ -492,13 +492,13 @@ def getStock(ID, ticker):
     db = sqlite3.connect(DIR) #open if f exists, otherwise create
     c = db.cursor()         #facilitates db ops    
     
-    ret['currentShares'] = c.execute('SELECT currentShares FROM stocks WHERE userID ={} AND ticker = {};'.format(ID, ticker)).fetchone()[0]
-    ret['totalShares'] = c.execute('SELECT totalShares FROM stocks WHERE userID ={} AND ticker = {};'.format(ID, ticker)).fetchone()[0]
+    ret['currentShares'] = c.execute('SELECT currentShares FROM stocks WHERE userID ={} AND ticker = "{}";'.format(ID, ticker)).fetchone()[0]
+    ret['totalShares'] = c.execute('SELECT totalShares FROM stocks WHERE userID ={} AND ticker = "{}";'.format(ID, ticker)).fetchone()[0]
 
-    ret['totalSharesSold '] = c.execute('SELECT totalSharesSold  FROM stocks WHERE userID ={} AND ticker = {};'.format(ID, ticker)).fetchone()[0]
-    ret[' totalLoss'] = c.execute('SELECT  totalLoss FROM stocks WHERE userID ={} AND ticker = {};'.format(ID, ticker)).fetchone()[0]
+    ret['totalSharesSold '] = c.execute('SELECT totalSharesSold  FROM stocks WHERE userID ={} AND ticker = "{}";'.format(ID, ticker)).fetchone()[0]
+    ret['totalLoss'] = c.execute('SELECT totalLoss FROM stocks WHERE userID ={} AND ticker = "{}";'.format(ID, ticker)).fetchone()[0]
 
-    ret['totalGain'] = c.execute('SELECT totalGain FROM stocks WHERE userID ={} AND ticker = {};'.format(ID, ticker)).fetchone()[0]
+    ret['totalGain'] = c.execute('SELECT totalGain FROM stocks WHERE userID ={} AND ticker = "{}";'.format(ID, ticker)).fetchone()[0]
     
     db.close()
     return ret  

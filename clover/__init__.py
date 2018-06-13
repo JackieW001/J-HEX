@@ -3,7 +3,7 @@ from utils.accounts import authenticate, register
 from utils.db_builder import tableCreation, checkUsername, getPass, getUserID, getUserName, getConfig, setConfig, addUser
 from utils.db_builder import addMoneyTable, getMoneyTable, updateMoneyTable, addAllocateTable, getAllocateTable, updateAllocateTable
 from utils.db_builder import addVarCost, getVarCost, addFixCost,getAllFixCost,getAllVarCost, removeVarCost, removeFixedCost, bigUpdater
-from utils.db_builder import getAllUpdateTable, addStock, removeStock, getAllStocks
+from utils.db_builder import getAllUpdateTable, addStock, removeStock, getAllStocks, getStock
 from utils.api import get_apikey, get_info, get_date, get_today, get_last_days, add_zero
 from utils.table_builder import addZero
 import pprint as pp
@@ -383,6 +383,7 @@ def stockpurchase():
     stockName = request.form['stockName']
     numStocks = request.form['numStocks']
 
+    
     data = get_last_days(stockName, "TIME_SERIES_DAILY", 1)
     keys = data.keys()
 
@@ -401,16 +402,23 @@ def stocksell():
         return redirect( url_for('root'))
 
     stockName = request.form['stockName']
-    numStocks = request.form['numStocks']
+    numStocks = int(request.form['numStocks'])
 
     data = get_last_days(stockName, "TIME_SERIES_DAILY", 1)
     keys = data.keys()
 
     price = data[keys[0]]["4. close"]
 
-    removeStock(ID, stockName, int(numStocks), int(float(price)))
+    stockData = getStock(ID, stockName)
+    numOwned = int(stockData["currentShares"])
+
+    #print numOwned
     
-    flash(getAllStocks(ID))
+    if numOwned < numStocks:
+        flash("You cannot sell more than you own.")
+    else:
+        removeStock(ID, stockName, int(numStocks), int(float(price)))
+    
     return redirect( url_for('stocks'))
 
 #=================================================================
