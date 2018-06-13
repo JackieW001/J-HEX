@@ -19,8 +19,6 @@
   <body>
 
 
-
-
     <!-- TOP NAVBAR SAME FOR ALL PAGES-->
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
       <a class="navbar-brand" href="#">Clover</a>
@@ -78,7 +76,7 @@
 	    Choose a stock: 
 	  </td>
 	  <td>
-	    <input type="text" name="stockName"><br>
+	    <input required type="text" name="stockName"><br>
 	  </td>
       </tr>
       <tr>
@@ -112,7 +110,7 @@
       Choose a stock: 
     </td>
     <td>
-      <input type="text" name="stockName"><br>
+      <input required type="text" name="stockName"><br>
     </td>
 </tr>
 <tr>
@@ -120,7 +118,7 @@
     Choose quantity:
 </td>
 <td>
-      <input type="text" name="numStocks"><br>
+  <input required type="number" step="1" min="1" name="numStocks"><br>
 </td>
 </tr>
 <tr>
@@ -145,7 +143,7 @@
       Choose a stock: 
 </td>
 <td>
-      <input type="text" name="stockName"><br>
+  <input required type="text" name="stockName"><br>
 </td>
 </tr>
 <tr>
@@ -153,7 +151,7 @@
       Choose quantity:
 </td>
 <td>
-      <input type="text" name="numStocks"><br>
+  <input required type="number" step="1" min="1" name="numStocks"><br>
 </td>
 </tr>
 <tr>

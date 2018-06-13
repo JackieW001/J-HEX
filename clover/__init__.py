@@ -32,9 +32,9 @@ user = ""
 def root():
     #redirect to home if there is a session
     #otherwise display login/register page
+    print "a"
     tableCreation()
-
-
+    print "b"
     if session.has_key('user'):
         return redirect( url_for('home') )
     else:
@@ -371,7 +371,7 @@ def stockdisplay():
     period = request.form['period']
     period = "TIME_SERIES_" + period
     data = get_last_days(stockName, period, 12)
-    return render_template('stockDisplay.html', data_var = data)
+    return render_template('stockDisplay.html', data_var = data, stockNamez = stockName)
 
 @app.route('/stockpurchase', methods = ['POST','GET'])
 def stockpurchase():
@@ -383,15 +383,15 @@ def stockpurchase():
     stockName = request.form['stockName']
     numStocks = request.form['numStocks']
 
-    
-    data = get_last_days(stockName, "TIME_SERIES_DAILY", 1)
-    keys = data.keys()
+    try:
+        data = get_last_days(stockName, "TIME_SERIES_DAILY", 1)
+    except:
+        flash("That stock does not exist. Some examples of ones that exist are MSFT and AAPL.")
+        return redirect( url_for('stocks'))
 
+    keys = data.keys()    
     price = data[keys[0]]["4. close"]
-
     addStock(ID, stockName, int(numStocks), int(float(price)))
-
-    #flash(getAllStocks(ID))
     return redirect( url_for('stocks'))
 
 @app.route('/stocksell', methods = ['POST','GET'])

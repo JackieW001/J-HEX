@@ -13,10 +13,10 @@ def tableCreation():
         db = sqlite3.connect(DIR) #open if f exists, otherwise create
         c = db.cursor()         #facilitates db ops
 
-        users_table = 'CREATE TABLE  users (username TEXT PRIMARY KEY, password BLOB, userID INTEGER, name TEXT, config INTEGER);'
+        users_table = 'CREATE TABLE users (username TEXT PRIMARY KEY, password BLOB, userID INTEGER, name TEXT, config INTEGER);'
         c.execute(users_table)
 
-        money_table = 'CREATE TABLE  money (userID INTEGER, currentMoney REAL, monthIncome REAL, otherIncome REAL, savings REAL, savingPercent REAL);'
+        money_table = 'CREATE TABLE money (userID INTEGER, currentMoney REAL, monthIncome REAL, otherIncome REAL, savings REAL, savingPercent REAL);'
         c.execute(money_table)
 
         allocated_table = 'CREATE TABLE allocate (userID INTEGER, entertainment REAL, eatOut REAL, shop REAL, misc REAL, grocery REAL, event REAL);'
@@ -33,7 +33,6 @@ def tableCreation():
 
         update_table = 'CREATE TABLE update_table (userID INTEGER, updateID INTEGER, month INT, day INT, year INT, currentMoney REAL, savings REAL);'
         c.execute(update_table)
-
 
         db.commit()
         db.close()
@@ -80,7 +79,9 @@ def addUser(new_username, new_password, new_name, new_config):
     #global userID_counter
     #new_userID = userID_counter
     #userID_counter += 1
+
     userCount = c.execute('SELECT COUNT(*) FROM users;')
+
     new_userID = 0
     for x in userCount:
         new_userID = x[0]
