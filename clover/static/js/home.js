@@ -38,7 +38,7 @@ var color = d3.scale.category20();
 // --------------------------- DRAW AXES ---------------------------
 // helper method to get the minimum value for a particular dataset
 var getMinVal = function( dataset ) {
-    var min = 9999;
+    var min = 9999999;
 
     for (var i = 0; i < len; i++){
 	var key = keys[i];
@@ -54,7 +54,7 @@ var getMinVal = function( dataset ) {
 
 // helper method to get the maximum value for a particular dataset
 var getMaxVal = function( dataset ) {   
-    var max = -9999;
+    var max = -9999999;
 
     for (var i = 0; i < len; i++){
 	var key = keys[i];

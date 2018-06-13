@@ -346,8 +346,13 @@ def stockdisplay():
     stockName = request.form['stockName']
     period = request.form['period']
     period = "TIME_SERIES_" + period
-    data = get_last_days(stockName, period, 12)
-    return render_template('stockDisplay.html', data_var = data, stockNamez = stockName)
+    try:
+        data = get_last_days(stockName, period, 12)
+        return render_template('stockDisplay.html', data_var = data, stockNamez = stockName)
+    except:
+        flash("This stock does not exist")
+        return redirect( url_for('stocks'))
+
 
 '''
 Buy stock
@@ -387,7 +392,11 @@ def stocksell():
     stockName = request.form['stockName']
     numStocks = int(request.form['numStocks'])
 
-    data = get_last_days(stockName, "TIME_SERIES_DAILY", 1)
+    try: 
+        data = get_last_days(stockName, "TIME_SERIES_DAILY", 1)
+    except:
+        flash("That stock does not exist. Some examples of ones that exist are MSFT and AAPL.")
+        return redirect( url_for('stocks'))
     keys = data.keys()
 
     price = data[keys[0]]["4. close"]
