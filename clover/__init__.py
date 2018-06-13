@@ -417,8 +417,9 @@ def stocksell():
     if numOwned < numStocks:
         flash("You cannot sell more than you own.")
     else:
+        flash("Sold " + numStocks + " of " + stockName)
         removeStock(ID, stockName, int(numStocks), int(float(price)))
-    
+
     return redirect( url_for('stocks'))
 
 #=================================================================
