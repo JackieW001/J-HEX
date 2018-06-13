@@ -16,7 +16,7 @@ app = Flask(__name__)
 
 
 # ------------------ Login Stuff ------------------------------
-app.secret_key = os.urandom(32)
+app.secret_key = "messes up if we have this for real"
 BAD_USER = -1
 BAD_PASS = -2
 GOOD = 1
