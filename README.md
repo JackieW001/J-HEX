@@ -29,11 +29,11 @@ git clone https://github.com/JackieW001/J-HEX.git
 ```
 4. Go into the softdev1-finalproj folder using this command
 ```
-cd J-HEX/
+cd J-HEX/clover/
 ```
 5. Run the program
 ```
-python app.py
+python __init__.py
 ```
 6. Go to localhost:5000 in your web browser and enjoy the site!
 
@@ -41,7 +41,8 @@ python app.py
 ## API Key Instructions
 
 #### API_1
-1. [insert steps here]
+1. Have a file called ```keys.txt``` in ```/J-HEX/clover/```
+2. Retrive an api key from [Alpha Vantage](https://www.alphavantage.co/documentation/)
 
 ## Bugs and Issues
 * [insert bugs and issues here]
@@ -51,7 +52,7 @@ python app.py
 data/
   |  database.db
 static/
-  css/
+  js/
     |  home.css
   images/
     |  background.jpg
