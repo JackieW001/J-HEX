@@ -392,7 +392,13 @@ def stocksell():
 
     price = data[keys[0]]["4. close"]
 
-    stockData = getStock(ID, stockName)
+    try:
+        stockData = getStock(ID, stockName)
+    except:
+        flash("You don't own this stock")
+        return redirect( url_for('stocks'))
+
+
     numOwned = int(stockData["currentShares"])
 
     #print numOwned
