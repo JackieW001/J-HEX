@@ -28,7 +28,6 @@ LESSONS LEARNED
     \____/_/ \_____\/ \___/_(   \_____\/ \_____\/ \_____\/
 ==============================================================
 
-
 May 15
 ==================================================
 jackieW -- 2018-05-17 14:17:14
@@ -45,57 +44,134 @@ server up and running
 
 May 16
 ==================================================
--e ericL -- 2018-05-18 14:22:58
+ericL -- 2018-05-18 14:22:58
 Adding config into login
 
--e jackieW -- 2018-05-18 14:23:18
+jackieW -- 2018-05-18 14:23:18
 Setting up skeleton for HTML
 
--e henryZ -- 2018-05-18 14:27:11
+henryZ -- 2018-05-18 14:27:11
 added to the api file
+
+May 17
+==================================================
+jackieW -- 2018-05-17 14:23:18
+budget form
+server
+
+xingtaoS -- 2018-05-17 14:23:18
+worked on api
+
+henryZ -- 2018-05-17 21:52:47
+register path
+import os
+
+May 17
+==================================================
+jackieW -- 2018-05-18 14:23:18
+server
+
+xingtaoS -- 2018-05-18 14:23:18
+worked on api
+
+henryZ -- 2018-05-18 21:52:47
+also worked on api
 
 May 21
 ==================================================
--e ericL -- 2018-05-21 15:34:26
+ericL -- 2018-05-21 15:34:26
 Fixed the database functions and included a config var
 
 jackieW -- 2018-05-22 21:52:47
 updated budget form css: type and duration selection
 
+xingtaoS -- 2018-05-21 14:23:18
+worked on api graphing
+
+May 22
+==================================================
+xingtaoS -- 2018-05-22 14:23:18
+worked more on api graphing
+
+May 24
+==================================================
+henryZ -- 2018-05-24 14:23:18
+worked on budget flask
+
+May 28
+==================================================
+xingtaoS -- 2018-05-28 14:23:18
+started on scatterplotting
+
 May 29
 ==================================================
+xingtaoS -- 2018-05-29 20:15:49
+stocks continued part 5
 
--e ericL -- 2018-05-29 20:15:49
+jackieW -- 2018-05-29 20:16:49
+bootstrap on the login page
+
+ericL -- 2018-05-29 20:17:49
 Fixed some JS stuff in home
 
 May 30
 ==================================================
+xingtaoS -- 2018-05-30 12:38:52
+more scatterplot
 
--e ericL -- 2018-05-30 13:49:31
+ericL -- 2018-05-30 13:49:31
 Changed the table structure so that it has discrentionary budget and added respective accessor/mutators
 
--e ericL -- 2018-05-30 21:38:36
+ericL -- 2018-05-30 21:38:36
 All the adding table and access table is done
 
 May 31 
 ==================================================
+jackieW -- 2018-05-31 20:16:49
+budget form bootstrap
 
--e ericL -- 2018-05-30 14:04:37
+ericL -- 2018-05-30 14:04:37
 Edited the forms for required and text
 
--e ericL -- 2018-05-31 11:38:49
+ericL -- 2018-05-31 11:38:49
 Finished tables
+
+June 1
+==================================================
+xingtaoS -- 2018-06-01 20:13:21
+more scatterplot
+
+jackieW -- 2018-06-01 22:13:41
+worked on home.js
 
 June 4
 ==================================================
+xingtaoS -- 2018-06-04 12:13:21
+even more scatterplot
 
--e ericL -- 2018-06-04 14:05:31
+ericL -- 2018-06-04 14:05:31
 Added to the table with removal functions. Added stock functions. Fixed minor JS error.
 
+June 6
+==================================================
+xingtaoS -- 2018-06-06 12:13:21
+plotting points on scatterplot
+
+henryZ -- 2018-06-06 13:13:31
+flash messages
+move to middle
+
+ericL -- 2018-06-04 14:05:31
+Added to the table with removal functions. Added stock functions. Fixed minor JS error.
+
+June 8
+==================================================
+xingtaoS -- 2018-06-08 12:13:21
+graphs
 
 June 10
 ==================================================
--e ericL -- 2018-06-10 12:05:00
+ericL -- 2018-06-10 12:05:00
 	- Update savings based on expenditure
 	- Add incomes/savings histroy table
 	- Expenditures auto updated
@@ -103,7 +179,7 @@ June 10
 
 June 11
 ==================================================
--e ericL -- 2018-06-11 14:05:31
+ericL -- 2018-06-11 14:05:31
 	- Format var/fixed input type better
 	- Update for fixed cost 
 	- Percent calculations
@@ -114,4 +190,15 @@ June 11
 jackieW -- 2018-06-11 16:06:35
 finished pie charts
 
+xingtaoS -- 2018-06-11 17:13:21
+worked on homepage scatterplot
 
+June 12
+==================================================
+EVERYONE
+stocks buying/selling
+css on many pages
+showing pie charts on home
+showing tables on home
+finished up on budgeting
+show tables on stocks
