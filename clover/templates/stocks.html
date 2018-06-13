@@ -13,7 +13,7 @@
 
     <!-- Custom styles for this template -->
     <link href="../static/stocks.css" rel="stylesheet"> 
-      
+    
   </head>
   
   <body>
@@ -62,37 +62,37 @@
             <h1 class="h2">Stocks</h1>
           </div>
       </div>
-    
-    
-    <table>
-      <tr>
-	<td>
-	  <h4> Searching </h4>
-	</td>
-      </tr>
-      <tr>
-	<form method="post" action="/stockdisplay">
+      
+      <!-- Search stock based on ticker ----------------------------------->
+      <table>
+	<tr>
 	  <td>
-	    Choose a stock: 
+	    <h4> Searching </h4>
+	  </td>
+	</tr>
+	<tr>
+	  <form method="post" action="/stockdisplay">
+	    <td>
+	      Choose a stock: 
+	    </td>
+	    <td>
+	      <input required type="text" name="stockName"><br>
+	    </td>
+	</tr>
+	<tr>
+	  <td>
 	  </td>
 	  <td>
-	    <input required type="text" name="stockName"><br>
+	    <input type="radio" name="period" value="DAILY" checked> Daily<br>
+	    <input type="radio" name="period" value="WEEKLY"> Weekly<br>
+	    <input type="radio" name="period" value="MONTHLY"> Monthly<br>
 	  </td>
-      </tr>
-      <tr>
-	<td>
-	</td>
-	<td>
-	  <input type="radio" name="period" value="DAILY" checked> Daily<br>
-	  <input type="radio" name="period" value="WEEKLY"> Weekly<br>
-	  <input type="radio" name="period" value="MONTHLY"> Monthly<br>
-	</td>
-      </tr>
-      <tr>
-	<td>
-	  <button type="submit" value="Submit">Submit</button>
-	</td>
-      </form>
+	</tr>
+	<tr>
+	  <td>
+	    <button type="submit" value="Submit">Submit</button>
+	  </td>
+	</form>
 </tr>
 <tr>
   <td>
@@ -101,6 +101,8 @@
 </tr>
 <tr>
   <td>
+
+    <!-- Buying stocks --------------------------------------------->
     <h4> Buying </h4>
   </td>
 </tr>
@@ -116,90 +118,92 @@
 <tr>
   <td>
     Choose quantity:
-</td>
-<td>
-  <input required type="number" step="1" min="1" name="numStocks"><br>
-</td>
+  </td>
+  <td>
+    <input required type="number" step="1" min="1" name="numStocks"><br>
+  </td>
 </tr>
 <tr>
-<td>
-      <button type="submit" value="Buy">Buy</button>
-</td>
+  <td>
+    <button type="submit" value="Buy">Buy</button>
+  </td>
 </tr>
-    </form>
+</form>
 <tr>
-<td>
+  <td>
     <br><br>
-</td>
+  </td>
 </tr>
 <tr>
-<td>
+  <td>
+    <!-- Selling stocks --------------------------------------------->
     <h4> Selling </h4>
-</td>
+  </td>
 </tr>
 <tr>
-    <form method="post" action="/stocksell">
-<td>
+  <form method="post" action="/stocksell">
+    <td>
       Choose a stock: 
-</td>
-<td>
-  <input required type="text" name="stockName"><br>
-</td>
+    </td>
+    <td>
+      <input required type="text" name="stockName"><br>
+    </td>
 </tr>
 <tr>
-<td>
-      Choose quantity:
-</td>
-<td>
-  <input required type="number" step="1" min="1" name="numStocks"><br>
-</td>
+  <td>
+    Choose quantity:
+  </td>
+  <td>
+    <input required type="number" step="1" min="1" name="numStocks"><br>
+  </td>
 </tr>
 <tr>
-<td>
-      <button type="submit" value="Sell">Sell</button>
-</td>
+  <td>
+    <button type="submit" value="Sell">Sell</button>
+  </td>
 <tr>
 </table>
-    </form>
+</form>
 <br><br>
 
-    <h2>Stocks Table</h2>
-    <div class="table-responsive">
-      <table class="table table-striped table-sm table-hover">
-        <tr>
-          <th> Stock </th>
-          <th> Current Shares </th>
-          <th> Total Shares </th>
-          <th> Total Shares Sold </th>
-          <th> Total Loss </th>
-          <th> Total Profit </th>
-        </tr>
-        {% if stocksD != None %}
-        {% for each in stocksD%}
-        <tr>
-          <td> {{each['ticker']}} </td>
-          <td> {{each['currentShares']}} </td>
-          <td> {{each['totalShares']}} </td>
-          <td> {{each['totalSharesSold']}} </td>
-          <td> {{each['totalLoss']}} </td>
-          <td> {{each['totalGain']}} </td>
-        </tr>
-        {% endfor %}
-        {% endif %}
-      </table>
-    </div>
+<!--- Stocks Table ------------------------------------------------>
+<h2>Stocks Table</h2>
+<div class="table-responsive">
+  <table class="table table-striped table-sm table-hover">
+    <tr>
+      <th> Stock </th>
+      <th> Current Shares </th>
+      <th> Total Shares </th>
+      <th> Total Shares Sold </th>
+      <th> Total Loss </th>
+      <th> Total Profit </th>
+    </tr>
+    {% if stocksD != None %}
+    {% for each in stocksD%}
+    <tr>
+      <td> {{each['ticker']}} </td>
+      <td> {{each['currentShares']}} </td>
+      <td> {{each['totalShares']}} </td>
+      <td> {{each['totalSharesSold']}} </td>
+      <td> {{each['totalLoss']}} </td>
+      <td> {{each['totalGain']}} </td>
+    </tr>
+    {% endfor %}
+    {% endif %}
+  </table>
+</div>
 
 </div>
 
 
 
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
-    <!--
-	!-->
-    </body>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+<!--
+    !-->
+</body>
 </html>

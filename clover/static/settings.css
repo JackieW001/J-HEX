@@ -10,6 +10,9 @@ body {
     background-color: white !important;
 }
 
+/*
+ * Graph
+ */
 #graph_title {
       align-self: center;
       color: purple;

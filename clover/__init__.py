@@ -8,10 +8,6 @@ from utils.api import get_apikey, get_info, get_date, get_today, get_last_days, 
 from utils.table_builder import addZero
 import pprint as pp
 
-#from markupsafe import Markup
-
-
-#   getMoneyTable -> gets currentmoney/savings etc
 
 import pprint
 import sqlite3
@@ -19,15 +15,15 @@ import os
 app = Flask(__name__)
 
 
-#Login Stuff
+# ------------------ Login Stuff ------------------------------
 app.secret_key = os.urandom(32)
 BAD_USER = -1
 BAD_PASS = -2
 GOOD = 1
 user = ""
 
-
-
+# ==============================================================
+# --------------------- Root -----------------------------------
 @app.route('/')
 def root():
     #redirect to home if there is a session
@@ -40,7 +36,7 @@ def root():
     else:
         return render_template("login.html")
 
-#LOGIN/REGISTER==========================================================
+# ------------------- Login -----------------------------------
 @app.route('/login', methods = ['POST','GET'])
 def login():
     user = request.form['user']
@@ -55,10 +51,6 @@ def login():
     #otherwise redirect back to root with flashed message 
     if result == GOOD:
         session['user'] = user
-        #ID = getUserID(user)
-        #print "ID: " + ID
-        #for x in session:
-            #print session[x]
         return redirect( url_for('home') )
     if result == BAD_USER:
         flash('Incorrect username. Please try again.')
@@ -66,15 +58,13 @@ def login():
     if result == BAD_PASS:
         flash('Incorrect password. Please try again.')
         return redirect( url_for('root') )
-    #print "not supposed to get here" + str(ID)
     return redirect( url_for('root') )
 
+# ------------------- Register ---------------------------------
 @app.route('/register', methods = ['POST', 'GET'])
 def register():
     user = request.form['user']
-    #print "User: " + user
     password = request.form['pass']
-    #print "Pass: " + password
     name = request.form['name']
 
     if checkUsername(user):
@@ -83,11 +73,9 @@ def register():
     else:
         addUser(user,password,name, 0)
         session['user'] = user
-        #ID = getUserID(user)
-        #print "ID: " + ID
         return redirect( url_for('home'))
 
-
+# ------------------- Logout ---------------------------------
 @app.route('/logout', methods = ['POST','GET'])
 def logout():
     try:
@@ -100,26 +88,21 @@ def logout():
 
 #============================================================================
 
+# ------------------- Home ---------------------------------
+'''
+Displays current money, savings,
+fixed costs, and variable costs
+'''
 @app.route('/home', methods = ['POST','GET'])
 def home():
     try:
         ID = getUserID(session['user'])
     except:
         return redirect( url_for('root'))
-    #print "User:"
-    #print session['user']
-    #print "UserID:"
-    #print ID
     configBool = getConfig(ID)
-    #print "Config Boolean:" 
-    #print configBool
-
     vartableraw = getAllVarCost(ID)
-
     vartable = addZero(vartableraw,"var")
-
     fixtable = addZero(getAllFixCost(ID),"fix")
-
     vartableJS = []
     try:
         for each in vartableraw:
@@ -155,24 +138,9 @@ def home():
     if fixtable == None:
         fixtable = []
 
-    #json comp
-    '''
-    jsonl = []
-    for each in vartable:
-        jsonl.append(jsonify(each))
-    print jsonl
-    '''
-    #end json comp
-
-    print vartable
 
     graphData = getAllUpdateTable(ID)
    
-    '''
-    print "before"
-    print graphData
-    print "after"
-    '''
 
     years = []
     months = []
@@ -191,14 +159,6 @@ def home():
     except:
         pass
 
-    '''
-    print "years"
-    print years
-    print months
-    print days
-    print currMon
-    print saving
-    '''
 
     length = len(years)
     i = 0
@@ -207,10 +167,6 @@ def home():
         date = str(years[i]) + "-" + add_zero(str(months[i])) + "-" + add_zero(str(days[i]))
         dates.append(date)
         i += 1
-    '''
-    print "dates"
-    print dates
-    '''
 
     gData = {}
     i = 0
@@ -233,7 +189,11 @@ def home():
     return render_template("home.html",config=configBool, vartable = vartable, fixtable = fixtable, moneyTable = moneyTable, data_var = gData, data_k = g_keys, vartableJS = vartableJS)
 
 
-# NOT REAL PAGES ============================================================================
+# ------------------- Config ---------------------------------
+'''
+Configures user profile.
+Allows user to set various values for budgeting and income.
+'''
 @app.route('/config', methods = ['POST','GET'])
 def config():
     try:
@@ -266,11 +226,15 @@ def config():
 
     return redirect(url_for('home'))
 
+# ------------------- Budget ---------------------------------
 @app.route('/budget', methods = ['POST','GET'])
 def budget():
     return render_template("budget_form.html")
 
-
+# ------------------- Varcost ---------------------------------
+'''
+Pulls data from database to create variable cost table
+'''
 @app.route('/varcost', methods = ['POST','GET'])
 def varcost():
     try:
@@ -284,6 +248,10 @@ def varcost():
     addVarCost(ID, expName,exptype, expAmt, expDesc)
     return redirect(url_for('root'))
 
+# ------------------- Fixcost ---------------------------------
+'''
+Pulls data from database to create fixed cost table
+'''
 @app.route('/fixcost', methods = ['POST','GET'])
 def fixcost():
     try:
@@ -299,6 +267,8 @@ def fixcost():
 
 
 #============================================================================
+
+# ------------------- Settings ---------------------------------
 @app.route('/settings', methods = ['POST','GET'])
 def settings():
     try:
@@ -348,7 +318,10 @@ def removefix():
     
     return redirect(url_for('settings'))
 
-#STOCKS=========================================#=============================
+# ------------------- Stocks ---------------------------------
+'''
+Displays stock main page to search stock and buy/sell stocks
+'''
 @app.route('/stocks', methods = ['POST','GET'])
 def stocks(): 
     try:
@@ -360,6 +333,9 @@ def stocks():
     print stockData
     return render_template("stocks.html", stocksD = stockData)
 
+'''
+Display individual stock
+'''
 @app.route('/stockdisplay', methods = ['POST','GET'])
 def stockdisplay():
     try:
@@ -373,6 +349,9 @@ def stockdisplay():
     data = get_last_days(stockName, period, 12)
     return render_template('stockDisplay.html', data_var = data, stockNamez = stockName)
 
+'''
+Buy stock
+'''
 @app.route('/stockpurchase', methods = ['POST','GET'])
 def stockpurchase():
     try:
@@ -394,6 +373,9 @@ def stockpurchase():
     addStock(ID, stockName, int(numStocks), int(float(price)))
     return redirect( url_for('stocks'))
 
+'''
+Sell stock
+'''
 @app.route('/stocksell', methods = ['POST','GET'])
 def stocksell():
     try:
@@ -423,6 +405,7 @@ def stocksell():
     return redirect( url_for('stocks'))
 
 #=================================================================
+# ------------------- Error handler ---------------------------------
 @app.errorhandler(404)
 def page_not_found(e):
     # note that we set the 404 status explicitly
@@ -430,7 +413,8 @@ def page_not_found(e):
     return render_template('404.html'), 404
 
 
-#RUNNING==========================================================
+#=================================================================
+# ------------------- Run app ---------------------------------
 if __name__=='__main__':
 	app.run(debug=True, host="0.0.0.0")
     
