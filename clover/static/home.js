@@ -84,9 +84,15 @@ var get_tot = function(data){
  * mouseOverEffect()
  * changes label inside pie chart
  */
+
+String.prototype.capitalize = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+}
+
 var mouseOverEffect = function(e){
     console.log(this.innerHTML);
-    expend_label.innerHTML = this.getAttribute("textstuff");
+    var text = this.getAttribute("textstuff").capitalize();
+    expend_label.innerHTML = text;
 
 };
 

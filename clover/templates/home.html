@@ -59,23 +59,7 @@
           <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
             <h1 class="h2">Dashboard</h1>
           </div>
-	  
-	  <h4>Current Money: </h4> {{moneyTable['currentMoney']}}
-	  <br><br>
-	  <h4>Savings: </h4> {{moneyTable['savings']}}
-	  <br><br>
-
-	  <!-- Current Money Chart ---------------------------------------------------------------------------------->
-
-	  <h4> Current Money </h4>
-	  <br>
-	  <div id="graph" transform="translate(200,-60)">
-	  </div>
-
-	  <br><br>
-
-
-	  <!-- Profile Config -------------------------------------------------------------------------------->
+	 <!-- Profile Config -------------------------------------------------------------------------------->
 	  <div id = "configBox">
 	  <p id = "configStatus" hidden>{{config}}</p>
 	  <input type="button" id="goConfig" value="Click to Configure your Profile"/>
@@ -125,6 +109,27 @@
 	    <input type="submit" value="Done">
 	  </form>
 	</div>
+
+
+	  <h6>Current Money: </h6> {{moneyTable['currentMoney']}}
+	  <br><br>
+	  <h6>Savings: </h6> {{moneyTable['savings']}}
+	  <br><br>
+	  <h6>Monthly Income: </h6> {{moneyTable['monthIncome']}}
+	  <br><br>
+	  <h6>Saving Percentage: </h6> {{moneyTable['savingPercent']}}%
+	  <br><br>
+
+	  <!-- Current Money Chart ---------------------------------------------------------------------------------->
+
+	  <h4> Current Money </h4>
+	  <br>
+	  <div id="graph" transform="translate(200,-60)">
+	  </div>
+
+	  <br><br>
+
+
 
 	
 	<!-- Tables  ------------------------------------------------------------------------------------------->
