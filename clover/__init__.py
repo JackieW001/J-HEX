@@ -410,7 +410,7 @@ def stocksell():
 
     removeStock(ID, stockName, int(numStocks), int(float(price)))
     
-    flash(getAllStocks(ID))
+    flash("Sold " + numStocks + " of " + stockName)
     return redirect( url_for('stocks'))
 
 #=================================================================

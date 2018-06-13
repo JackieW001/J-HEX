@@ -1,12 +1,14 @@
 //console.log(JACKIE)
 var test = {};
 for (var i = 0; i < JACKIE.length; i++){
-    test[JACKIE[i]["expType"]] = parseInt(JACKIE[i]["expAmt"]);
-    console.log("add");
-    console.log(test[JACKIE[i]["expType"]]);
+    if (JACKIE[i]["expType"] == "eatOut"){
+	test["dining"] = parseInt(JACKIE[i]["expAmt"]);
+    }
+    else{
+	test[JACKIE[i]["expType"]] = parseInt(JACKIE[i]["expAmt"]);
+    }
 }
 console.log(test);
-
 
 //var data = {"cat4": 70, "cat1": 50, "cat2": 30, "cat3": 20 };
 //var data = {"cat3": 20, "cat2": 30, "cat1": 50, "cat4": 70};
