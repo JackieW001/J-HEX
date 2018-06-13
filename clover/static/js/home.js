@@ -93,9 +93,18 @@ var yScale;
 // set the yScale
 var lifeExMin = getMinVal(csvdata);
 var lifeExMax = getMaxVal(csvdata);
+
+if (lifeExMin == 9999999) {
+	lifeExMin = -1000;
+    }
+if (lifeExMax == -9999999) {
+	lifeExMax = 1000;
+    }
+
+
 yScale = d3.scale.linear()
-    .domain( [ lifeExMin + lifeExMin/5, lifeExMax + lifeExMax/5] )
-    .range( [h - padding, 0] );
+    .domain( [ lifeExMin , lifeExMax ] )
+    .range( [h - padding, 10] );
 
 
 // sets the scale function for the x-axis given a particular dataset
