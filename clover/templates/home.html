@@ -67,47 +67,78 @@
 	</div>
 
 	<div id = "configForm">
-	  <form action="/config" id = "configEntries" method="POST">
-	    Current Bank Balance $  
-	    <input required type="number" step="0.01" min="0" value="0"  name="currentMoney">
-	    <br>
-	    Savings $
-	    <input required type="number" step="0.01" min="0" value="0" name="savings">
-	    <br>
-	    Monthly Income $
-	    <input required type="number" step="0.01" min="0" value="0" name="monthIncome">
-	    <br>
-	    Other Income $
-	    <input required type="number" step="0.01" min="0" value="0" name="otherIncome">
-	    <br>
-	    <!-- Add to the design doc -->
-	    Percent of Income to Save
-	    <input required type="number" step="0.01" min="0" value="0" name="savingPercent"> %
-	    <br>
-	    <br>
-	    Discretionary Spending Budget
-	    <br>
-	    Monthly Budget for Dining Out
-	    <input required type="number" step="0.01" min="0" value="0" name="eatOut"> 
-	    <br>
-	    Monthly Budget for Entertainment
-	    <input required type="number" step="0.01" min="0" value="0" name="entertainment"> 
-	    <br>
-	    Monthly Budget for Events
-	    <input required type="number" step="0.01" min="0" value="0" name="event"> 
-	    <br> 
-	    Monthly Budget for Groceries
-	    <input required type="number" step="0.01" min="0" value="0" name="grocery"> 
-	    <br>
-	    Monthly Budget for Miscellaneous
-	    <input required type="number" step="0.01" min="0" value="0" name="misc"> 
-	    <br>
-	    Monthly Budget for Shopping
-	    <input required type="number" step="0.01" min="0" value="0" name="shop"> 
-	    <br>
+		<table cellpadding="3px"id = "configEntries">
+	  <form action="/config"  method="POST">
+	  	<tr>
+	    <td>Current Bank Balance  </td>
+	    <td>$<input required type="number" step="0.01" min="0" value="0"  name="currentMoney"></td>
+	    </tr>
+
+	    <tr>
+	    <td> Savings  </td>
+	    <td> $<input required type="number" step="0.01" min="0" value="0" name="savings"> </td>
+	    </tr>
+
+
+	    <tr>
+	    <td>Monthly Income </td>
+	    <td> $<input required type="number" step="0.01" min="0" value="0" name="monthIncome"> </td>
+	    </tr>
+
+	    <tr>
+	    <td>Other Income </td>
+	    <td> $<input required type="number" step="0.01" min="0" value="0" name="otherIncome"></td>
+	    </tr>
 	    
-	    <input type="submit" value="Done">
+	    <tr>
+	    <td>Percent of Income to Save</td>
+	    <td>&nbsp;&nbsp;&nbsp;<input required type="number" step="0.01" min="0" value="0" name="savingPercent"> %</td>
+	    </tr>
+	    <tr>
+	    </tr>
+
+	    <tr>
+	    <td>Discretionary Spending Budget</td>
+	    </tr>
+
+
+	    <tr>
+	    <td>Monthly Budget for Dining Out</td>
+	    <td>&nbsp;&nbsp;&nbsp;<input required type="number" step="0.01" min="0" value="0" name="eatOut"> </td>
+	    </tr>
+
+	    <tr>
+	    <td>Monthly Budget for Entertainment</td>
+	    <td>&nbsp;&nbsp;&nbsp;<input required type="number" step="0.01" min="0" value="0" name="entertainment"> </td>
+	    </tr>
+
+	    <tr>
+	    <td>Monthly Budget for Events</td>
+	    <td>&nbsp;&nbsp;&nbsp;<input required type="number" step="0.01" min="0" value="0" name="event"> </td>
+	    </tr>
+
+	    <tr>
+	    <td>Monthly Budget for Groceries</td>
+	    <td>&nbsp;&nbsp;&nbsp;<input required type="number" step="0.01" min="0" value="0" name="grocery"> </td>
+	    </tr>
+
+
+	    <tr>
+	    <td>Monthly Budget for Miscellaneous</td>
+	    <td>&nbsp;&nbsp;&nbsp;<input required type="number" step="0.01" min="0" value="0" name="misc"> </td>
+	    </tr>
+
+	    <tr>
+	    <td>Monthly Budget for Shopping</td>
+	    <td>&nbsp;&nbsp;&nbsp;<input required type="number" step="0.01" min="0" value="0" name="shop"> </td>
+	    </tr>
+
+	    <tr>
+	    <td><input type="submit" value="Done"></td>
+	</tr>
 	  </form>
+	</table>
+	<br>
 	</div>
 
 
