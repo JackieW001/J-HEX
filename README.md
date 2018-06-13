@@ -46,22 +46,39 @@ python __init__.py
 
 ## File Structure
 ```
-data/
+docs/
   |  database.db
-static/
-  js/
-    |  home.css
-  images/
-    |  background.jpg
-templates/
-  |  home.html
-utils/
-  |  api.py
-  |  database.py
-app.py
-changes.txt
-design.pdf
-devlog.txt
-log.sh
+clover/
+  data/
+    |  data.db
+  static/
+    js/
+      |  home.js
+      |  scatter.js
+    budget_form.css
+    config.js
+    home.css
+    home.js
+    login.css
+    settings.css
+    stocks.css
+  templates/
+    |  404.html
+    |  base.html
+    |  budget_form.html
+    |  home.html
+    |  login.html
+    |  settings.html
+    |  stockDisplay.html
+    |  stocks.html
+  utils/
+    |  __init__.py
+    |  accounts.py
+    |  api.py
+    |  db_builder.py
+    |  table_builder.py
+__init__.py
+clover.conf
+clover.wsgi
 README.md
 ```
