@@ -1,4 +1,4 @@
-//console.log(JACKIE)
+
 var test = {};
 for (var i = 0; i < JACKIE.length; i++){
     if (JACKIE[i]["expType"] == "eatOut"){
@@ -8,15 +8,19 @@ for (var i = 0; i < JACKIE.length; i++){
 	test[JACKIE[i]["expType"]] = parseInt(JACKIE[i]["expAmt"]);
     }
 }
-console.log(test);
 
-//var data = {"cat4": 70, "cat1": 50, "cat2": 30, "cat3": 20 };
-//var data = {"cat3": 20, "cat2": 30, "cat1": 50, "cat4": 70};
 var data = test;
 
+/*
+ * Expend accessors
+ */
 var expend_svg = document.getElementById("expend");
 var expend_label = document.getElementById("expend_label");
 
+/*
+ * get_val
+ * get values of dictionary
+ */
 var get_val = function(dict){
     var vals = [];
     for (var key in dict){
@@ -25,13 +29,20 @@ var get_val = function(dict){
     return vals;
 }
 
-
+/*
+ * calc_stroke_dasharray( values, total, radius )
+ * creates segments of pie chart
+ */
 var calc_stroke_dasharray = function(val,total, r){
     var circ = 2*Math.PI*r;
     var percent = ((val/total)*circ);
     return percent+' '+circ;
 };
 
+/*
+ * calc_dashoffset( data, index, total, radius )
+ * calculates how much to shift pie segment at index i
+ */
 var calc_dashoffset = function(data, index, total, r){
     var circ = 2*Math.PI*r;
     var sum = 0;
@@ -43,6 +54,10 @@ var calc_dashoffset = function(data, index, total, r){
     
 };
 
+/*
+ * get_rand_color()
+ * returns random color
+ */
 var get_rand_color = function() {
   var letters = '0123456789ABCDEF';
   var color = '#';
@@ -52,6 +67,10 @@ var get_rand_color = function() {
   return color;
 }
 
+/*
+ * get_tot(data)
+ * returns the total sum of data
+ */
 var get_tot = function(data){
     console.log(data);
     var total = 0;
@@ -61,25 +80,21 @@ var get_tot = function(data){
     return total;
 }
 
-var posPieLabel = function(label_id){
-    label_id.setAttribute("transform", "translateY(-100px)");
-
-}
-
-
+/*
+ * mouseOverEffect()
+ * changes label inside pie chart
+ */
 var mouseOverEffect = function(e){
     console.log(this.innerHTML);
     expend_label.innerHTML = this.getAttribute("textstuff");
 
 };
 
+
 /*
-var mouseOutEffect = function(){
-    //text.removeAttribute("text");
-};*/
-
-
-
+ * setPie(svg_id, data, radius, cx, cy, stroke_width, offset)
+ * creates pie chart
+ */
 var setPie = function (svg_id, data, r, cx, cy, stroke_width, offset){
     var vals = get_val(data);    
     var total = get_tot(vals);
@@ -107,15 +122,17 @@ var setPie = function (svg_id, data, r, cx, cy, stroke_width, offset){
 
 }
 
-setPie(expend_svg, data, 100, 130, 130, 30, 100*2*Math.PI/4);
-expend_label.setAttribute("style", "transform: translate(60px,-280px)");
 
+setPie(expend_svg, data, 100, "50%", "50%", 30, 100*2*Math.PI/4);
+expend_label.setAttribute("style", "transform: translate(0px,-230px)");
 
+/*
+ * attaches eventlisteners to each segment of the pie charts
+ */
 var circles = document.getElementsByTagName("circle");
 
 for (var i = 0; i < circles.length; i++){
     circles[i].addEventListener('mouseover', mouseOverEffect);
-    //circles[i].addEventListener('mouseout', mouseOutEffect);
 };
 
 
