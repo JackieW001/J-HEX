@@ -38,10 +38,30 @@ def tableCreation():
         db.close()
 
         dummyUser()
+        dummyUser2()
 
 def dummyUser():
-    addUser('z', 'z', 'z', 1)
-    addMoneyTable (0, 1000, 500, 0, 7000, 10.8)
+    addUser('test', 'test', 'test', 1)
+    addMoneyTable (0, 1000, 6000, 0, 7000, 10.8)
+    addAllocateTable (0, 100, 150, 200, 300, 500, 700)
+    addVarCost(0, "Went to the spa", 'shop', 35, "Cucumbers",'2017-06-17')
+    addVarCost(0, "Vacation to Laos", 'entertainment', 5000, "Vacation time~",'2017-08-17')
+    addVarCost(0, "Halloween costume", 'entertainment', 40, "Boo!!!",'2017-10-20')
+    addVarCost(0, "Infinity Wars", 'entertainment', 40, "Thanos.",'2017-12-25')
+    addVarCost(0, "Dinner at Dorsia", 'eatOut', 500, "Nice dinner.", '2018-01-30')
+    addVarCost(0, "Wedding", 'event', 1500, "Went to Frank's wedding.", '2018-02-04')
+    addVarCost(0, "60 pounds of mac and cheese", 'grocery', 500, "Dinner for the rest of the year.",'2018-03-05')
+    addFixCost(0, "Electricity", 150 , "utility", "Basic utility.")
+    addFixCost(0, "Heating", 70 , "utility", "Basic utility.")
+    addFixCost(0, "Water", 50 , "utility", "Basic utility.")
+    addFixCost(0, "Health Insurance", 100 , "insurance", "In case I die.")
+    addFixCost(0, "Netflix", 10 , "membership", "TV and movies.")
+    addFixCost(0, "Subway", 120 , "Transportation", "Monthly subway rides.")
+    #addStock(0, "APPL", 10, 100)
+
+def dummyUser2():
+    addUser('test2', 'test2', 'test2', 1)
+    addMoneyTable (0, 1000, 6000, 0, 7000, 10.8)
     addAllocateTable (0, 100, 150, 200, 300, 500, 700)
     addVarCost(0, "Went to the spa", 'shop', 35, "Cucumbers",'2017-06-17')
     addVarCost(0, "Vacation to Laos", 'entertainment', 5000, "Vacation time~",'2017-08-17')
@@ -247,9 +267,9 @@ def changeMoney(ID, sign, location, amt, date = None):
     addUpdate(ID, currentMoney, savings, date)
 
 def addUpdate(ID, currentMoney, savings, date=None):
-    print "Adding Update===================================="
-    print date
-    print "================================================="
+    #print "Adding Update===================================="
+    #print date
+    #print "================================================="
     db = sqlite3.connect(DIR)
     c = db.cursor()
 
@@ -293,15 +313,35 @@ def bigUpdater(ID):
     mon = today.month
     yr = today.year 
 
-    multiplier = (yr - updateTable['year'])*12 + (mon - updateTable['month'])
-    #print "Multiplier==============================="
-    #print multiplier
-    #print "========================================="
+    
+    multiplier = (updateTable['year'] - yr)*12 + (updateTable['month'] - mon)
+    #multiplier = (yr - updateTable['year'])*12 + (mon - updateTable['month'])
+    print "Multiplier==============================="
+    print multiplier
+    print "========================================="
 
     if multiplier > 0:
+        print "========================================================"
         totalIncome = float(moneyTable['monthIncome']) + float(moneyTable['otherIncome'])
-        addSaving = float("%.2f" % (float(moneyTable['savingPercent'])*0.01*totalIncome)) * multiplier
-        addition = float("%.2f" % ((1.0-float(moneyTable['savingPercent']))*0.01*totalIncome)) * multiplier
+        print totalIncome
+
+
+        savingpercent = float(moneyTable['savingPercent']) * 0.01
+        print savingpercent
+
+
+        currentpercent = 1 - savingpercent
+        print currentpercent
+
+
+        addSaving = float("%.2f" % (savingpercent*totalIncome)) * multiplier
+        print addSaving
+
+        addition = float("%.2f" % ((currentpercent*totalIncome))) * multiplier
+        print addition
+
+
+        print "================================================================"
         changeMoney(ID, 1, 0, addition)
         changeMoney(ID, 1, 1, addSaving)
 
@@ -679,6 +719,7 @@ def removeStock(ID, ticker, amount, price):
 
     db.commit()
     db.close()  
+    changeMoney(ID, 1, 0, amount*price)
 
 
 #==================================================================================================================================
