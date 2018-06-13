@@ -316,9 +316,9 @@ def settings():
         allocateTable = getAllocateTable(ID)
 
         for each in moneyTable:
-            moneyTable[each] = '{:,.2f}'.format(moneyTable[each])
+            moneyTable[each] = '{:.2f}'.format(moneyTable[each])
         for each in allocateTable:
-            allocateTable[each] = '{:,.2f}'.format(allocateTable[each])
+            allocateTable[each] = '{:.2f}'.format(allocateTable[each])
 
     except:
         moneyTable = {'otherIncome': 0, 'currentMoney': 0, 'savings': 0, 'monthIncome': 0, 'savingPercent': 0}

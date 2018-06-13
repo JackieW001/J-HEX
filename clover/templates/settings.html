@@ -68,7 +68,7 @@
       </td>
       <!-- Make it only int -->
       <td>
-        $<input required type="number" step="0.01" min="0" value= {{moneyTable["currentMoney"]}}  name="currentMoney" size="10">
+        $<input required type="number" step="0.01" min="-100000" value= {{moneyTable["currentMoney"]}}  name="currentMoney" size="10">
       </td>
     </tr>
     <tr>
@@ -76,7 +76,7 @@
         Savings
       </td>
       <td>
-        $<input required type="number" step="0.01" min="0" value={{moneyTable["savings"]}} name= "savings" size="10">
+        $<input required type="number" step="0.01" min="-100000" value={{moneyTable["savings"]}} name= "savings" size="10">
       </td>
     </tr>
     <tr>
