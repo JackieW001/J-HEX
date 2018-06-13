@@ -31,18 +31,19 @@ git clone https://github.com/JackieW001/J-HEX.git
 ```
 cd J-HEX/clover/
 ```
-5. Run the program
+5. Add in API key (See API Key Instructions for more details)
+6. Run the program
 ```
 python __init__.py
 ```
-6. Go to localhost:5000 in your web browser and enjoy the site!
+7. Go to localhost:5000 in your web browser and enjoy the site!
 
 
 ## API Key Instructions
 
 #### Alpha Vantage
-1. Have a file called ```keys.txt``` in ```/J-HEX/clover/```
-2. Retrive an api key from [Alpha Vantage](https://www.alphavantage.co/documentation/)
+1. Retrive an api key from [Alpha Vantage](https://www.alphavantage.co/documentation/)
+2. Paste the API key in a file called ```keys.txt``` in ```/J-HEX/clover/```
 
 ## File Structure
 ```
