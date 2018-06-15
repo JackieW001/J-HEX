@@ -23,7 +23,7 @@ J-HEX presents Clover, a financial manager where users will be able to input dat
 0. Enter your terminal and go into the directory that you want to have this program in
 2. Enter this command to clone our repo
 ```
-git clone https://github.com/JackieW001/J-HEX.git
+git clone https://github.com/JackieW001/J-HEX.git clover
 ```
 3. Run your virtualenv from wherever you have it (if needed)
 ```
@@ -31,7 +31,7 @@ git clone https://github.com/JackieW001/J-HEX.git
 ```
 4. Go into the softdev1-finalproj folder using this command
 ```
-cd J-HEX/clover/
+cd clover/clover/
 ```
 5. Add in API key (See API Key Instructions for more details)
 6. Run the program
@@ -45,7 +45,7 @@ python __init__.py
 
 #### Alpha Vantage
 1. Retrive an api key from [Alpha Vantage](https://www.alphavantage.co/documentation/)
-2. Paste the API key in a file called ```keys.txt``` in ```/J-HEX/clover/```
+2. Paste the API key in a file called ```keys.txt``` in ```/clover/clover/```
 
 ## File Structure
 ```
