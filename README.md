@@ -2,10 +2,6 @@
 ### Presented by J-HEX
 #### Eric Li, Xing Tao Shi, Jacqueline Woo, Henry Zheng<br>SoftDev1 pd8<br>Project 02 -- The Final Frontier
 
-## Website Link
-[206.189.228.223](http://206.189.228.223)
-
-[clover](http://clover.stuycs.org/)
 
 ## Demonstration Video
 [Youtube](https://youtu.be/isq-uBGUVt4)
